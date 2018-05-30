@@ -1,0 +1,11 @@
+# ===================================
+#  Relation Behavior Config
+# ===================================
+
+posts:
+    label: Posts
+    view:
+        list: $/ginopane/blogtaxonomy/controllers/category/post_columns_view.yaml
+        toolbarButtons: add|remove
+    manage:
+        list: $/ginopane/blogtaxonomy/controllers/category/post_columns_manage.yaml

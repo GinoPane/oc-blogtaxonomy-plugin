@@ -1,0 +1,26 @@
+# ===================================
+#  Field Definitions
+# ===================================
+
+fields:
+
+    name:
+        label: rainlab.blog::lang.category.name
+        placeholder: rainlab.blog::lang.category.name_placeholder
+        span: left
+
+    slug:
+        label: rainlab.blog::lang.category.slug
+        span: right
+        placeholder: rainlab.blog::lang.category.slug_placeholder
+        preset: name
+
+    description:
+        label: rainlab.blog::lang.category.description
+        size: large
+        type: richeditor
+
+    posts:
+        label: Posts
+        type: partial
+        path: ~/plugins/ginopane/blogtaxonomy/controllers/category/_field_posts.htm

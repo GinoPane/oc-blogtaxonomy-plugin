@@ -1,0 +1,37 @@
+{% set postNav = __SELF__ %}
+
+{% if postNav.series and postNav.series.posts %}
+<div class="panel panel-default">
+    {% if postNav.smallNav %}
+        <div class="panel-body">
+            <p>This post is part of a series called <a href="{{ postNav.series.url }}">{{ postNav.series.title }}</a>.</p>
+            <p>
+                {% for post in postNav.series.posts %}
+                    {% if post.slug == postNav.slug %}
+                        {% set previous = postNav.series.posts[loop.index0-1] %}
+                        {% set next = postNav.series.posts[loop.index] %}
+
+                        {% if previous %}
+                            <a href="{{ previous.url }}" class="pull-left" aria-label="Previous"><span aria-hidden="true">&laquo;</span> {{ previous.title }}</a>
+                        {% endif %}
+
+                        {% if next %}
+                            <a href="{{next.url }}" class="pull-right" aria-label="Next">{{ next.title }} <span aria-hidden="true">&raquo;</span></a>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </p>
+        </div>
+    {% else %}
+        <div class="panel-body">
+            <p>This post is part of a series called <a href="{{ postNav.series.url }}">{{ postNav.series.title }}</a>.</p>
+        </div>
+        <!-- Full -->
+        <div class="list-group">
+            {% for post in postNav.series.posts %}
+                <a href="{{ post.url }}" class="list-group-item {{ post.slug == postNav.slug ? 'active' : null }}">{{ post.title }}</a>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+{% endif %}

@@ -1,0 +1,15 @@
+{% set series = __SELF__.series %}
+
+<div class="list-group">
+    {% for item in series %}
+        {% set postCount = item.posts|length %}
+        <a
+                href="{{ item.url }}"
+                class="list-group-item"
+                >{{ item.title }}
+            {% if postCount %}
+                <span class="badge">{{ postCount }}</span>
+            {% endif %}
+        </a>
+    {% endfor %}
+</div>

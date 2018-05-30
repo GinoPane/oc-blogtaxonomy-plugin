@@ -1,0 +1,19 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+    title:
+        label: ginopane.blogtaxonomy::lang.form.fields.title
+        placeholder: ginopane.blogtaxonomy::lang.placeholders.title
+        span: left
+        required: true
+
+    slug:
+        label: ginopane.blogtaxonomy::lang.form.fields.slug
+        span: right
+        placeholder: ginopane.blogtaxonomy::lang.placeholders.slug
+        required: true
+        preset:
+            field: title
+            type: slug

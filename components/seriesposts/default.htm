@@ -1,0 +1,6 @@
+{% set series = __SELF__.series %}
+
+<h2>{{ series.title }} <small>({{ series.postCount }} Posts)</small></h2>
+<div class="lead">{{ series.description|raw }}</div>
+
+{% partial '@posts' %}

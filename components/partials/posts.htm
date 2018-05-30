@@ -1,0 +1,29 @@
+<div class="post-list">
+    {% for post in series.posts %}
+    <ul>
+        <li>
+            <h4>
+                <a href="{{ post.url }}">{{ post.title }}</a>
+            </h4>
+            <p class="info">
+                Posted
+                {% if post.categories.count %} in {% endif %}
+                {% for category in post.categories %}
+                    <a href="{{ category.url }}">{{ category.name }}</a>{% if not loop.last %}, {% endif %}
+                {% endfor %}
+                on {{ post.published_at|date('M d, Y') }}
+            </p>
+
+            {% if post.excerpt %}
+                <p class="excerpt">{{ post.excerpt }}</p>
+            {% else %}
+                <div class="content">{{ post.content_html|raw }}</div>
+            {% endif %}
+        </li>
+    </ul>
+    {% else %}
+    <div class="no-data">
+        <p>{{ noPostsMessage }}</p>
+    </div>
+    {% endfor %}
+</div>

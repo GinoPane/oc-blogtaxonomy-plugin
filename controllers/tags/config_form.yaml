@@ -1,0 +1,15 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: Tag
+
+# Model Form Field configuration
+form: $/ginopane/blogtaxonomy/models/tag/fields.yaml
+
+# Model Class name
+modelClass: GinoPane\BlogTaxonomy\Models\Tag
+
+# Default redirect location
+defaultRedirect: ginopane/blogtaxonomy/tags

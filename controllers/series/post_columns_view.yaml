@@ -1,0 +1,32 @@
+# ===================================
+#  Column Definitions
+# ===================================
+
+columns:
+
+    title:
+        label: rainlab.blog::lang.post.title
+        sortable: false
+        searchable: true
+
+    series:
+        label: Series
+        relation: series
+        select: title
+        searchable: true
+        sortable: false
+
+    created_at:
+        label: rainlab.blog::lang.post.created
+        type: date
+        invisible: true
+
+    updated_at:
+        label: rainlab.blog::lang.post.updated
+        type: date
+        invisible: true
+
+    published_at:
+        label: rainlab.blog::lang.post.published
+        sortable: false
+        type: date

@@ -1,0 +1,19 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+    name:
+        label: ginopane.blogtaxonomy::lang.form.fields.tag
+
+    slug:
+        label: ginopane.blogtaxonomy::lang.form.fields.slug
+        preset:
+            field: name
+            type: slug
+
+    posts:
+        label: ginopane.blogtaxonomy::lang.form.fields.posts
+        type: relation
+        nameFrom: title
+        emptyOption: No posts available.

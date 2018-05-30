@@ -1,0 +1,27 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: Series
+
+# Model Form Field configuration
+form: $/ginopane/blogtaxonomy/models/series/fields.yaml
+
+# Model Class name
+modelClass: GinoPane\BlogTaxonomy\Models\Series
+
+# Default redirect location
+defaultRedirect: ginopane/blogtaxonomy/series
+
+# Create page
+create:
+    title: Create Series
+    redirect: ginopane/blogtaxonomy/series/update/:id
+    redirectClose: ginopane/blogtaxonomy/series
+
+# Update page
+update:
+    title: Edit Series
+    redirect: ginopane/blogtaxonomy/series
+    redirectClose: ginopane/blogtaxonomy/series

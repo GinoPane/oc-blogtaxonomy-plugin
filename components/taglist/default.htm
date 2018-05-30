@@ -1,0 +1,5 @@
+<ul>
+    {% for tag in __SELF__.tags %}
+        <a href="{{ tag.url }}"><li>{{ tag.name }} ({{ tag.posts|length }})</li></a>
+    {% endfor %}
+</ul>
