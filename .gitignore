@@ -1,0 +1,6 @@
+# Project specific
+/vendor
+composer.lock
+
+# Environment specific
+.idea
