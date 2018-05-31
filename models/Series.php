@@ -2,14 +2,13 @@
 
 namespace GinoPane\BlogTaxonomy\Models;
 
-
 use Model;
 use Cms\Classes\Controller;
+use RainLab\Blog\Models\Post;
 use GinoPane\BlogTaxonomy\Plugin;
+use Illuminate\Support\Facades\DB;
 use October\Rain\Database\Traits\Sluggable;
 use October\Rain\Database\Traits\Validation;
-use RainLab\Blog\Models\Post;
-use Illuminate\Support\Facades\DB;
 
 /**
  * Class Series
@@ -49,7 +48,7 @@ class Series extends Model
      */
     public $rules = [
         'title' => "required|unique:" . self::TABLE_NAME . "|min:3|regex:/^[a-z0-9\- ]+$/i",
-        'slug' => "required|unique:" . self::TABLE_NAME . "|min:3|regex:/^[a-z0-9\-]+$/i"
+        'slug'  => "required|unique:" . self::TABLE_NAME . "|min:3|regex:/^[a-z0-9\-]+$/i"
     ];
 
     /**
@@ -73,10 +72,8 @@ class Series extends Model
     public static $sortingOptions = [
         'title asc' => 'Title (ascending)',
         'title desc' => 'Title (descending)',
-        'updated_at asc' => 'Updated (ascending)',
-        'updated_at desc' => 'Updated (descending)',
-        'published_at asc' => 'Published (ascending)',
-        'published_at desc' => 'Published (descending)',
+        'created_at asc' => 'Created (ascending)',
+        'created_at desc' => 'Created (descending)',
         'random' => 'Random'
     ];
 

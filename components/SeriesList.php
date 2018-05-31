@@ -49,22 +49,22 @@ class SeriesList extends ComponentBase
     {
         return [
             'displayEmpty' => [
-                'title'       => 'Display empty series',
-                'description' => 'Show series that do not have any posts.',
-                'type'        => 'checkbox',
-                'default'     => 0
+                'title'       =>    Plugin::LOCALIZATION_KEY . 'components.series_list.display_empty_title',
+                'description' =>    Plugin::LOCALIZATION_KEY . 'components.series_list.display_empty_description',
+                'type'        =>    'checkbox',
+                'default'     =>    false
             ],
             'seriesPage' => [
-                'title'       => 'Series Page',
-                'description' => 'The page where the single series are displayed.',
-                'type'        => 'dropdown',
-                'default'     => 'blog/series'
+                'title'       =>    Plugin::LOCALIZATION_KEY . 'components.series_list.series_page_title',
+                'description' =>    Plugin::LOCALIZATION_KEY . 'components.series_list.series_page_description',
+                'type'        =>    'dropdown',
+                'default'     =>    'blog/series'
             ],
             'sortOrder' => [
-                'title'       => 'Order',
-                'description' => 'Attribute on which the items should be ordered',
-                'type'        => 'dropdown',
-                'default'     => 'title asc'
+                'title'       =>    Plugin::LOCALIZATION_KEY . 'components.series_list.order_title',
+                'description' =>    Plugin::LOCALIZATION_KEY . 'components.series_list.order_description',
+                'type'        =>    'dropdown',
+                'default'     =>    'title asc'
             ],
         ];
     }

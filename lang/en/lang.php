@@ -83,12 +83,21 @@ return [
             'description' => 'Lists all posts with the tag'
         ],
         'series_navigation' => [
-            'name' => 'Series Navigation for a Post',
+            'name' => 'Post Series Navigation',
             'description' => 'Provides navigation within the series for a single post'
         ],
         'series_list' => [
             'name' => 'Series List',
-            'description' => 'Displays a list of series'
+            'description' => 'Displays a list of series',
+
+            'series_page_title' => 'Series Page',
+            'series_page_description' => 'The page where the single series content is displayed',
+
+            'display_empty_title' => 'Display Empty Series',
+            'display_empty_description' => 'Show series which don\'t have any posts assigned',
+
+            'order_title' => 'Order',
+            'order_description' => 'How series should be ordered',
         ],
         'related_posts' => [
             'name' => 'Related Posts',
