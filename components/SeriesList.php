@@ -4,8 +4,8 @@ namespace GinoPane\BlogTaxonomy\Components;
 
 use Cms\Classes\Page;
 use Cms\Classes\ComponentBase;
+use GinoPane\BlogTaxonomy\Plugin;
 use GinoPane\BlogTaxonomy\Models\Series;
-use RainLab\Blog\Models\Post as BlogPost;
 
 /**
  * Class SeriesList
@@ -37,8 +37,8 @@ class SeriesList extends ComponentBase
     public function componentDetails()
     {
         return [
-            'name'        => 'Blog Series List',
-            'description' => 'Displays a list of blog series on the page.'
+            'name'        => Plugin::LOCALIZATION_KEY . 'components.series_list.name',
+            'description' => Plugin::LOCALIZATION_KEY . 'components.series_list.description'
         ];
     }
 

@@ -3,10 +3,11 @@
 namespace GinoPane\BlogTaxonomy\Components;
 
 use Cms\Classes\Page;
+use Rainlab\Blog\Models\Post;
 use Cms\Classes\ComponentBase;
+use GinoPane\BlogTaxonomy\Plugin;
 use GinoPane\BlogTaxonomy\Models\Tag;
 use Illuminate\Database\Eloquent\Collection;
-use Rainlab\Blog\Models\Post;
 
 /**
  * Class TagPosts
@@ -80,8 +81,8 @@ class TagPosts extends ComponentBase
     public function componentDetails()
     {
         return [
-            'name'        => 'Tag Search',
-            'description' => 'Provides a list of posts with a certain tag.'
+            'name'        => Plugin::LOCALIZATION_KEY . 'components.tag_posts.name',
+            'description' => Plugin::LOCALIZATION_KEY . 'components.tag_posts.description'
         ];
     }
 

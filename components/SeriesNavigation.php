@@ -4,6 +4,7 @@ namespace GinoPane\BlogTaxonomy\Components;
 
 use Cms\Classes\Page;
 use Cms\Classes\ComponentBase;
+use GinoPane\BlogTaxonomy\Plugin;
 use GinoPane\BlogTaxonomy\Models\Series;
 use RainLab\Blog\Models\Post as BlogPost;
 
@@ -50,8 +51,8 @@ class SeriesNavigation extends ComponentBase
     public function componentDetails()
     {
         return [
-            'name'        => 'Post Navigation',
-            'description' => 'Displays a navigation for the current posts series.'
+            'name'        => Plugin::LOCALIZATION_KEY . 'components.series_navigation.name',
+            'description' => Plugin::LOCALIZATION_KEY . 'components.series_navigation.description'
         ];
     }
 

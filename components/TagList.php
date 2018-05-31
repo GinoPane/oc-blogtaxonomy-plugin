@@ -2,9 +2,10 @@
 
 namespace GinoPane\BlogTaxonomy\Components;
 
-use Cms\Classes\Page;
 use DB;
+use Cms\Classes\Page;
 use Cms\Classes\ComponentBase;
+use GinoPane\BlogTaxonomy\Plugin;
 use GinoPane\BlogTaxonomy\Models\Tag;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -21,7 +22,8 @@ class TagList extends ComponentBase
     public $tags = [];
 
     /**
-     * Reference to the page name for linking to series.
+     * Reference to the page name for linking to series
+     *
      * @var string
      */
     public $tagsPage;
@@ -34,8 +36,8 @@ class TagList extends ComponentBase
     public function componentDetails()
     {
         return [
-            'name'        => 'Tags List',
-            'description' => 'Displays a list of tags.'
+            'name'        => Plugin::LOCALIZATION_KEY . 'components.tag_list.name',
+            'description' => Plugin::LOCALIZATION_KEY . 'components.tag_list.description'
         ];
     }
 

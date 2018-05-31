@@ -67,5 +67,32 @@ return [
         'title' => 'Enter title...',
         'slug' => 'Enter slug...',
         'no_posts_available' => 'No posts available'
+    ],
+
+    'components' => [
+        'series_posts' => [
+            'name' => 'Posts in Series',
+            'description' => 'Lists all posts in the series'
+        ],
+        'tag_list' => [
+            'name' => 'Tag List',
+            'description' => 'Displays a list of tags'
+        ],
+        'tag_posts' => [
+            'name' => 'Posts With the Tag',
+            'description' => 'Lists all posts with the tag'
+        ],
+        'series_navigation' => [
+            'name' => 'Series Navigation for a Post',
+            'description' => 'Provides navigation within the series for a single post'
+        ],
+        'series_list' => [
+            'name' => 'Series List',
+            'description' => 'Displays a list of series'
+        ],
+        'related_posts' => [
+            'name' => 'Related Posts',
+            'description' => 'Provides a list of posts related by tags'
+        ]
     ]
 ];

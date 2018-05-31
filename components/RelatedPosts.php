@@ -6,6 +6,7 @@ use DB;
 use Cms\Classes\Page;
 use RainLab\Blog\Models\Post;
 use Cms\Classes\ComponentBase;
+use GinoPane\BlogTaxonomy\Plugin;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
@@ -35,8 +36,8 @@ class RelatedPosts extends ComponentBase
     public function componentDetails()
     {
         return [
-            'name'        => 'Related Posts',
-            'description' => 'Provides related blog posts'
+            'name'        => Plugin::LOCALIZATION_KEY . 'components.related_posts.name',
+            'description' => Plugin::LOCALIZATION_KEY . 'components.related_posts.description'
         ];
     }
 

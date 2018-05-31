@@ -4,8 +4,9 @@ namespace GinoPane\BlogTaxonomy\Components;
 
 use Cms\Classes\Page;
 use Cms\Classes\ComponentBase;
-use GinoPane\BlogTaxonomy\Models\Series;
+use GinoPane\BlogTaxonomy\Plugin;
 use Illuminate\Support\Facades\DB;
+use GinoPane\BlogTaxonomy\Models\Series;
 use RainLab\Blog\Models\Post as BlogPost;
 
 /**
@@ -21,25 +22,29 @@ class SeriesPosts extends ComponentBase
     public $series;
 
     /**
-     * Message to display when there are no posts.
+     * Message to display when there are no posts
+     *
      * @var string
      */
     public $noPostsMessage;
 
     /**
-     * Reference to the page name for linking to posts.
+     * Reference to the page name for linking to posts
+     *
      * @var string
      */
     public $postPage;
 
     /**
-     * Reference to the page name for linking to categories.
+     * Reference to the page name for linking to categories
+     *
      * @var string
      */
     public $categoryPage;
 
     /**
-     * If the post list should be ordered by another attribute.
+     * If the post list should be ordered by another attribute
+     *
      * @var string
      */
     public $sortOrder;
@@ -50,8 +55,8 @@ class SeriesPosts extends ComponentBase
     public function componentDetails()
     {
         return [
-            'name'        => 'BlogSeries',
-            'description' => 'List all Posts in a Series'
+            'name'        => Plugin::LOCALIZATION_KEY . 'components.series_posts.name',
+            'description' => Plugin::LOCALIZATION_KEY . 'components.series_posts.description'
         ];
     }
 
@@ -116,7 +121,8 @@ class SeriesPosts extends ComponentBase
     }
 
     /**
-     * @see RainLab\Blog\Models\Post::$allowedSortingOptions
+     * @see BlogPost::$allowedSortingOptions
+     *
      * @return mixed
      */
     public function getSortOrderOptions()
