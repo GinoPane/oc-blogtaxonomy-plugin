@@ -20,16 +20,25 @@ class SeriesList extends ComponentBase
     public $series;
 
     /**
-     * Reference to the page name for linking to series.
+     * Reference to the page name for linking to series
+     *
      * @var string
      */
     public $seriesPage;
 
     /**
-     * If the series list should be ordered by another attribute.
+     * If the series list should be ordered by another attribute
+     *
      * @var string
      */
     public $sortOrder;
+
+    /**
+     * Whether display or not empty series
+     *
+     * @var bool
+     */
+    public $displayEmpty;
 
     /**
      * @return array
@@ -88,36 +97,36 @@ class SeriesList extends ComponentBase
     }
 
     /**
+     * Prepare and return a series list
+     *
      * @return mixed
      */
     public function onRun()
     {
         // load series
-        $this->seriesPage = $this->property('seriesPage');
-        $this->sortOrder = $this->property('sortOrder');
+        $this->seriesPage = $this->property('seriesPage', '');
+        $this->sortOrder = $this->property('sortOrder', 'title asc');
+        $this->displayEmpty = $this->property('displayEmpty', false);
+
         $this->series = $this->listSeries();
     }
 
     /**
      * Get Series
+     *
      * @return mixed
      */
     protected function listSeries()
     {
         // get series
         $series = Series::listFrontend([
-            'sort' => $this->property('sortOrder')
+            'sort' => $this->sortOrder,
+            'displayEmpty' => $this->property('displayEmpty')
         ]);
 
         // Add a "url" helper attribute for linking to each post and category
-        if ($series && !$series->isEmpty()) {
-            foreach ($series as $key => $item) {
-                // remove empty series
-                if (!$this->property('displayEmpty') && $item->postCount === 0) {
-                    $series->forget($key);
-                    continue;
-                }
-
+        if ($series) {
+            foreach ($series as $item) {
                 $item->setUrl($this->seriesPage, $this->controller);
             }
         }

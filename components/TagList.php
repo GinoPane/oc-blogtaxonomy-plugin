@@ -22,11 +22,32 @@ class TagList extends ComponentBase
     public $tags = [];
 
     /**
-     * Reference to the page name for linking to series
+     * Reference to the page name for linking to tags page
      *
      * @var string
      */
     public $tagsPage;
+
+    /**
+     * If the tag list should be ordered by another attribute
+     *
+     * @var string
+     */
+    public $sortOrder;
+
+    /**
+     * Whether display or not empty tags
+     *
+     * @var bool
+     */
+    public $displayEmpty;
+
+    /**
+     * Whether limit or not the list length
+     *
+     * @var int
+     */
+    public $limit;
 
     /**
      * Component Registration
@@ -50,10 +71,10 @@ class TagList extends ComponentBase
     {
         return [
             'tagsPage' => [
-                'title'       => 'Series Page',
+                'title'       => 'Tags Page',
                 'description' => 'The page where the single series are displayed.',
                 'type'        => 'dropdown',
-                'default'     => 'blog/series'
+                'default'     => 'blog/tag'
             ],
             'hideOrphans' => [
                 'title'             => 'Hide orphaned tags',
@@ -61,7 +82,7 @@ class TagList extends ComponentBase
                 'showExternalParam' => false,
                 'type'              => 'checkbox',
             ],
-            'results' => [
+            'limit' => [
                 'title'             => 'Results',
                 'description'       => 'Number of tags to display (zero displays all tags).',
                 'type'              => 'string',
@@ -105,42 +126,43 @@ class TagList extends ComponentBase
     }
 
     /**
-     * Query and return blog posts
+     * Prepare and return a tag list
      *
      * @return Collection
      */
     public function onRun()
     {
-        $this->tagsPage = $this->property('tagsPage');
+        $this->tagsPage = $this->property('tagsPage', '');
+        $this->sortOrder = $this->property('sortOrder', 'title asc');
+        $this->displayEmpty = $this->property('displayEmpty', false);
+        $this->limit =  $this->property('limit', 0);
 
-        // Start building the tags query
+        $this->tags = $this->listTags();
+    }
+
+    protected function listTags()
+    {
         $query = Tag::with('posts');
 
-        // Hide orphans
-        if ($this->property('hideOrphans')) {
-            $query->has('posts', '>', 0);
+        if (!$this->displayEmpty) {
+            $query->has('posts');
         }
 
-        // Sort the tags
-        $subQuery = DB::raw('(
-            select count(*)
-            from ginopane_blogtaxonomy_post_tag
-            where ginopane_blogtaxonomy_post_tag.tag_id = ginopane_blogtaxonomy_tags.id
-        )');
-
-        $key = $this->property('orderBy') ?: $subQuery;
-        $query->orderBy($key, $this->property('direction'));
+        $query->withCount('posts')->orderBy('posts_count', 'asc');
 
         // Limit the number of results
-        if ($take = intval($this->property('results')))
-            $query->take($take);
+        if ($this->limit) {
+            $query->take($this->limit);
+        }
 
         $tags = $query->get();
 
-        foreach ($tags as $key => $item) {
-            $item->setUrl($this->tagsPage, $this->controller);
+        if ($tags) {
+            foreach ($tags as $item) {
+                $item->setUrl($this->tagsPage, $this->controller);
+            }
         }
 
-        $this->tags = $tags;
+        return $tags;
     }
 }

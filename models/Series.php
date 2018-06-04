@@ -114,32 +114,22 @@ class Series extends Model
      */
     public function scopeListFrontend($query, $options)
     {
-        // Default options
-        array_merge(['sort' => 'created_at'], $options);
+        if (in_array($options['sort'], array_keys(self::$sortingOptions))) {
+            if ($options['sort'] == 'random') {
+                $query->inRandomOrder();
+            } else {
+                list($sortField, $sortDirection) = explode(' ', $options['sort']);
 
-        // Sorting
-        // @see \RainLab\Blog\Models\Post::scopeListFrontEnd()
-        if (!is_array($options['sort'])) {
-            $options['sort'] = [$options['sort']];
-        }
-
-        foreach ($options['sort'] as $sort) {
-            if (in_array($sort, array_keys(self::$sortingOptions))) {
-                $parts = explode(' ', $sort);
-                if (count($parts) < 2) {
-                    array_push($parts, 'desc');
-                }
-                list($sortField, $sortDirection) = $parts;
-                if ($sortField == 'random') {
-                    $sortField = DB::raw('RAND()');
-                }
                 $query->orderBy($sortField, $sortDirection);
             }
         }
 
-        return $query->with(
-            [
-                'posts' => function($query){
+        if (empty($options['displayEmpty'])) {
+            $query->has('posts');
+        }
+
+        return $query->with([
+                'posts' => function ($query) {
                     $query->isPublished();
                 }
             ]
