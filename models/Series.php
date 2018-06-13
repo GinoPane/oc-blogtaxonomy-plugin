@@ -19,6 +19,7 @@ class Series extends Model
 {
     use Validation;
     use Sluggable;
+    use PostsRelationScopeTrait;
 
     const TABLE_NAME = 'ginopane_blogtaxonomy_series';
 
@@ -74,6 +75,8 @@ class Series extends Model
         'title desc' => 'Title (descending)',
         'created_at asc' => 'Created (ascending)',
         'created_at desc' => 'Created (descending)',
+        'posts_count asc' => 'Post Count (ascending)',
+        'posts_count desc' => 'Post Count (descending)',
         'random' => 'Random'
     ];
 
@@ -96,43 +99,14 @@ class Series extends Model
      * @param string                $pageName
      * @param Controller            $controller
      *
-     * @return string
+     * @return void
      */
-    public function setUrl($pageName, $controller): string
+    public function setUrl($pageName, $controller): void
     {
         $params = [
             'slug' => $this->slug,
         ];
 
-        return $this->url = $controller->pageUrl($pageName, $params);
-    }
-
-    /**
-     * @param $query
-     * @param $options
-     * @return mixed
-     */
-    public function scopeListFrontend($query, $options)
-    {
-        if (in_array($options['sort'], array_keys(self::$sortingOptions))) {
-            if ($options['sort'] == 'random') {
-                $query->inRandomOrder();
-            } else {
-                list($sortField, $sortDirection) = explode(' ', $options['sort']);
-
-                $query->orderBy($sortField, $sortDirection);
-            }
-        }
-
-        if (empty($options['displayEmpty'])) {
-            $query->has('posts');
-        }
-
-        return $query->with([
-                'posts' => function ($query) {
-                    $query->isPublished();
-                }
-            ]
-        )->get();
+        $this->url = $controller->pageUrl($pageName, $params);
     }
 }

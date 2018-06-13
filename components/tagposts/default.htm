@@ -1,19 +1,15 @@
-<h1>Search results for "{{ __SELF__.tag.name }}"</h1>
+<h1>Search results for the tag "{{ __SELF__.tag.name }}"</h1>
 
 {% if __SELF__.posts %}
-    <ul>
-        {% for Post in __SELF__.tag.posts %}
-             <li>
-                 <a href="{{Post.url}}">{{ Post.title }}</a>
-                 {% if Post.categories %}
-                 - published in
-                    {% for category in Post.categories %}
-                        <a href="{{category.url|e}}">{{category.name}}</a>{% if not loop.last %}, {% endif %}
-                    {% endfor %}
-                 {% endif %}
-             </li>
-        {% endfor %}
+    <ul id="{{ __SELF__.alias }}-list">
+        {% partial '@list' %}
     </ul>
+
+    <nav id="{{ __SELF__.alias }}-pagination">
+        {% partial '@pagination' %}
+    </nav>
 {% else %}
-    No posts found.
+    {{ __SELF__.noPostsMessage }}
 {% endif %}
+
+

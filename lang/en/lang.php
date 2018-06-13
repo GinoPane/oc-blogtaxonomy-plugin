@@ -96,7 +96,7 @@ return [
             'display_empty_title' => 'Display Empty Series',
             'display_empty_description' => 'Show series which don\'t have any posts assigned',
 
-            'order_title' => 'Order',
+            'order_title' => 'Order By',
             'order_description' => 'How series should be ordered',
         ],
         'related_posts' => [

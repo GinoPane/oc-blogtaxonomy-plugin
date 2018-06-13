@@ -18,6 +18,7 @@ class Tag extends Model
 {
     use Sluggable;
     use Validation;
+    use PostsRelationScopeTrait;
 
     const TABLE_NAME = 'ginopane_blogtaxonomy_tags';
 
@@ -79,19 +80,35 @@ class Tag extends Model
     ];
 
     /**
+     * The attributes on which the post list can be ordered
+     *
+     * @var array
+     */
+    //@todo localize sorting options
+    public static $sortingOptions = [
+        'name asc' => 'Name (ascending)',
+        'name desc' => 'Name (descending)',
+        'created_at asc' => 'Created (ascending)',
+        'created_at desc' => 'Created (descending)',
+        'posts_count asc' => 'Post Count (ascending)',
+        'posts_count desc' => 'Post Count (descending)',
+        'random' => 'Random'
+    ];
+
+    /**
      * Sets the URL attribute with a URL to this object
      *
      * @param string                $pageName
      * @param Controller            $controller
      *
-     * @return string
+     * @return void
      */
-    public function setUrl($pageName, $controller): string
+    public function setUrl($pageName, $controller): void
     {
         $params = [
             'tag' => $this->slug,
         ];
 
-        return $this->url = $controller->pageUrl($pageName, $params);
+        $this->url = $controller->pageUrl($pageName, $params);
     }
 }

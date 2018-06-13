@@ -1,0 +1,12 @@
+{% for post in __SELF__.posts %}
+     <li>
+         <a href="{{ post.url }}">{{ post.title }}</a>
+         {% if post.categories|length %}
+         - published in
+            {% for category in post.categories %}
+                <a href="{{category.url|e}}">{{category.name}}</a>{% if not loop.last %}, {% endif %}
+            {% endfor %}
+         {% endif %}
+     </li>
+{% endfor %}
+

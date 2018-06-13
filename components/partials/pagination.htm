@@ -1,0 +1,35 @@
+<div>
+    Displaying {{ __SELF__.posts|length }} of {{ __SELF__.posts.total }} posts
+</div>
+
+{% if __SELF__.posts.lastPage != 1 %}
+    <div>
+        Viewing page {{ __SELF__.posts.currentPage }} of {{ __SELF__.posts.lastPage }}
+    </div>
+    <div>
+        {% if __SELF__.posts.currentPage > 1 %}
+        <a href="#"
+           data-request="onRun"
+           data-request-data="page: {{ __SELF__.posts.currentPage - 1 }}"
+           data-request-update="
+                    '{{ __SELF__.alias }}::list': '#{{ __SELF__.alias }}-list',
+                    '{{ __SELF__.alias }}::pagination': '#{{ __SELF__.alias }}-pagination',
+                ">
+            &lt; Back
+        </a>
+        {% endif %}
+
+        {% if __SELF__.posts.currentPage < __SELF__.posts.lastPage %}
+        <a href="#"
+           data-request="onRun"
+           data-request-data="page: {{ __SELF__.posts.currentPage + 1 }}"
+           data-request-update="
+                    '{{ __SELF__.alias }}::list': '#{{ __SELF__.alias }}-list',
+                    '{{ __SELF__.alias }}::pagination': '#{{ __SELF__.alias }}-pagination',
+                ">
+            Next &gt;
+        </a>
+        {% endif %}
+    </div>
+{% endif %}
+

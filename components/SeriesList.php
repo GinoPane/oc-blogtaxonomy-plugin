@@ -14,6 +14,8 @@ use GinoPane\BlogTaxonomy\Models\Series;
  */
 class SeriesList extends ComponentBase
 {
+    use UrlHelperTrait;
+
     /**
      * @var Series
      */
@@ -31,7 +33,7 @@ class SeriesList extends ComponentBase
      *
      * @var string
      */
-    public $sortOrder;
+    public $orderBy;
 
     /**
      * Whether display or not empty series
@@ -39,6 +41,13 @@ class SeriesList extends ComponentBase
      * @var bool
      */
     public $displayEmpty;
+
+    /**
+     * Limits the number of records to display
+     *
+     * @var int
+     */
+    public $limit;
 
     /**
      * @return array
@@ -69,11 +78,19 @@ class SeriesList extends ComponentBase
                 'type'        =>    'dropdown',
                 'default'     =>    'blog/series'
             ],
-            'sortOrder' => [
+            'orderBy' => [
                 'title'       =>    Plugin::LOCALIZATION_KEY . 'components.series_list.order_title',
                 'description' =>    Plugin::LOCALIZATION_KEY . 'components.series_list.order_description',
                 'type'        =>    'dropdown',
                 'default'     =>    'title asc'
+            ],
+            'limit' => [
+                'title'             => Plugin::LOCALIZATION_KEY . 'components.series_list.limit_title',
+                'description'       => Plugin::LOCALIZATION_KEY . 'components.series_list.limit_description',
+                'type'              => 'string',
+                'default'           => '0',
+                'validationPattern' => '^[0-9]+$',
+                'validationMessage' => Plugin::LOCALIZATION_KEY . 'components.series_list.validation_message'
             ],
         ];
     }
@@ -87,11 +104,9 @@ class SeriesList extends ComponentBase
     }
 
     /**
-     * @see BlogPost::$allowedSortingOptions
-     *
      * @return mixed
      */
-    public function getSortOrderOptions()
+    public function getOrderByOptions()
     {
         return Series::$sortingOptions;
     }
@@ -103,10 +118,10 @@ class SeriesList extends ComponentBase
      */
     public function onRun()
     {
-        // load series
         $this->seriesPage = $this->property('seriesPage', '');
-        $this->sortOrder = $this->property('sortOrder', 'title asc');
+        $this->orderBy = $this->property('orderBy', 'title asc');
         $this->displayEmpty = $this->property('displayEmpty', false);
+        $this->limit = $this->property('limit', 0);
 
         $this->series = $this->listSeries();
     }
@@ -118,18 +133,13 @@ class SeriesList extends ComponentBase
      */
     protected function listSeries()
     {
-        // get series
         $series = Series::listFrontend([
-            'sort' => $this->sortOrder,
-            'displayEmpty' => $this->property('displayEmpty')
+            'sort' => $this->orderBy,
+            'displayEmpty' => $this->displayEmpty,
+            'limit' => $this->limit
         ]);
 
-        // Add a "url" helper attribute for linking to each post and category
-        if ($series) {
-            foreach ($series as $item) {
-                $item->setUrl($this->seriesPage, $this->controller);
-            }
-        }
+        $this->setUrls($series, $this->seriesPage, $this->controller);
 
         return $series;
     }

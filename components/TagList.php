@@ -16,6 +16,8 @@ use Illuminate\Database\Eloquent\Collection;
  */
 class TagList extends ComponentBase
 {
+    use UrlHelperTrait;
+
     /**
      * @var Collection | array
      */
@@ -33,7 +35,7 @@ class TagList extends ComponentBase
      *
      * @var string
      */
-    public $sortOrder;
+    public $orderBy;
 
     /**
      * Whether display or not empty tags
@@ -43,7 +45,7 @@ class TagList extends ComponentBase
     public $displayEmpty;
 
     /**
-     * Whether limit or not the list length
+     * Limits the number of records to display
      *
      * @var int
      */
@@ -71,49 +73,31 @@ class TagList extends ComponentBase
     {
         return [
             'tagsPage' => [
-                'title'       => 'Tags Page',
-                'description' => 'The page where the single series are displayed.',
+                'title'       => Plugin::LOCALIZATION_KEY . 'components.tag_list.tags_page_title',
+                'description' => Plugin::LOCALIZATION_KEY . 'components.tag_list.tags_page_description',
                 'type'        => 'dropdown',
                 'default'     => 'blog/tag'
             ],
-            'hideOrphans' => [
-                'title'             => 'Hide orphaned tags',
-                'description'       => 'Hides tags with no associated posts.',
-                'showExternalParam' => false,
+            'displayEmpty' => [
+                'title'             => Plugin::LOCALIZATION_KEY . 'components.tag_list.display_empty_title',
+                'description'       => Plugin::LOCALIZATION_KEY . 'components.tag_list.display_empty_description',
                 'type'              => 'checkbox',
-            ],
-            'limit' => [
-                'title'             => 'Results',
-                'description'       => 'Number of tags to display (zero displays all tags).',
-                'type'              => 'string',
-                'default'           => '5',
-                'validationPattern' => '^[0-9]+$',
-                'validationMessage' => 'The results must be a number.',
-                'showExternalParam' => false
+                'default'           => false
             ],
             'orderBy' => [
-                'title'             => 'Sort by',
-                'description'       => 'The value used to sort tags.',
+                'title'             => Plugin::LOCALIZATION_KEY . 'components.tag_list.order_title',
+                'description'       => Plugin::LOCALIZATION_KEY . 'components.tag_list.order_description',
                 'type'              => 'dropdown',
-                'options' => [
-                    false           => 'Posts',
-                    'name'          => 'Name',
-                    'created_at'    => 'Created at'
-                ],
-                'default'           => false,
-                'showExternalParam' => false
+                'default'           => 'name asc',
             ],
-            'direction' => [
-                'title'             => 'Order',
-                'description'       => 'The order to sort tags in.',
-                'type'              => 'dropdown',
-                'options' => [
-                    'asc'           => 'Ascending',
-                    'desc'          => 'Descending',
-                ],
-                'default'           => 'desc',
-                'showExternalParam' => false
-            ]
+            'limit' => [
+                'title'             => Plugin::LOCALIZATION_KEY . 'components.tag_list.limit_title',
+                'description'       => Plugin::LOCALIZATION_KEY . 'components.tag_list.limit_description',
+                'type'              => 'string',
+                'default'           => '0',
+                'validationPattern' => '^[0-9]+$',
+                'validationMessage' => Plugin::LOCALIZATION_KEY . 'components.tag_list.validation_message'
+            ],
         ];
     }
 
@@ -126,42 +110,40 @@ class TagList extends ComponentBase
     }
 
     /**
+     * @return mixed
+     */
+    public function getOrderByOptions()
+    {
+        return Tag::$sortingOptions;
+    }
+
+    /**
      * Prepare and return a tag list
      *
-     * @return Collection
+     * @return void
      */
     public function onRun()
     {
         $this->tagsPage = $this->property('tagsPage', '');
-        $this->sortOrder = $this->property('sortOrder', 'title asc');
+        $this->orderBy = $this->property('orderBy', 'name asc');
         $this->displayEmpty = $this->property('displayEmpty', false);
         $this->limit =  $this->property('limit', 0);
 
         $this->tags = $this->listTags();
     }
 
+    /**
+     * @return mixed
+     */
     protected function listTags()
     {
-        $query = Tag::with('posts');
+        $tags = Tag::listFrontend([
+            'sort' => $this->orderBy,
+            'displayEmpty' => $this->displayEmpty,
+            'limit' => $this->limit
+        ]);
 
-        if (!$this->displayEmpty) {
-            $query->has('posts');
-        }
-
-        $query->withCount('posts')->orderBy('posts_count', 'asc');
-
-        // Limit the number of results
-        if ($this->limit) {
-            $query->take($this->limit);
-        }
-
-        $tags = $query->get();
-
-        if ($tags) {
-            foreach ($tags as $item) {
-                $item->setUrl($this->tagsPage, $this->controller);
-            }
-        }
+        $this->setUrls($tags, $this->tagsPage, $this->controller);
 
         return $tags;
     }
