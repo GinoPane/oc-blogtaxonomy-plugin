@@ -3,6 +3,7 @@
 namespace GinoPane\BlogTaxonomy\Components;
 
 use Cms\Classes\Page;
+use GinoPane\BlogTaxonomy\Plugin;
 use Illuminate\Http\Response;
 use Rainlab\Blog\Models\Post;
 use Cms\Classes\ComponentBase;
@@ -51,15 +52,15 @@ abstract class PostListAbstract extends ComponentBase
      * @var array
      */
     public static $postAllowedSortingOptions = [
-        'title asc' => 'Title (ascending)',
-        'title desc' => 'Title (descending)',
-        'created_at asc' => 'Created (ascending)',
-        'created_at desc' => 'Created (descending)',
-        'updated_at asc' => 'Updated (ascending)',
-        'updated_at desc' => 'Updated (descending)',
-        'published_at asc' => 'Published (ascending)',
-        'published_at desc' => 'Published (descending)',
-        'random' => 'Random'
+        'title asc' => Plugin::LOCALIZATION_KEY . 'order_options.title_asc',
+        'title desc' => Plugin::LOCALIZATION_KEY . 'order_options.title_desc',
+        'created_at asc' => Plugin::LOCALIZATION_KEY . 'order_options.created_at_asc',
+        'created_at desc' => Plugin::LOCALIZATION_KEY . 'order_options.created_desc',
+        'updated_at asc' => Plugin::LOCALIZATION_KEY . 'updated_at_asc.updated_at_asc',
+        'updated_at desc' => Plugin::LOCALIZATION_KEY . 'order_options.updated_at_desc',
+        'published_at asc' => Plugin::LOCALIZATION_KEY . 'order_options.published_at_asc',
+        'published_at desc' => Plugin::LOCALIZATION_KEY . 'order_options.published_at_desc',
+        'random' => Plugin::LOCALIZATION_KEY . 'order_options.random'
     ];
 
     /**

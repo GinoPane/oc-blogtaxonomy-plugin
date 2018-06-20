@@ -69,6 +69,7 @@ return [
         'no_posts_available' => 'No posts available'
     ],
 
+    // component-specific strings
     'components' => [
         'series_posts' => [
             'name' => 'Posts in Series',
@@ -103,5 +104,19 @@ return [
             'name' => 'Related Posts',
             'description' => 'Provides a list of posts related by tags'
         ]
+    ],
+
+    'order_options' => [
+        'title_asc' => 'Title (ascending)',
+        'title_desc' => 'Title (descending)',
+        'created_at_asc' => 'Created (ascending)',
+        'created_at_desc' => 'Created (descending)',
+        'updated_at_asc' => 'Updated (ascending)',
+        'updated_at_desc' => 'Updated (descending)',
+        'published_at_asc' => 'Published (ascending)',
+        'published_at_desc' => 'Published (descending)',
+        'relevance_asc' => 'Title (ascending)',
+        'relevance_desc' => 'Title (descending)',
+        'random' => 'Random'
     ]
 ];

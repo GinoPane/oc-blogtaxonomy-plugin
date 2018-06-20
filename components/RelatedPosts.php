@@ -29,6 +29,27 @@ class RelatedPosts extends ComponentBase
     public $postPage;
 
     /**
+     * Message to display when there are no posts
+     *
+     * @var string
+     */
+    public $noPostsMessage;
+
+    /**
+     * If the post list should be ordered by another attribute
+     *
+     * @var string
+     */
+    public $orderBy;
+
+    /**
+     * Limits the number of records to display
+     *
+     * @var int
+     */
+    public $limit;
+
+    /**
      * Component Registration
      *
      * @return  array
@@ -55,39 +76,32 @@ class RelatedPosts extends ComponentBase
                 'default'           => '{{ :slug }}',
                 'type'              => 'string'
             ],
-            'results' => [
-                'title'             => 'Results',
-                'description'       => 'Number of related posts to display (zero displays all related posts).',
+
+            'limit' => [
+                'title'             => Plugin::LOCALIZATION_KEY . 'components.tag_list.limit_title',
+                'description'       => Plugin::LOCALIZATION_KEY . 'components.tag_list.limit_description',
                 'type'              => 'string',
-                'default'           => '5',
+                'default'           => '0',
                 'validationPattern' => '^[0-9]+$',
-                'validationMessage' => 'The results must be a number.',
+                'validationMessage' => Plugin::LOCALIZATION_KEY . 'components.tag_list.validation_message',
                 'showExternalParam' => false
             ],
+
+            'noPostsMessage' => [
+                'title'        => 'rainlab.blog::lang.settings.posts_no_posts',
+                'description'  => 'rainlab.blog::lang.settings.posts_no_posts_description',
+                'type'         => 'string',
+                'showExternalParam' => false
+            ],
+
             'orderBy' => [
-                'title'             => 'Sort by',
-                'description'       => 'The value used to sort related posts.',
-                'type'              => 'dropdown',
-                'options' => [
-                    false           => 'Relevance (# of shared tags)',
-                    'title'         => 'Title',
-                    'published_at'  => 'Published at',
-                    'updated_at'    => 'Updated at',
-                ],
-                'default'           => false,
+                'title'       => 'rainlab.blog::lang.settings.posts_order',
+                'description' => 'rainlab.blog::lang.settings.posts_order_description',
+                'type'        => 'dropdown',
+                'default'     => 'published_at asc',
                 'showExternalParam' => false
             ],
-            'direction' => [
-                'title'             => 'Order',
-                'description'       => 'The order to sort related posts in.',
-                'type'              => 'dropdown',
-                'options' => [
-                    'asc'           => 'Ascending',
-                    'desc'          => 'Descending',
-                ],
-                'default'           => 'desc',
-                'showExternalParam' => false
-            ],
+
             'postPage' => [
                 'title'       => 'Post page',
                 'description' => 'Page to show linked posts',
@@ -98,9 +112,29 @@ class RelatedPosts extends ComponentBase
         ];
     }
 
+    /**
+     * @see PostListAbstract::$postAllowedSortingOptions
+     *
+     * @return mixed
+     */
+    public function getOrderByOptions()
+    {
+        return array_merge(
+            [
+                'relevance asc' => Plugin::LOCALIZATION_KEY . 'order_options.relevance_asc',
+                'relevance desc' => Plugin::LOCALIZATION_KEY . 'order_options.relevance_desc'
+            ],
+            PostListAbstract::$postAllowedSortingOptions
+        );
+    }
+
     protected function prepareVars()
     {
-        $this->postParam = $this->page['postParam'] = $this->property('postParam');
+        $this->noPostsMessage = $this->page['noPostsMessage'] = $this->property('noPostsMessage');
+        $this->orderBy = $this->page['orderBy'] = $this->property('orderBy');
+
+        // Page links
+        $this->postPage = $this->page['postPage' ] = $this->property('postPage');
     }
 
     public function getPostPageOptions()

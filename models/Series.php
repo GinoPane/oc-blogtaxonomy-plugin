@@ -13,6 +13,8 @@ use October\Rain\Database\Traits\Validation;
 /**
  * Class Series
  *
+ * @property string slug
+ *
  * @package GinoPane\BlogTaxonomy\Models
  */
 class Series extends Model
@@ -22,6 +24,8 @@ class Series extends Model
     use PostsRelationScopeTrait;
 
     const TABLE_NAME = 'ginopane_blogtaxonomy_series';
+
+
 
     /**
      * The database table used by the model
@@ -69,15 +73,14 @@ class Series extends Model
      *
      * @var array
      */
-    //@todo localize sorting options
     public static $sortingOptions = [
-        'title asc' => 'Title (ascending)',
-        'title desc' => 'Title (descending)',
-        'created_at asc' => 'Created (ascending)',
-        'created_at desc' => 'Created (descending)',
-        'posts_count asc' => 'Post Count (ascending)',
-        'posts_count desc' => 'Post Count (descending)',
-        'random' => 'Random'
+        'title asc' => Plugin::LOCALIZATION_KEY . 'order_options.title_asc',
+        'title desc' => Plugin::LOCALIZATION_KEY . 'order_options.title_desc',
+        'created_at asc' => Plugin::LOCALIZATION_KEY . 'order_options.created_at_asc',
+        'created_at desc' => Plugin::LOCALIZATION_KEY . 'order_options.created_at_desc',
+        'posts_count asc' => Plugin::LOCALIZATION_KEY . 'order_options.post_count_asc',
+        'posts_count desc' => Plugin::LOCALIZATION_KEY . 'order_options.post_count_desc',
+        'random' => Plugin::LOCALIZATION_KEY . 'order_options.random'
     ];
 
     /**

@@ -1,6 +1,11 @@
-<h1>Related posts</h1>
+{% if __SELF__.posts %}
 <ul>
-    {% for Post in __SELF__.posts %}
-        <a href="{{Post.url}}"><li>{{ Post.title }}</li></a>
+    {% for post in __SELF__.posts %}
+        <li>
+            <a href="{{ post.url }}">{{ post.title }}</a>
+        </li>
     {% endfor %}
 </ul>
+{% else %}
+    {{ __SELF__.noPostsMessage }}
+{% endif %}
