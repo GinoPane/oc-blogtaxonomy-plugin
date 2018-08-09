@@ -5,9 +5,11 @@
 fields:
     name:
         label: ginopane.blogtaxonomy::lang.form.fields.tag
+        required: true
 
     slug:
         label: ginopane.blogtaxonomy::lang.form.fields.slug
+        required: true
         preset:
             field: name
             type: slug

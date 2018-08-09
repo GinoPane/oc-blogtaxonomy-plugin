@@ -1,4 +1,4 @@
-<h1>Search results for the tag "{{ __SELF__.tag.name }}"</h1>
+<h1>{{ "ginopane.blogtaxonomy::lang.components.tag_posts.posts_with_tag" | trans }} "{{ __SELF__.tag.name }}"</h1>
 
 {% if __SELF__.posts %}
     <ul id="{{ __SELF__.alias }}-list">
@@ -9,7 +9,7 @@
         {% partial '@pagination' %}
     </nav>
 {% else %}
-    {{ __SELF__.noPostsMessage }}
+    {{ "ginopane.blogtaxonomy::lang.components.tag_posts.no_posts_message" | trans }}
 {% endif %}
 
 

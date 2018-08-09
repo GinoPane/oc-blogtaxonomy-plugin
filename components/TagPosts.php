@@ -13,6 +13,8 @@ use GinoPane\BlogTaxonomy\Models\Tag;
  */
 class TagPosts extends PostListAbstract
 {
+    const NAME = 'postsWithTag';
+
     /**
      * @var Tag
      */
@@ -38,8 +40,8 @@ class TagPosts extends PostListAbstract
     {
         $properties = [
             'tag' => [
-                'title'         => 'Tag',
-                'description'   => 'The URL parameter used to search for posts',
+                'title'         => Plugin::LOCALIZATION_KEY . 'components.tag_posts.tag_title',
+                'description'   => Plugin::LOCALIZATION_KEY . 'components.tag_posts.tag_description',
                 'default'       => '{{ :tag }}',
                 'type'          => 'string'
             ]

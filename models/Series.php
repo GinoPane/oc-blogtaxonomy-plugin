@@ -17,15 +17,13 @@ use October\Rain\Database\Traits\Validation;
  *
  * @package GinoPane\BlogTaxonomy\Models
  */
-class Series extends Model
+class Series extends ModelAbstract
 {
     use Validation;
     use Sluggable;
     use PostsRelationScopeTrait;
 
     const TABLE_NAME = 'ginopane_blogtaxonomy_series';
-
-
 
     /**
      * The database table used by the model
@@ -62,10 +60,10 @@ class Series extends Model
      * @var array
      */
     public $customMessages = [
-        'title.required' => Plugin::LOCALIZATION_KEY . 'lang.form.name_required',
-        'title.unique'   => Plugin::LOCALIZATION_KEY . 'lang.form.name_unique',
-        'title.regex'    => Plugin::LOCALIZATION_KEY . 'lang.form.name_invalid',
-        'title.min'      => Plugin::LOCALIZATION_KEY . 'lang.form.name_too_short',
+        'title.required' => Plugin::LOCALIZATION_KEY . 'form.series.title_required',
+        'title.unique'   => Plugin::LOCALIZATION_KEY . 'form.series.title_unique',
+        'title.regex'    => Plugin::LOCALIZATION_KEY . 'form.series.title_invalid',
+        'title.min'      => Plugin::LOCALIZATION_KEY . 'form.series.title_too_short',
     ];
 
     /**
@@ -96,20 +94,10 @@ class Series extends Model
         return $this->posts()->isPublished()->count();
     }
 
-    /**
-     * Sets the URL attribute with a URL to this object
-     *
-     * @param string                $pageName
-     * @param Controller            $controller
-     *
-     * @return void
-     */
-    public function setUrl($pageName, $controller): void
+    protected function getModelUrlParams(array $params): array
     {
-        $params = [
-            'slug' => $this->slug,
+        return [
+            array_get($params, 'series', 'series') => $this->slug
         ];
-
-        $this->url = $controller->pageUrl($pageName, $params);
     }
 }

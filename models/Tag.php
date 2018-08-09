@@ -16,7 +16,7 @@ use GinoPane\BlogTaxonomy\Plugin;
  *
  * @package GinoPane\BlogTaxonomy\Models
  */
-class Tag extends Model
+class Tag extends ModelAbstract
 {
     use Sluggable;
     use Validation;
@@ -75,10 +75,10 @@ class Tag extends Model
      * @var array
      */
     public $customMessages = [
-        'name.required' => Plugin::LOCALIZATION_KEY . 'lang.form.name_required',
-        'name.unique'   => Plugin::LOCALIZATION_KEY . 'lang.form.name_unique',
-        'name.regex'    => Plugin::LOCALIZATION_KEY . 'lang.form.name_invalid',
-        'name.min'      => Plugin::LOCALIZATION_KEY . 'lang.form.name_too_short',
+        'name.required' => Plugin::LOCALIZATION_KEY . 'form.tags.name_required',
+        'name.unique'   => Plugin::LOCALIZATION_KEY . 'form.tags.name_unique',
+        'name.regex'    => Plugin::LOCALIZATION_KEY . 'form.tags.name_invalid',
+        'name.min'      => Plugin::LOCALIZATION_KEY . 'form.tags.name_too_short',
     ];
 
     /**
@@ -96,20 +96,10 @@ class Tag extends Model
         'random' => Plugin::LOCALIZATION_KEY . 'order_options.random'
     ];
 
-    /**
-     * Sets the URL attribute with a URL to this object
-     *
-     * @param string                $pageName
-     * @param Controller            $controller
-     *
-     * @return void
-     */
-    public function setUrl($pageName, $controller): void
+    protected function getModelUrlParams(array $params): array
     {
-        $params = [
-            'tag' => $this->slug,
+        return [
+            array_get($params, 'tag', 'tag') => $this->slug
         ];
-
-        $this->url = $controller->pageUrl($pageName, $params);
     }
 }

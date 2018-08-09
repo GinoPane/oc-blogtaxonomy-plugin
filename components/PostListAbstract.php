@@ -3,10 +3,10 @@
 namespace GinoPane\BlogTaxonomy\Components;
 
 use Cms\Classes\Page;
-use GinoPane\BlogTaxonomy\Plugin;
 use Illuminate\Http\Response;
 use Rainlab\Blog\Models\Post;
-use Cms\Classes\ComponentBase;
+use GinoPane\BlogTaxonomy\Plugin;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
@@ -14,9 +14,9 @@ use Illuminate\Database\Eloquent\Collection;
  *
  * @package GinoPane\BlogTaxonomy\Components
  */
-abstract class PostListAbstract extends ComponentBase
+abstract class PostListAbstract extends ComponentAbstract
 {
-    use UrlHelperTrait;
+    use TranslateArrayTrait;
 
     /**
      * @var Collection | array
@@ -34,13 +34,6 @@ abstract class PostListAbstract extends ComponentBase
     public $resultsPerPage;
 
     /**
-     * Message to display when there are no posts
-     *
-     * @var string
-     */
-    public $noPostsMessage;
-
-    /**
      * If the post list should be ordered by another attribute
      *
      * @var string
@@ -55,8 +48,8 @@ abstract class PostListAbstract extends ComponentBase
         'title asc' => Plugin::LOCALIZATION_KEY . 'order_options.title_asc',
         'title desc' => Plugin::LOCALIZATION_KEY . 'order_options.title_desc',
         'created_at asc' => Plugin::LOCALIZATION_KEY . 'order_options.created_at_asc',
-        'created_at desc' => Plugin::LOCALIZATION_KEY . 'order_options.created_desc',
-        'updated_at asc' => Plugin::LOCALIZATION_KEY . 'updated_at_asc.updated_at_asc',
+        'created_at desc' => Plugin::LOCALIZATION_KEY . 'order_options.created_at_desc',
+        'updated_at asc' => Plugin::LOCALIZATION_KEY . 'order_options.updated_at_asc',
         'updated_at desc' => Plugin::LOCALIZATION_KEY . 'order_options.updated_at_desc',
         'published_at asc' => Plugin::LOCALIZATION_KEY . 'order_options.published_at_asc',
         'published_at desc' => Plugin::LOCALIZATION_KEY . 'order_options.published_at_desc',
@@ -70,12 +63,6 @@ abstract class PostListAbstract extends ComponentBase
     public function defineProperties()
     {
         return [
-            'noPostsMessage' => [
-                'title'        => 'rainlab.blog::lang.settings.posts_no_posts',
-                'description'  => 'rainlab.blog::lang.settings.posts_no_posts_description',
-                'type'         => 'string',
-                'showExternalParam' => false
-            ],
             'orderBy' => [
                 'title'       => 'rainlab.blog::lang.settings.posts_order',
                 'description' => 'rainlab.blog::lang.settings.posts_order_description',
@@ -85,36 +72,38 @@ abstract class PostListAbstract extends ComponentBase
             ],
 
             'page' => [
-                'title'         => 'Page',
-                'description'   => 'The URL parameter defining the page number.',
+                'group'         => Plugin::LOCALIZATION_KEY . 'components.post_list_abstract.pagination_group',
+                'title'         => Plugin::LOCALIZATION_KEY . 'components.post_list_abstract.page_parameter_title',
+                'description'   => Plugin::LOCALIZATION_KEY . 'components.post_list_abstract.page_parameter_description',
                 'default'       => '{{ :page }}',
                 'type'          => 'string',
-                'group'         => 'Pagination',
             ],
             'resultsPerPage' => [
-                'title'         => 'Results',
-                'description'   => 'The number of posts to display per page.',
+                'group'         => Plugin::LOCALIZATION_KEY . 'components.post_list_abstract.pagination_group',
+                'title'         => Plugin::LOCALIZATION_KEY . 'components.post_list_abstract.pagination_per_page_title',
+                'description'   => Plugin::LOCALIZATION_KEY . 'components.post_list_abstract.pagination_per_page_description',
                 'default'       => 10,
                 'type'          => 'string',
                 'validationPattern' => '^(0+)?[1-9]\d*$',
-                'validationMessage' => 'Results per page must be a positive whole number.',
+                'validationMessage' => Plugin::LOCALIZATION_KEY . 'components.post_list_abstract.pagination_validation_message',
                 'showExternalParam' => false,
-                'group'         => 'Pagination',
             ],
 
             'postPage' => [
-                'title'       => 'Post page',
-                'description' => 'Page to show linked posts',
+                'group'       => Plugin::LOCALIZATION_KEY . 'components.post_list_abstract.links_group',
+                'title'       => 'rainlab.blog::lang.settings.posts_post',
+                'description' => 'rainlab.blog::lang.settings.posts_description',
                 'type'        => 'dropdown',
                 'default'     => 'blog/post',
-                'group'       => 'Links',
+                'showExternalParam' => false,
             ],
             'categoryPage' => [
+                'group'       => Plugin::LOCALIZATION_KEY . 'components.post_list_abstract.links_group',
                 'title'       => 'rainlab.blog::lang.settings.posts_category',
                 'description' => 'rainlab.blog::lang.settings.posts_category_description',
                 'type'        => 'dropdown',
                 'default'     => 'blog/category',
-                'group'       => 'Links',
+                'showExternalParam' => false,
             ]
         ];
     }
@@ -122,11 +111,15 @@ abstract class PostListAbstract extends ComponentBase
     /**
      * @see Post::$allowedSortingOptions
      *
-     * @return mixed
+     * @return string[]
      */
     public function getOrderByOptions()
     {
-        return static::$postAllowedSortingOptions;
+        $order = $this->translate(static::$postAllowedSortingOptions);
+
+        asort($order);
+
+        return $order;
     }
 
     /**
@@ -135,7 +128,7 @@ abstract class PostListAbstract extends ComponentBase
     public function onRun()
     {
         if (is_null($this->prepareContextItem())) {
-            return $this->controller->run(Response::HTTP_NOT_FOUND);
+            return Redirect::to($this->controller->pageUrl(Response::HTTP_NOT_FOUND));
         }
 
         $this->prepareVars();
@@ -157,7 +150,6 @@ abstract class PostListAbstract extends ComponentBase
         $this->resultsPerPage = intval($this->property('resultsPerPage'))
             ?: $this->defineProperties()['resultsPerPage']['default'];
 
-        $this->noPostsMessage = $this->page['noPostsMessage'] = $this->property('noPostsMessage');
         $this->orderBy = $this->page['orderBy'] = $this->property('orderBy');
 
         // Page links
@@ -184,10 +176,7 @@ abstract class PostListAbstract extends ComponentBase
 
         $posts = $query->paginate($this->resultsPerPage, $this->currentPage);
 
-        // Add a "url" helper attribute for linking to each post and category
-        if ($posts && $posts->count()) {
-            $posts->each([$this, 'setPostUrls']);
-        }
+        $this->setPostUrls($posts);
 
         $this->posts = $posts;
     }

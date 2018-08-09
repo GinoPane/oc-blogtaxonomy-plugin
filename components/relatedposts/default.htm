@@ -1,4 +1,7 @@
-{% if __SELF__.posts %}
+<div>
+    <p>{{ "ginopane.blogtaxonomy::lang.components.related_posts.related_posts" | trans }}</p>
+</div>
+{% if __SELF__.posts | length %}
 <ul>
     {% for post in __SELF__.posts %}
         <li>
@@ -7,5 +10,5 @@
     {% endfor %}
 </ul>
 {% else %}
-    {{ __SELF__.noPostsMessage }}
+    {{ "ginopane.blogtaxonomy::lang.components.related_posts.no_posts_message" | trans }}
 {% endif %}

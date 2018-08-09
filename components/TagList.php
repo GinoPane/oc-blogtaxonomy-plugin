@@ -2,9 +2,7 @@
 
 namespace GinoPane\BlogTaxonomy\Components;
 
-use DB;
 use Cms\Classes\Page;
-use Cms\Classes\ComponentBase;
 use GinoPane\BlogTaxonomy\Plugin;
 use GinoPane\BlogTaxonomy\Models\Tag;
 use Illuminate\Database\Eloquent\Collection;
@@ -14,9 +12,11 @@ use Illuminate\Database\Eloquent\Collection;
  *
  * @package GinoPane\BlogTaxonomy\Components
  */
-class TagList extends ComponentBase
+class TagList extends ComponentAbstract
 {
-    use UrlHelperTrait;
+    const NAME = 'tagList';
+
+    use TranslateArrayTrait;
 
     /**
      * @var Collection | array
@@ -43,6 +43,13 @@ class TagList extends ComponentBase
      * @var bool
      */
     public $displayEmpty;
+
+    /**
+     * Filter tags for the post defined by slug
+     *
+     * @var string
+     */
+    public $postSlug;
 
     /**
      * Limits the number of records to display
@@ -72,23 +79,12 @@ class TagList extends ComponentBase
     public function defineProperties()
     {
         return [
-            'tagsPage' => [
-                'title'       => Plugin::LOCALIZATION_KEY . 'components.tag_list.tags_page_title',
-                'description' => Plugin::LOCALIZATION_KEY . 'components.tag_list.tags_page_description',
-                'type'        => 'dropdown',
-                'default'     => 'blog/tag'
-            ],
             'displayEmpty' => [
                 'title'             => Plugin::LOCALIZATION_KEY . 'components.tag_list.display_empty_title',
                 'description'       => Plugin::LOCALIZATION_KEY . 'components.tag_list.display_empty_description',
                 'type'              => 'checkbox',
-                'default'           => false
-            ],
-            'orderBy' => [
-                'title'             => Plugin::LOCALIZATION_KEY . 'components.tag_list.order_title',
-                'description'       => Plugin::LOCALIZATION_KEY . 'components.tag_list.order_description',
-                'type'              => 'dropdown',
-                'default'           => 'name asc',
+                'default'           => false,
+                'showExternalParam' => false
             ],
             'limit' => [
                 'title'             => Plugin::LOCALIZATION_KEY . 'components.tag_list.limit_title',
@@ -96,7 +92,29 @@ class TagList extends ComponentBase
                 'type'              => 'string',
                 'default'           => '0',
                 'validationPattern' => '^[0-9]+$',
-                'validationMessage' => Plugin::LOCALIZATION_KEY . 'components.tag_list.validation_message'
+                'validationMessage' => Plugin::LOCALIZATION_KEY . 'components.tag_list.limit_validation_message',
+                'showExternalParam' => false
+            ],
+            'orderBy' => [
+                'title'             => Plugin::LOCALIZATION_KEY . 'components.tag_list.order_title',
+                'description'       => Plugin::LOCALIZATION_KEY . 'components.tag_list.order_description',
+                'type'              => 'dropdown',
+                'default'           => 'name asc',
+                'showExternalParam' => false
+            ],
+            'postSlug' => [
+                'title'       => Plugin::LOCALIZATION_KEY . 'components.tag_list.post_slug_title',
+                'description' => Plugin::LOCALIZATION_KEY . 'components.tag_list.post_slug_description',
+                'default'     => '{{ :slug }}',
+                'type'        => 'string'
+            ],
+            'tagsPage' => [
+                'title'         => Plugin::LOCALIZATION_KEY . 'components.tag_list.tags_page_title',
+                'group'         =>  Plugin::LOCALIZATION_KEY . 'components.post_list_abstract.links_group',
+                'description'   => Plugin::LOCALIZATION_KEY . 'components.tag_list.tags_page_description',
+                'type'          => 'dropdown',
+                'default'       => 'blog/tag',
+                'showExternalParam' => false
             ],
         ];
     }
@@ -114,7 +132,11 @@ class TagList extends ComponentBase
      */
     public function getOrderByOptions()
     {
-        return Tag::$sortingOptions;
+        $order = $this->translate(Tag::$sortingOptions);
+
+        asort($order);
+
+        return $order;
     }
 
     /**
@@ -124,10 +146,11 @@ class TagList extends ComponentBase
      */
     public function onRun()
     {
-        $this->tagsPage = $this->property('tagsPage', '');
-        $this->orderBy = $this->property('orderBy', 'name asc');
-        $this->displayEmpty = $this->property('displayEmpty', false);
-        $this->limit =  $this->property('limit', 0);
+        $this->tagsPage = $this->getProperty('tagsPage');
+        $this->orderBy = $this->getProperty('orderBy');
+        $this->postSlug = $this->property('postSlug');
+        $this->displayEmpty = $this->getProperty('displayEmpty');
+        $this->limit =  $this->getProperty('limit');
 
         $this->tags = $this->listTags();
     }
@@ -140,10 +163,13 @@ class TagList extends ComponentBase
         $tags = Tag::listFrontend([
             'sort' => $this->orderBy,
             'displayEmpty' => $this->displayEmpty,
-            'limit' => $this->limit
+            'limit' => $this->limit,
+            'post' => $this->postSlug
         ]);
 
-        $this->setUrls($tags, $this->tagsPage, $this->controller);
+        $tagComponent = $this->getComponent(TagPosts::NAME, $this->tagsPage);
+
+        $this->setUrls($tags, $this->tagsPage, $this->controller, ['tag' => $this->urlProperty($tagComponent, 'tag')]);
 
         return $tags;
     }

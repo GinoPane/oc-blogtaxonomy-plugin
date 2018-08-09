@@ -3,7 +3,6 @@
 namespace GinoPane\BlogTaxonomy\Components;
 
 use Cms\Classes\Page;
-use Cms\Classes\ComponentBase;
 use GinoPane\BlogTaxonomy\Plugin;
 use GinoPane\BlogTaxonomy\Models\Series;
 
@@ -12,9 +11,11 @@ use GinoPane\BlogTaxonomy\Models\Series;
  *
  * @package GinoPane\BlogTaxonomy\Components
  */
-class SeriesList extends ComponentBase
+class SeriesList extends ComponentAbstract
 {
-    use UrlHelperTrait;
+    const NAME = 'seriesList';
+
+    use TranslateArrayTrait;
 
     /**
      * @var Series
@@ -27,6 +28,13 @@ class SeriesList extends ComponentBase
      * @var string
      */
     public $seriesPage;
+
+    /**
+     * Series slug name for series page URL
+     *
+     * @var string
+     */
+    public $seriesSlug;
 
     /**
      * If the series list should be ordered by another attribute
@@ -70,19 +78,8 @@ class SeriesList extends ComponentBase
                 'title'       =>    Plugin::LOCALIZATION_KEY . 'components.series_list.display_empty_title',
                 'description' =>    Plugin::LOCALIZATION_KEY . 'components.series_list.display_empty_description',
                 'type'        =>    'checkbox',
-                'default'     =>    false
-            ],
-            'seriesPage' => [
-                'title'       =>    Plugin::LOCALIZATION_KEY . 'components.series_list.series_page_title',
-                'description' =>    Plugin::LOCALIZATION_KEY . 'components.series_list.series_page_description',
-                'type'        =>    'dropdown',
-                'default'     =>    'blog/series'
-            ],
-            'orderBy' => [
-                'title'       =>    Plugin::LOCALIZATION_KEY . 'components.series_list.order_title',
-                'description' =>    Plugin::LOCALIZATION_KEY . 'components.series_list.order_description',
-                'type'        =>    'dropdown',
-                'default'     =>    'title asc'
+                'default'     =>    false,
+                'showExternalParam' => false
             ],
             'limit' => [
                 'title'             => Plugin::LOCALIZATION_KEY . 'components.series_list.limit_title',
@@ -90,7 +87,23 @@ class SeriesList extends ComponentBase
                 'type'              => 'string',
                 'default'           => '0',
                 'validationPattern' => '^[0-9]+$',
-                'validationMessage' => Plugin::LOCALIZATION_KEY . 'components.series_list.validation_message'
+                'validationMessage' => Plugin::LOCALIZATION_KEY . 'components.series_list.limit_validation_message',
+                'showExternalParam' => false
+            ],
+            'orderBy' => [
+                'title'       =>    Plugin::LOCALIZATION_KEY . 'components.series_list.order_title',
+                'description' =>    Plugin::LOCALIZATION_KEY . 'components.series_list.order_description',
+                'type'        =>    'dropdown',
+                'default'     =>    'title asc',
+                'showExternalParam' => false
+            ],
+            'seriesPage' => [
+                'group'         =>  Plugin::LOCALIZATION_KEY . 'components.post_list_abstract.links_group',
+                'title'         =>  Plugin::LOCALIZATION_KEY . 'components.series_list.series_page_title',
+                'description'   =>  Plugin::LOCALIZATION_KEY . 'components.series_list.series_page_description',
+                'type'          =>  'dropdown',
+                'default'       =>  'blog/series',
+                'showExternalParam' => false
             ],
         ];
     }
@@ -104,11 +117,15 @@ class SeriesList extends ComponentBase
     }
 
     /**
-     * @return mixed
+     * @return string[]
      */
     public function getOrderByOptions()
     {
-        return Series::$sortingOptions;
+        $order = $this->translate(Series::$sortingOptions);
+
+        asort($order);
+
+        return $order;
     }
 
     /**
@@ -118,10 +135,10 @@ class SeriesList extends ComponentBase
      */
     public function onRun()
     {
-        $this->seriesPage = $this->property('seriesPage', '');
-        $this->orderBy = $this->property('orderBy', 'title asc');
-        $this->displayEmpty = $this->property('displayEmpty', false);
-        $this->limit = $this->property('limit', 0);
+        $this->seriesPage = $this->getProperty('seriesPage');
+        $this->orderBy = $this->getProperty('orderBy');
+        $this->displayEmpty = $this->getProperty('displayEmpty');
+        $this->limit = $this->getProperty('limit');
 
         $this->series = $this->listSeries();
     }
@@ -139,7 +156,16 @@ class SeriesList extends ComponentBase
             'limit' => $this->limit
         ]);
 
-        $this->setUrls($series, $this->seriesPage, $this->controller);
+        $seriesComponent = $this->getComponent(SeriesPosts::NAME, $this->seriesPage);
+
+        $this->setUrls(
+            $series,
+            $this->seriesPage,
+            $this->controller,
+            [
+                'series' => $this->urlProperty($seriesComponent, 'series')
+            ]
+        );
 
         return $series;
     }

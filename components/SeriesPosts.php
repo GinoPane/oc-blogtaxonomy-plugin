@@ -13,6 +13,8 @@ use GinoPane\BlogTaxonomy\Models\Series;
  */
 class SeriesPosts extends PostListAbstract
 {
+    const NAME = 'postsInSeries';
+
     /**
      * @var Series
      */
@@ -36,10 +38,10 @@ class SeriesPosts extends PostListAbstract
     {
         $properties = [
                 'series' => [
-                    'title'       => 'Series Slug',
-                    'description' => 'Look up the series using the supplied slug value.',
+                    'title'       => Plugin::LOCALIZATION_KEY . 'components.series_posts.series_title',
+                    'description' => Plugin::LOCALIZATION_KEY . 'components.series_posts.series_description',
                     'type'        => 'string',
-                    'default'     => '{{ :slug }}',
+                    'default'     => '{{ :series }}',
                 ],
             ] + parent::defineProperties();
 

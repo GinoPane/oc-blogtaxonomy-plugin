@@ -6,9 +6,11 @@ columns:
 
     name:
         label: ginopane.blogtaxonomy::lang.list.columns.tag
+        searchable: true
 
     slug:
         label: ginopane.blogtaxonomy::lang.list.columns.slug
+        searchable: true
 
     posts:
         label: ginopane.blogtaxonomy::lang.list.columns.posts
@@ -18,7 +20,6 @@ columns:
     created_at:
         label: rainlab.blog::lang.post.created
         type: date
-        invisible: true
 
     updated_at:
         label: rainlab.blog::lang.post.updated

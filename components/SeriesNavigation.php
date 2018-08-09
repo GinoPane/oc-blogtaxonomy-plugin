@@ -3,18 +3,19 @@
 namespace GinoPane\BlogTaxonomy\Components;
 
 use Cms\Classes\Page;
-use Cms\Classes\ComponentBase;
+use RainLab\Blog\Models\Post;
 use GinoPane\BlogTaxonomy\Plugin;
 use GinoPane\BlogTaxonomy\Models\Series;
-use RainLab\Blog\Models\Post as BlogPost;
 
 /**
  * Class SeriesNavigation
  *
  * @package GinoPane\BlogTaxonomy\Components
  */
-class SeriesNavigation extends ComponentBase
+class SeriesNavigation extends ComponentAbstract
 {
+    const NAME = 'seriesNavigation';
+
     /**
      * @var Series
      */
@@ -63,31 +64,25 @@ class SeriesNavigation extends ComponentBase
     {
         return [
             'slug' => [
-                'title'       => 'rainlab.blog::lang.settings.post_slug',
-                'description' => 'rainlab.blog::lang.settings.post_slug_description',
+                'title'       =>  Plugin::LOCALIZATION_KEY . 'components.series_navigation.post_slug_title',
+                'description' =>  Plugin::LOCALIZATION_KEY . 'components.series_navigation.post_slug_description',
                 'default'     => '{{ :slug }}',
                 'type'        => 'string'
             ],
-            'smallNav' => [
-                'title'       => 'Small Navigation',
-                'description' => 'Display a small "Previous/Next Navigation" instead of a full post list',
-                'type'        => 'checkbox',
-                'default'     => 0
+            'seriesPage' => [
+                'title'       => Plugin::LOCALIZATION_KEY . 'components.series_navigation.series_page',
+                'description' => Plugin::LOCALIZATION_KEY . 'components.series_navigation.series_page_description',
+                'type'        => 'dropdown',
+                'default'     => 'blog/series',
+                'group'       => Plugin::LOCALIZATION_KEY . 'components.series_navigation.links_group',
             ],
             'postPage' => [
                 'title'       => 'rainlab.blog::lang.settings.posts_post',
                 'description' => 'rainlab.blog::lang.settings.posts_post_description',
                 'type'        => 'dropdown',
                 'default'     => 'blog/post',
-                'group'       => 'Links',
-            ],
-            'seriesPage' => [
-                'title'       => 'Series Page',
-                'description' => 'The page where the single series are displayed.',
-                'type'        => 'dropdown',
-                'default'     => 'blog/series',
-                'group'       => 'Links',
-            ],
+                'group'       => Plugin::LOCALIZATION_KEY . 'components.series_navigation.links_group',
+            ]
         ];
     }
 
@@ -114,28 +109,38 @@ class SeriesNavigation extends ComponentBase
     {
         $this->postPage   = $this->property('postPage');
         $this->seriesPage = $this->property('seriesPage');
-        $this->slug       = $this->page[ 'slug' ] = $this->property('slug');
-        $this->smallNav   = $this->page[ 'smallNav' ] = $this->property('smallNav');
-        $this->series     = $this->page[ 'series' ] = $this->listSeries();
+        $this->slug       = $this->page['slug'] = $this->property('slug');
+        $this->series     = $this->page['series'] = $this->listSeries();
     }
 
     /**
      * Get Series
+     *
      * @return mixed
      */
     protected function listSeries()
     {
-        $series = BlogPost::with('series.posts')->isPublished()->where('slug', $this->slug)->first();
+        $series = Series::whereHas(
+            'posts',
+            function($query) {
+                $query->where('slug', $this->slug);
+            }
+        )->with(
+            [
+                'posts' => function($query) {
+                    $query->isPublished();
+                }
+            ]
+        )->first();
 
-        // Add a "url" helper attribute for linking to each post and series
-        if ($series && !is_null($series->series)) {
-            $series = $series->series;
+        if (!is_null($series)) {
+            $seriesComponent = $this->getComponent(SeriesPosts::NAME, $this->seriesPage);
 
-            $series->setUrl($this->seriesPage, $this->controller);
+            $series->setUrl($this->seriesPage, $this->controller, [
+                'series' => $this->urlProperty($seriesComponent, 'series')
+            ]);
 
-            $series->posts->each(function ($post) {
-                $post->setUrl($this->postPage, $this->controller);
-            });
+            $this->setPostUrls($series->posts);
         }
 
         return $series;

@@ -30,12 +30,12 @@ class Plugin extends PluginBase
 
     const DIRECTORY_KEY = 'ginopane/blogtaxonomy';
 
-    const REQUIRED_PLUGIN = 'RainLab.Blog';
+    const REQUIRED_PLUGIN_RAINLAB_BLOG = 'RainLab.Blog';
 
     /**
      * @var array   Require the RainLab.Blog plugin
      */
-    public $require = [self::REQUIRED_PLUGIN];
+    public $require = [self::REQUIRED_PLUGIN_RAINLAB_BLOG];
 
     /**
      * Returns information about this plugin
@@ -61,12 +61,12 @@ class Plugin extends PluginBase
     public function registerComponents()
     {
         return [
-            TagList::class          => 'tagList',
-            TagPosts::class         => 'postsWithTag',
-            RelatedPosts::class     => 'relatedPosts',
-            SeriesList::class       => 'seriesList',
-            SeriesPosts::class      => 'postsInSeries',
-            SeriesNavigation::class => 'seriesNavigation',
+            TagList::class          => TagList::NAME,
+            TagPosts::class         => TagPosts::NAME,
+            RelatedPosts::class     => RelatedPosts::NAME,
+            SeriesList::class       => SeriesList::NAME,
+            SeriesPosts::class      => SeriesPosts::NAME,
+            SeriesNavigation::class => SeriesNavigation::NAME,
         ];
     }
 
@@ -92,12 +92,12 @@ class Plugin extends PluginBase
     {
         // Extend the navigation
         Event::listen('backend.menu.extendItems', function ($manager) {
-            $manager->addSideMenuItems(self::REQUIRED_PLUGIN, 'blog', [
+            $manager->addSideMenuItems(self::REQUIRED_PLUGIN_RAINLAB_BLOG, 'blog', [
                 'series' => [
                     'label' => self::LOCALIZATION_KEY . 'navigation.series',
                     'icon' => 'icon-list-alt',
                     'code' => 'series',
-                    'owner' => self::REQUIRED_PLUGIN,
+                    'owner' => self::REQUIRED_PLUGIN_RAINLAB_BLOG,
                     'url' => Backend::url(self::DIRECTORY_KEY . '/series')
                 ],
 
@@ -105,7 +105,7 @@ class Plugin extends PluginBase
                     'label' => self::LOCALIZATION_KEY . 'navigation.tags',
                     'icon'  => 'icon-tags',
                     'code'  => 'tags',
-                    'owner' => self::REQUIRED_PLUGIN,
+                    'owner' => self::REQUIRED_PLUGIN_RAINLAB_BLOG,
                     'url'   => Backend::url(self::DIRECTORY_KEY . '/tags')
                 ]
             ]);
@@ -147,9 +147,9 @@ class Plugin extends PluginBase
             $categoriesConfig['tab'] = $tab;
             $categoriesConfig['mode'] = 'relation';
             $categoriesConfig['type'] = 'taglist';
-            $categoriesConfig['label'] = 'Categories';
+            $categoriesConfig['label'] = 'rainlab.blog::lang.post.tab_categories';
             $categoriesConfig['comment'] = "rainlab.blog::lang.post.categories_comment";
-            $categoriesConfig['placeholder'] = self::LOCALIZATION_KEY . 'placeholders.tags';
+            $categoriesConfig['placeholder'] = self::LOCALIZATION_KEY . 'placeholders.categories';
             unset($categoriesConfig['commentAbove']);
 
             $form->removeField('categories');
@@ -178,20 +178,6 @@ class Plugin extends PluginBase
                     'emptyOption' => self::LOCALIZATION_KEY . 'placeholders.series'
                 ],
             ]);
-        });
-
-        PostsController::extend(function (Controller $controller) {
-            $controller->implement[] = RelationController::class;
-            $relationConfig = '$/' . self::DIRECTORY_KEY . '/controllers/series/config_posts_relation.yaml';
-
-            if (property_exists($controller, 'relationConfig')) {
-                $controller->relationConfig = $controller->mergeConfig(
-                    $controller->relationConfig,
-                    $relationConfig
-                );
-            } else {
-                $controller->addDynamicProperty('relationConfig', $relationConfig);
-            }
         });
     }
 

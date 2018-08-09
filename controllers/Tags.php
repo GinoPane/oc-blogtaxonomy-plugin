@@ -44,7 +44,7 @@ class Tags extends Controller
     {
         parent::__construct();
 
-        BackendMenu::setContext(Plugin::REQUIRED_PLUGIN, 'blog', 'tags');
+        BackendMenu::setContext(Plugin::REQUIRED_PLUGIN_RAINLAB_BLOG, 'blog', 'tags');
     }
 
     /**

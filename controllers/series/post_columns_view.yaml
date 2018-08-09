@@ -9,13 +9,6 @@ columns:
         sortable: false
         searchable: true
 
-    series:
-        label: Series
-        relation: series
-        select: title
-        searchable: true
-        sortable: false
-
     created_at:
         label: rainlab.blog::lang.post.created
         type: date

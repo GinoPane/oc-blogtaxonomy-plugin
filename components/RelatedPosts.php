@@ -4,18 +4,22 @@ namespace GinoPane\BlogTaxonomy\Components;
 
 use DB;
 use Cms\Classes\Page;
+use GinoPane\BlogTaxonomy\Models\Tag;
+use October\Rain\Database\Collection;
 use RainLab\Blog\Models\Post;
-use Cms\Classes\ComponentBase;
 use GinoPane\BlogTaxonomy\Plugin;
-use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Class RelatedPosts
  *
  * @package GinoPane\BlogTaxonomy\Components
  */
-class RelatedPosts extends ComponentBase
+class RelatedPosts extends ComponentAbstract
 {
+    const NAME = 'relatedPosts';
+
+    use TranslateArrayTrait;
+
     /**
      * @var Collection | array
      */
@@ -27,13 +31,6 @@ class RelatedPosts extends ComponentBase
      * @var string
      */
     public $postPage;
-
-    /**
-     * Message to display when there are no posts
-     *
-     * @var string
-     */
-    public $noPostsMessage;
 
     /**
      * If the post list should be ordered by another attribute
@@ -71,8 +68,8 @@ class RelatedPosts extends ComponentBase
     {
         return [
             'slug' => [
-                'title'             => 'rainlab.blog::lang.settings.post_slug',
-                'description'       => 'rainlab.blog::lang.settings.post_slug_description',
+                'title'             => Plugin::LOCALIZATION_KEY . 'components.related_posts.post_slug_title',
+                'description'       => Plugin::LOCALIZATION_KEY . 'components.related_posts.post_slug_description',
                 'default'           => '{{ :slug }}',
                 'type'              => 'string'
             ],
@@ -87,13 +84,6 @@ class RelatedPosts extends ComponentBase
                 'showExternalParam' => false
             ],
 
-            'noPostsMessage' => [
-                'title'        => 'rainlab.blog::lang.settings.posts_no_posts',
-                'description'  => 'rainlab.blog::lang.settings.posts_no_posts_description',
-                'type'         => 'string',
-                'showExternalParam' => false
-            ],
-
             'orderBy' => [
                 'title'       => 'rainlab.blog::lang.settings.posts_order',
                 'description' => 'rainlab.blog::lang.settings.posts_order_description',
@@ -103,11 +93,11 @@ class RelatedPosts extends ComponentBase
             ],
 
             'postPage' => [
-                'title'       => 'Post page',
-                'description' => 'Page to show linked posts',
+                'group'       => Plugin::LOCALIZATION_KEY . 'components.related_posts.links_group',
+                'title'       => 'rainlab.blog::lang.settings.posts_post',
+                'description' => 'rainlab.blog::lang.settings.posts_description',
                 'type'        => 'dropdown',
                 'default'     => 'blog/post',
-                'group'       => 'Links',
             ],
         ];
     }
@@ -119,18 +109,23 @@ class RelatedPosts extends ComponentBase
      */
     public function getOrderByOptions()
     {
-        return array_merge(
-            [
-                'relevance asc' => Plugin::LOCALIZATION_KEY . 'order_options.relevance_asc',
-                'relevance desc' => Plugin::LOCALIZATION_KEY . 'order_options.relevance_desc'
-            ],
-            PostListAbstract::$postAllowedSortingOptions
+        $order = $this->translate(
+            array_merge(
+                [
+                    'relevance asc' => Plugin::LOCALIZATION_KEY . 'order_options.relevance_asc',
+                    'relevance desc' => Plugin::LOCALIZATION_KEY . 'order_options.relevance_desc'
+                ],
+                PostListAbstract::$postAllowedSortingOptions
+            )
         );
+
+        asort($order);
+
+        return $order;
     }
 
-    protected function prepareVars()
+    private function prepareVars()
     {
-        $this->noPostsMessage = $this->page['noPostsMessage'] = $this->property('noPostsMessage');
         $this->orderBy = $this->page['orderBy'] = $this->property('orderBy');
 
         // Page links
@@ -150,53 +145,63 @@ class RelatedPosts extends ComponentBase
         //Prepare vars
         $this->prepareVars();
 
-        // Load the target post
+        $this->posts = $this->loadRelatedPosts();
+    }
+
+    /**
+     *
+     * @return mixed
+     */
+    private function loadRelatedPosts()
+    {
         $post = Post::where('slug', $this->property('slug'))
             ->with('tags')
             ->first();
 
-        // Abort if there is no source, or it has no tags
-        if (!$post || (!$tagIds = $post->tags->lists('id')))
-            return;
+        if (!$post || (!$tagIds = $post->tags->lists('id'))) {
+            return null;
+        }
 
-        // Start building our query for related posts
         $query = Post::isPublished()
             ->where('id', '<>', $post->id)
-            ->whereHas('tags', function($tag) use ($tagIds) {
+            ->whereHas('tags', function ($tag) use ($tagIds) {
                 $tag->whereIn('id', $tagIds);
             })
             ->with('tags');
 
-        // Sort the related posts
-        $subQuery = DB::raw('(
-            select count(*)
-            from `ginopane_blogtaxonomy_post_tag`
-            where `ginopane_blogtaxonomy_post_tag`.`post_id` = `rainlab_blog_posts`.`id`
-            and `ginopane_blogtaxonomy_post_tag`.`tag_id` in ('.implode(', ', $tagIds).')
-        )');
+        if (in_array($this->orderBy, array_keys($this->getOrderByOptions()))) {
+            if ($this->orderBy == 'random') {
+                $query->inRandomOrder();
+            } else {
+                list($sortField, $sortDirection) = explode(' ', $this->orderBy);
 
-        $key = $this->property('orderBy') ?: $subQuery;
-        $query->orderBy($key, $this->property('direction'));
+                if ($sortField == 'relevance') {
+                    $sortField = DB::raw(
+                        sprintf(
+                            '(
+                                select count(*)
+                                from `%1$s`
+                                where `%1$s`.`post_id` = `rainlab_blog_posts`.`id`
+                                and `%1$s`.`tag_id` in (%2$s)
+                            )',
+                            Tag::CROSS_REFERENCE_TABLE_NAME,
+                            DB::getPdo()->quote(implode(', ', $tagIds))
+                        )
+                    );
+                }
 
-        // Limit the number of results
-        if ($take = intval($this->property('results'))) {
+                $query->orderBy($sortField, $sortDirection);
+            }
+        }
+
+        if ($take = intval($this->property('limit'))) {
             $query->take($take);
         }
 
-        // Execute the query
         $posts = $query->get();
 
-        /*
-         * Add a "url" helper attribute for linking to each post
-        */
-        $posts->each(
-            function($post)
-            {
-                $post->setUrl($this->postPage,$this->controller);
-            }
-        );
+        $this->setPostUrls($posts);
 
-        $this->posts = $posts;
-
+        return $posts;
     }
 }
