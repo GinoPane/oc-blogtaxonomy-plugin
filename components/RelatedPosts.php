@@ -75,12 +75,12 @@ class RelatedPosts extends ComponentAbstract
             ],
 
             'limit' => [
-                'title'             => Plugin::LOCALIZATION_KEY . 'components.tag_list.limit_title',
-                'description'       => Plugin::LOCALIZATION_KEY . 'components.tag_list.limit_description',
+                'title'             => Plugin::LOCALIZATION_KEY . 'components.related_posts.limit_title',
+                'description'       => Plugin::LOCALIZATION_KEY . 'components.related_posts.limit_description',
                 'type'              => 'string',
                 'default'           => '0',
                 'validationPattern' => '^[0-9]+$',
-                'validationMessage' => Plugin::LOCALIZATION_KEY . 'components.tag_list.validation_message',
+                'validationMessage' => Plugin::LOCALIZATION_KEY . 'components.related_posts.limit_validation_message',
                 'showExternalParam' => false
             ],
 
@@ -149,6 +149,7 @@ class RelatedPosts extends ComponentAbstract
     }
 
     /**
+     * Load related posts by common tags
      *
      * @return mixed
      */
@@ -169,6 +170,25 @@ class RelatedPosts extends ComponentAbstract
             })
             ->with('tags');
 
+        $this->queryOrderBy($query, $tagIds);
+
+        if ($take = intval($this->property('limit'))) {
+            $query->take($take);
+        }
+
+        $posts = $query->get();
+
+        $this->setPostUrls($posts);
+
+        return $posts;
+    }
+
+    /**
+     * @param $query
+     * @param $tagIds
+     */
+    private function queryOrderBy($query, $tagIds)
+    {
         if (in_array($this->orderBy, array_keys($this->getOrderByOptions()))) {
             if ($this->orderBy == 'random') {
                 $query->inRandomOrder();
@@ -193,15 +213,5 @@ class RelatedPosts extends ComponentAbstract
                 $query->orderBy($sortField, $sortDirection);
             }
         }
-
-        if ($take = intval($this->property('limit'))) {
-            $query->take($take);
-        }
-
-        $posts = $query->get();
-
-        $this->setPostUrls($posts);
-
-        return $posts;
     }
 }

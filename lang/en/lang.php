@@ -4,7 +4,7 @@ return [
 
     // plugin
     'plugin' => [
-        'name' => 'Blog Taxonomy Extension',
+        'name' => 'Blog Taxonomy Plugin',
         'description' => 'Adds tags and series management to RainLab Blog posts, which are put along with categories in a brand new taxonomy tab',
     ],
 
@@ -25,7 +25,7 @@ return [
 
             'delete_confirm' => 'Do you really want to delete this tag?',
 
-            'comment' => 'Select tags the blog post belongs to',
+            'comment' => 'Select tags that belong to the post',
 
             'name_invalid' => 'Tag names may only contain alpha-numeric characters, spaces and hyphens',
             'name_required' => 'The tag field is required',
@@ -91,9 +91,9 @@ return [
             'description' => 'Displays a list of tags',
 
             'display_empty_title' => 'Display empty tags',
-            'display_empty_description' => 'Show tags which don\'t have any posts assigned',
+            'display_empty_description' => 'Show tags which were no assigned to any posts',
 
-            'order_title' => 'Order by',
+            'order_title' => 'Tag order',
             'order_description' => 'How tags should be ordered',
 
             'limit_title' => 'Limit',
@@ -121,7 +121,7 @@ return [
             'name' => 'Post Series Navigation',
             'description' => 'Provides navigation within the series for a single post',
 
-            'series_page_title' => 'Series Page',
+            'series_page_title' => 'Series page',
             'series_page_description' => 'The page where the single series content is displayed',
 
             'post_slug_title' => 'Post slug',
@@ -141,13 +141,13 @@ return [
             'series_slug_description' => 'The setting must be equal to slug parameter being used for Series Page (e.g. /blog/series/:series will give you :series)',
 
             'limit_title' => 'Limit',
-            'limit_description' => 'The number of series to display, 0 retrieves all series',
+            'limit_description' => 'Number of series to display, 0 retrieves all series',
 
-            'display_empty_title' => 'Display Empty Series',
+            'display_empty_title' => 'Display empty series',
             'display_empty_description' => 'Show series which don\'t have any posts assigned',
 
-            'order_title' => 'Order by',
-            'order_description' => 'How series should be ordered',
+            'order_title' => 'Series order',
+            'order_description' => 'How series list should be ordered',
 
             'no_series_message' => 'No series found',
 
@@ -160,6 +160,10 @@ return [
             'post_slug_title' => 'Post slug',
             'post_slug_description' => 'Get related posts for the post specified by slug value from URL parameter',
 
+            'limit_title' => 'Limit',
+            'limit_description' => 'Number of posts to display, 0 retrieves all related posts',
+            'limit_validation_message' => 'Limit of related posts must be a valid non-negative integer number',
+
             'no_posts_message' => 'No related posts found',
             'related_posts' => 'Related posts',
             'links_group' => 'Links'
@@ -170,7 +174,8 @@ return [
             'page_parameter_description' => 'Calculate pagination based on this URL parameter',
             'pagination_per_page_title' => 'Items per page',
             'pagination_per_page_description' => 'How many items (if any) should be displayed per page',
-            'links_group' => 'Links'
+            'links_group' => 'Links',
+            'pagination_validation_message' => 'Per page number must be a valid non-negative integer number'
         ]
     ],
 

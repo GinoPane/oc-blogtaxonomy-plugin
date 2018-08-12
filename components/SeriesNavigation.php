@@ -70,7 +70,7 @@ class SeriesNavigation extends ComponentAbstract
                 'type'        => 'string'
             ],
             'seriesPage' => [
-                'title'       => Plugin::LOCALIZATION_KEY . 'components.series_navigation.series_page',
+                'title'       => Plugin::LOCALIZATION_KEY . 'components.series_navigation.series_page_title',
                 'description' => Plugin::LOCALIZATION_KEY . 'components.series_navigation.series_page_description',
                 'type'        => 'dropdown',
                 'default'     => 'blog/series',

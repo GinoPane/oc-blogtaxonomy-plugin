@@ -2,12 +2,15 @@
 
 Taxonomy extension for [RainLab.Blog](https://github.com/rainlab/blog-plugin) plugin.
 
+[![Maintainability](https://api.codeclimate.com/v1/badges/60ecdc5d75bb0e490049/maintainability)](https://codeclimate.com/github/GinoPane/oc-blogtaxonomy-plugin/maintainability)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/GinoPane/oc-blogtaxonomy-plugin/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/GinoPane/oc-blogtaxonomy-plugin/?branch=master)
+
 ## Table of Contents
 * [Changes to Original Blog Plugin](#changes-to-original-blog-plugin)
 * [Implementing Frontend Pages](#implementing-frontend-pages)
     * [Post Series Navigation](#post-series-navigation)
-    * [Posts With the Tag](#posts-with-the-tag)
     * [Posts in the Series](#posts-in-the-series)
+    * [Posts With the Tag](#posts-with-the-tag)
     * [Related Posts](#related-posts)
     * [Series List](#series-list)
     * [Tag List](#tag-list)
@@ -19,7 +22,6 @@ to a single series and at the same time it can have multiple tags assigned.
 > [Categories](https://www.wpbeginner.com/beginners-guide/categories-vs-tags-seo-best-practices-which-one-is-better/) are meant for broad grouping of your posts. Think of these as general topics or the table of contents for your site.
 Categories are there to help identify what your blog is really about. It is to assist readers finding the right type of 
 content on your site. Categories are hierarchical, so you can define sub-categories.
-
 > Tags are meant to describe specific details of your posts. Think of these as your site’s index words. They are the
 micro-data that you can use to micro-categorize your content. Tags are not hierarchical.
 
@@ -28,7 +30,7 @@ And series could help you to organize your posts in a single flow of related pos
 ## Changes to Original Blog Plugin
 
 Original blog categories were enhanced with ability to add posts while being on the single category page.
-They were also placed along with tags and series in their own **Taxonomy** tab of a CMS blog page.
+They were also placed in a new tag-like style along with tags and series in their own **Taxonomy** tab of a backend CMS blog page.
 
 ## Implementing Frontend Pages
 
@@ -39,20 +41,97 @@ feel free to copy it from the default partial and replace the markup with your o
 Available components:
 
 * **Post Series Navigation** (`seriesNavigation`) - provides navigation within the series for a single post.
-* **Posts With the Tag** (`postsWithTag`) - lists all posts with the supplied tag.
 * **Posts in the Series** (`postsInSeries`) - lists all posts in the supplied series.
+* **Posts With the Tag** (`postsWithTag`) - lists all posts with the supplied tag.
 * **Related Posts** (`relatedPosts`) - provides a list of posts related by tags.
 * **Series List** (`seriesList`) - displays a list of series.
 * **Tag List** (`tagList`) - displays a list of tags.
 
 ### Post Series Navigation
 
-### Posts With the Tag
+Component `seriesNavigation` provides navigation within the series for a single post. You can display, for example, next and previous posts in the same series,
+show series details and link to its page, etc.
+
+Component properties:
+
+* **Post slug** - get series navigation for the post specified by slug value from URL parameter; e.g. if post slug is `:post`
+the page URL must contain `:post` parameter which value will be used as post slug to retrieve the series;
+* **Series page** - CMS page which contains [`postsInSeries`](#posts-in-the-series) component and is used to display a single series content and posts;
+* **Post page** - name of the blog post page to display a single blog post content.
 
 ### Posts in the Series
 
+Component `postsInSeries` lists all posts in the supplied series. The component supports pagination and posts ordering.
+
+Available properties:
+
+* **Series slug** - look up the series using the supplied slug value from this URL parameter; e.g. if series slug is `:series`
+the page URL must contain `:series` parameter which value will be used as series slug to retrieve the series;
+* **Post order** - attribute and direction on which posts should be ordered;
+* **Page parameter** - calculate pagination based on this URL parameter;
+* **Items per page** - how many items (if any) should be displayed per page, "0" displays all items;
+* **Post page** - name of the blog post page to display a single blog post content;
+* **Category page** - name of the category page to display a single blog category content.
+
+### Posts With the Tag
+
+Component `postsWithTag` lists all posts with the supplied tag. The component supports pagination and posts ordering.
+
+Available properties:
+
+* **Tag slug** - look up the tag using the supplied slug value from this URL parameter; e.g. if tag slug is `:tag`
+the page URL must contain `:tag` parameter which value will be used as tag slug to retrieve the tag;
+* **Post order** - attribute and direction on which posts should be ordered;
+* **Page parameter** - calculate pagination based on this URL parameter;
+* **Items per page** - how many items (if any) should be displayed per page, "0" displays all items;
+* **Post page** - name of the blog post page to display a single blog post content;
+* **Category page** - name of the category page to display a single blog category content.
+
 ### Related Posts
+
+Component `relatedPosts` provides a list of posts related by tags, e.g. posts which have some tags in common.
+
+Available properties:
+
+* **Post slug** - get related posts for the post specified by slug value from URL parameter; e.g. if post slug is `:post`
+the page URL must contain `:post` parameter which value will be used as post slug to retrieve the related posts;
+* **Limit** - number of posts to display, 0 retrieves all related posts;
+* **Post order** - attribute and direction on which posts should be ordered;
+* **Post page** - name of the blog post page to display a single blog post content.
 
 ### Series List
 
+Component `seriesList` displays a list of series.
+
+Available properties:
+
+* **Display empty series** - whether to show series which don't have any posts assigned or not;
+* **Limit** - number of series to display, 0 retrieves all series;
+* **Series order** - how series list should be ordered;
+* **Series page** - CMS page which contains [`postsInSeries`](#posts-in-the-series) component and is used to display a single series content and posts.
+
 ### Tag List
+
+Component `postTagList` displays a list of tags. Can be used to build a tag cloud (because post count with each tag is available).
+It also can be used to retrieve a list of tags for specific post.
+
+> Please don't forget to use different aliases for components if you use the same component several times on the same page
+(presumably for different purpose)
+
+Available properties:
+
+* **Display empty tags** - whether to show tags which were no assigned to any posts or not;
+* **Limit** - number of tags to display, 0 retrieves all tags;
+* **Tag order** - how tags should be ordered;
+* **Post slug** - get tags for the post specified by slug value from URL parameter; e.g. if post slug is `:post`
+the page URL must contain `:post` parameter which value will be used as post slug to retrieve the tags;
+
+> It is not required to set it to a real value unless you want to display tags specific for the post
+
+* **Tag page** - CMS page which contains [`postsWithTag`](#posts-with-the-tag) component and is used to display a single tag content and posts;
+
+## To Do
+
+* complete localization for backend partials;
+* add translate capabilities;
+* add threshold parameter for related posts.
