@@ -4,7 +4,7 @@ return [
 
     // plugin
     'plugin' => [
-        'name' => 'Blog Taxonomy Plugin',
+        'name' => 'Blog Taxonomy',
         'description' => 'Adds tags and series management to RainLab Blog posts, which are put along with categories in a brand new taxonomy tab',
     ],
 
