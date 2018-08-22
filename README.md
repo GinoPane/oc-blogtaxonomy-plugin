@@ -1,6 +1,6 @@
 # Blog Taxonomy
 
-Taxonomy extension for [RainLab.Blog](https://github.com/rainlab/blog-plugin) plugin.
+Taxonomy extension for [RainLab Blog](https://github.com/rainlab/blog-plugin) plugin.
 
 
 [![GitHub tag](https://img.shields.io/github/tag/ginopane/oc-blogtaxonomy-plugin.svg)](https://github.com/GinoPane/oc-blogtaxonomy-plugin)

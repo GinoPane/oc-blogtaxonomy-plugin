@@ -47,7 +47,7 @@ class Plugin extends PluginBase
         return [
             'name'        => self::LOCALIZATION_KEY . 'plugin.name',
             'description' => self::LOCALIZATION_KEY . 'plugin.description',
-            'author'      => 'Gino Pane',
+            'author'      => 'Siarhei <Gino Pane> Karavai',
             'icon'        => 'icon-tags',
             'homepage'    => 'https://github.com/ginopane/oc-blog-taxonomy'
         ];
