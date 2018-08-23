@@ -1,7 +1,7 @@
 {
   "name": "ginopane/blogtaxonomy",
   "type": "october-plugin",
-  "description": "A robust October CMS plugin which extends RainLab.Blog with useful taxonomies",
+  "description": "A robust October CMS plugin which extends RainLab Blog with useful taxonomies",
   "homepage": "https://github.com/GinoPane/oc-blogtaxonomy-plugin",
   "keywords": ["october", "cms", "blog", "taxonomy", "gino pane"],
   "authors": [
