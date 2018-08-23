@@ -16,9 +16,9 @@ Types of changes
 
 ## [Unreleased]
 
-## 1.0.0 - 2018-xx-xx
+## 1.0.0 - 2018-08-12
 
 ### Features
-* The initial release after clean installation from composer-package-template.
+* The initial release of Blog Taxonomy.
 
-[Unreleased]: https://github.com/GinoPane/composer-package-template/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v1.0.0...HEAD
