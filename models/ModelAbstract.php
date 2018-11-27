@@ -23,7 +23,7 @@ abstract class ModelAbstract extends Model
      *
      * @return void
      */
-    public function setUrl($pageName, Controller $controller, array $params = array()): void
+    public function setUrl($pageName, Controller $controller, array $params = array())
     {
         $params = $this->getModelUrlParams($params);
 

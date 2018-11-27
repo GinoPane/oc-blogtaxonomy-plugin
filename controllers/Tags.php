@@ -84,7 +84,7 @@ class Tags extends Controller
             return;
         }
 
-        if (!$delete = Tag::has('posts', 0)->delete()) {
+        if (!Tag::has('posts', 0)->delete()) {
             //@todo add localization for messages
             Flash::error('An unknown error has occurred.');
 

@@ -19,8 +19,8 @@ use October\Rain\Database\Traits\Validation;
  */
 class Series extends ModelAbstract
 {
-    use Validation;
     use Sluggable;
+    use Validation;
     use PostsRelationScopeTrait;
 
     const TABLE_NAME = 'ginopane_blogtaxonomy_series';

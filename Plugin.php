@@ -162,11 +162,6 @@ class Plugin extends PluginBase
                     'mode' => 'relation',
                     'tab' => $tab,
                     'type' => 'taglist',
-
-                    /**
-                     * Placeholders are not supported yet by the core.
-                     * PR is waiting: https://github.com/octobercms/october/pull/3453
-                     */
                     'placeholder' => self::LOCALIZATION_KEY . 'placeholders.tags',
                 ],
                 'series' => [

@@ -41,7 +41,7 @@ trait PostsRelationScopeTrait
      *
      * @return void
      */
-    private function queryDisplayEmpty(Builder $query, array $options): void
+    private function queryDisplayEmpty(Builder $query, array $options)
     {
         if (empty($options['displayEmpty'])) {
             $query->withCount(
@@ -60,7 +60,7 @@ trait PostsRelationScopeTrait
      *
      * @return void
      */
-    private function queryPostSlug(Builder $query, array $options): void
+    private function queryPostSlug(Builder $query, array $options)
     {
         if (!empty($options['post'])) {
             $query->whereHas(
@@ -78,7 +78,7 @@ trait PostsRelationScopeTrait
      *
      * @return void
      */
-    private function queryLimit(Builder $query, array $options): void
+    private function queryLimit(Builder $query, array $options)
     {
         if (!empty($options['limit'])) {
             $query->take($options['limit']);
@@ -91,7 +91,7 @@ trait PostsRelationScopeTrait
      *
      * @return void
      */
-    private function queryOrderBy(Builder $query, array $options): void
+    private function queryOrderBy(Builder $query, array $options)
     {
         if (in_array($options['sort'], array_keys(self::$sortingOptions))) {
             if ($options['sort'] == 'random') {
@@ -119,7 +119,7 @@ trait PostsRelationScopeTrait
      *
      * @return void
      */
-    private function withRelation(Builder $query): void
+    private function withRelation(Builder $query)
     {
         $query->with(
             [
