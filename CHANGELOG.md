@@ -16,9 +16,14 @@ Types of changes
 
 ## [Unreleased]
 
+## 1.1.0 - 2018-11-27
+
+### Changed
+* Degraded from PHP7.1 to PHP7.0 to support the minimal required version for October CMS.
+
 ## 1.0.0 - 2018-08-12
 
 ### Features
 * The initial release of Blog Taxonomy.
 
-[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v1.1.0...HEAD
