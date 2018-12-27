@@ -16,6 +16,11 @@ Types of changes
 
 ## [Unreleased]
 
+## 1.1.1 - 2018-12-18
+
+### Changed
+* Skip extending Post form fields for a nested form case.
+ 
 ## 1.1.0 - 2018-11-27
 
 ### Changed
@@ -26,4 +31,4 @@ Types of changes
 ### Features
 * The initial release of Blog Taxonomy.
 
-[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v1.1.1...HEAD

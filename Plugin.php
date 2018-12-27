@@ -140,12 +140,15 @@ class Plugin extends PluginBase
             if (!$model instanceof PostModel) {
                 return;
             }
+
             /*
-             *  When extending the form, you should check to see if $formWidget->isNested === false
-             *  as the Repeater FormWidget includes nested Form widgets which can cause your changes 
-             *  to be made in unexpected places.
+             * When extending the form, you should check to see if $formWidget->isNested === false
+             * as the Repeater FormWidget includes nested Form widgets which can cause your changes
+             * to be made in unexpected places.
+             *
+             * @link https://octobercms.com/docs/plugin/extending#extending-backend-form
              */
-            if ($form->isNested) {
+            if (!empty($form->isNested)) {
                 return;
             }
             
