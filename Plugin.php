@@ -140,7 +140,15 @@ class Plugin extends PluginBase
             if (!$model instanceof PostModel) {
                 return;
             }
-
+            /*
+             *  When extending the form, you should check to see if $formWidget->isNested === false
+             *  as the Repeater FormWidget includes nested Form widgets which can cause your changes 
+             *  to be made in unexpected places.
+             */
+            if ($form->isNested) {
+                return;
+            }
+            
             $tab = self::LOCALIZATION_KEY . 'navigation.taxonomy';
 
             $categoriesConfig = $form->getField('categories')->config;
