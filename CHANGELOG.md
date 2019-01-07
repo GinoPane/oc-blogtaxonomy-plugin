@@ -16,6 +16,11 @@ Types of changes
 
 ## [Unreleased]
 
+## 1.2.0 - 2019-01-07
+
+### Changed
+* Update tag name validation rules.
+
 ## 1.1.1 - 2018-12-18
 
 ### Changed
@@ -31,4 +36,4 @@ Types of changes
 ### Features
 * The initial release of Blog Taxonomy.
 
-[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v1.1.1...HEAD
+[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v1.2.0...HEAD

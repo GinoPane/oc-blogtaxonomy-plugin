@@ -1,3 +1,6 @@
+1.2.0:
+  - Update tag name validation rules
+
 1.1.1:
   - Skip extending Post form fields for a nested form case
 
