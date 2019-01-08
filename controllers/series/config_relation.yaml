@@ -5,7 +5,9 @@
 posts:
     label: Posts
     view:
+        showSearch: true
         list: post_columns_view.yaml
         toolbarButtons: add|remove
     manage:
+        showSearch: true
         list: post_columns_manage.yaml

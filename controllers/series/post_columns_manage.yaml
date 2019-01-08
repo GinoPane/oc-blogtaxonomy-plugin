@@ -7,6 +7,7 @@ columns:
     title:
         label: rainlab.blog::lang.post.title
         searchable: true
+        sortable: true
 
     series:
         label: Series
@@ -14,6 +15,10 @@ columns:
         select: title
         searchable: true
         sortable: true
+
+    published_at:
+        label: rainlab.blog::lang.post.published
+        type: date
 
     created_at:
         label: rainlab.blog::lang.post.created
@@ -24,7 +29,3 @@ columns:
         label: rainlab.blog::lang.post.updated
         type: date
         invisible: true
-
-    published_at:
-        label: rainlab.blog::lang.post.published
-        type: date
