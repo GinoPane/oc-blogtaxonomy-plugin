@@ -16,6 +16,14 @@ Types of changes
 
 ## [Unreleased]
 
+## 1.3.1 - 2019-01-23
+
+### Fixed
+* Added missing slug generation for tags
+
+### Added
+* Minor enhancements
+
 ## 1.3.0 - 2019-01-09
 
 ### Changed
