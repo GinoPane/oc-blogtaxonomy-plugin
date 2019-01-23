@@ -29,7 +29,7 @@ return [
 
             'name_invalid' => 'Tag names may only contain alpha-numeric characters, spaces and hyphens',
             'name_required' => 'The tag field is required',
-            'name_unique' => 'That tag name is already taken',
+            'name_unique' => 'This tag name is already taken',
             'name_too_short' => 'Tag name minimal length is :min'
         ],
         'series' => [
@@ -38,7 +38,7 @@ return [
 
             'title_invalid' => 'Series names may only contain alpha-numeric characters, spaces and hyphens',
             'title_required' => 'The series title field is required',
-            'title_unique' => 'That series title is already taken',
+            'title_unique' => 'This series title is already taken',
             'title_too_short' => 'Series title minimal length is :min'
         ]
     ],
@@ -65,6 +65,7 @@ return [
         'series' => 'Choose a series...',
         'categories' => 'Add categories...',
         'title' => 'Enter title...',
+        'name' => 'Enter name...',
         'slug' => 'Enter slug...',
         'no_posts_available' => 'No posts available'
     ],

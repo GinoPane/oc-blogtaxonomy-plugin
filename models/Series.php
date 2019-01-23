@@ -13,6 +13,7 @@ use October\Rain\Database\Traits\Validation;
 /**
  * Class Series
  *
+ * @property string title
  * @property string slug
  *
  * @package GinoPane\BlogTaxonomy\Models
