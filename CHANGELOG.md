@@ -16,6 +16,19 @@ Types of changes
 
 ## [Unreleased]
 
+## 1.3.1 - 2019-01-23
+
+### Fixed
+* Added missing slug generation for tags
+
+### Added
+* Minor enhancements
+
+## 1.3.0 - 2019-01-09
+
+### Changed
+* Use another style to list required plugins.
+
 ## 1.2.0 - 2019-01-07
 
 ### Changed
@@ -36,4 +49,4 @@ Types of changes
 ### Features
 * The initial release of Blog Taxonomy.
 
-[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v1.3.0...HEAD

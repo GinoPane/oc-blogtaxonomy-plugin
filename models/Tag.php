@@ -2,16 +2,16 @@
 
 namespace GinoPane\BlogTaxonomy\Models;
 
-use Model;
-use Cms\Classes\Controller;
-use October\Rain\Database\Traits\Sluggable;
-use October\Rain\Database\Traits\Validation;
+use Str;
 use RainLab\Blog\Models\Post;
 use GinoPane\BlogTaxonomy\Plugin;
+use October\Rain\Database\Traits\Sluggable;
+use October\Rain\Database\Traits\Validation;
 
 /**
  * Class Tag
  *
+ * @property string name
  * @property string slug
  *
  * @package GinoPane\BlogTaxonomy\Models
@@ -68,6 +68,17 @@ class Tag extends ModelAbstract
         'name' => "required|unique:" . self::TABLE_NAME . "|min:2|regex:/^[a-z0-9\-\. ]+$/i",
         'slug' => "required|unique:" . self::TABLE_NAME . "|min:2|regex:/^[a-z0-9\-]+$/i"
     ];
+
+    /**
+     * The tag might be created via tag list and therefore it won't have a slug
+     */
+    public function beforeValidate()
+    {
+        // Generate a URL slug for this model
+        if (!$this->exists && !$this->slug) {
+            $this->slug = Str::slug($this->name);
+        }
+    }
 
     /**
      * Validation messages

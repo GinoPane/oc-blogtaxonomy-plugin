@@ -35,7 +35,9 @@ class Plugin extends PluginBase
     /**
      * @var array   Require the RainLab.Blog plugin
      */
-    public $require = [self::REQUIRED_PLUGIN_RAINLAB_BLOG];
+    public $require = [
+        'RainLab.Blog'
+    ];
 
     /**
      * Returns information about this plugin
@@ -181,6 +183,9 @@ class Plugin extends PluginBase
                     'type' => 'relation',
                     'nameFrom' => 'title',
                     'comment' => self::LOCALIZATION_KEY . 'form.series.comment',
+                    // October CMS has a bug with displaying of placeholders without an explicit empty option
+                    // https://github.com/octobercms/october/pull/4060
+                    'placeholder' => self::LOCALIZATION_KEY . 'placeholders.series',
                     'emptyOption' => self::LOCALIZATION_KEY . 'placeholders.series'
                 ],
             ]);

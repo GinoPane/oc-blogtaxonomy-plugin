@@ -5,10 +5,12 @@
 fields:
     name:
         label: ginopane.blogtaxonomy::lang.form.fields.tag
+        placeholder: ginopane.blogtaxonomy::lang.placeholders.name
         required: true
 
     slug:
         label: ginopane.blogtaxonomy::lang.form.fields.slug
+        placeholder: ginopane.blogtaxonomy::lang.placeholders.slug
         required: true
         preset:
             field: name
