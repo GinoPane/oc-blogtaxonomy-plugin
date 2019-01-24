@@ -2,28 +2,42 @@
 #  Form Field Definitions
 # ===================================
 
-fields:
-    title:
-        label: ginopane.blogtaxonomy::lang.form.fields.title
-        placeholder: ginopane.blogtaxonomy::lang.placeholders.title
-        span: left
-        required: true
+tabs:
+    fields:
+        title:
+            label: ginopane.blogtaxonomy::lang.form.fields.title
+            placeholder: ginopane.blogtaxonomy::lang.placeholders.title
+            span: left
+            required: true
+            tab: Settings
 
-    slug:
-        label: ginopane.blogtaxonomy::lang.form.fields.slug
-        span: right
-        placeholder: ginopane.blogtaxonomy::lang.placeholders.slug
-        required: true
-        preset:
-            field: title
-            type: slug
+        slug:
+            label: ginopane.blogtaxonomy::lang.form.fields.slug
+            span: right
+            placeholder: ginopane.blogtaxonomy::lang.placeholders.slug
+            required: true
+            preset:
+                field: title
+                type: slug
+            tab: Settings
 
-    description:
-        label: ginopane.blogtaxonomy::lang.form.fields.description
-        type: richeditor
-        size: large
+        featured_images:
+            label: ginopane.blogtaxonomy::lang.form.fields.images
+            span: auto
+            type: fileupload
+            mode: image
+            imageHeight: 150
+            imageWidth: 150
+            tab: Settings
 
-    posts:
-        label: ginopane.blogtaxonomy::lang.form.fields.posts
-        type: partial
-        path: field_posts
+        description:
+            label: ginopane.blogtaxonomy::lang.form.fields.description
+            type: richeditor
+            size: large
+            tab: Settings
+
+        posts:
+            label: ginopane.blogtaxonomy::lang.form.fields.posts
+            type: partial
+            path: field_posts
+            tab: Posts

@@ -13,6 +13,7 @@ return [
         'fields' => [
             'tag' => 'Tag',
             'title' => 'Title',
+            'images' => 'Images',
             'slug' => 'Slug',
             'description' => 'Description',
             'posts' => 'Posts'
@@ -28,9 +29,14 @@ return [
             'comment' => 'Select tags that belong to the post',
 
             'name_invalid' => 'Tag names may only contain alpha-numeric characters, spaces and hyphens',
-            'name_required' => 'The tag field is required',
+            'name_required' => 'The tag name field is required',
             'name_unique' => 'This tag name is already taken',
-            'name_too_short' => 'Tag name minimal length is :min'
+            'name_too_short' => 'Tag name minimal length is :min',
+
+            'slug_invalid' => 'Tag slugs may only contain alpha-numeric characters, spaces and hyphens',
+            'slug_required' => 'The tag slug field is required',
+            'slug_unique' => 'This tag slug is already taken',
+            'slug_too_short' => 'Tag slug minimal length is :min'
         ],
         'series' => [
             'label' => 'Series',
@@ -39,7 +45,12 @@ return [
             'title_invalid' => 'Series names may only contain alpha-numeric characters, spaces and hyphens',
             'title_required' => 'The series title field is required',
             'title_unique' => 'This series title is already taken',
-            'title_too_short' => 'Series title minimal length is :min'
+            'title_too_short' => 'Series title minimal length is :min',
+
+            'slug_invalid' => 'Series slugs may only contain alpha-numeric characters, spaces and hyphens',
+            'slug_required' => 'The series slug field is required',
+            'slug_unique' => 'This series slug is already taken',
+            'slug_too_short' => 'Series slug minimal length is :min'
         ]
     ],
 

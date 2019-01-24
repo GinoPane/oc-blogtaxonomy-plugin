@@ -1,6 +1,5 @@
 1.3.1:
-  - Added missing slug generation for tags
-  - Minor enhancements
+  - Added missing slug generation for tags; Minor enhancements
 
 1.3.0:
   - Use another style to list required plugins

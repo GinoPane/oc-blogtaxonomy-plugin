@@ -9,6 +9,7 @@ use GinoPane\BlogTaxonomy\Plugin;
 use Illuminate\Support\Facades\DB;
 use October\Rain\Database\Traits\Sluggable;
 use October\Rain\Database\Traits\Validation;
+use System\Models\File;
 
 /**
  * Class Series
@@ -46,6 +47,17 @@ class Series extends ModelAbstract
     ];
 
     /**
+     * Relations
+     *
+     * @var array
+     */
+    public $attachMany = [
+        'featured_images' => [
+            File::class
+        ]
+    ];
+
+    /**
      * Validation rules
      *
      * @var array
@@ -65,6 +77,11 @@ class Series extends ModelAbstract
         'title.unique'   => Plugin::LOCALIZATION_KEY . 'form.series.title_unique',
         'title.regex'    => Plugin::LOCALIZATION_KEY . 'form.series.title_invalid',
         'title.min'      => Plugin::LOCALIZATION_KEY . 'form.series.title_too_short',
+
+        'slug.required' => Plugin::LOCALIZATION_KEY . 'form.series.slug_required',
+        'slug.unique'   => Plugin::LOCALIZATION_KEY . 'form.series.slug_unique',
+        'slug.regex'    => Plugin::LOCALIZATION_KEY . 'form.series.slug_invalid',
+        'slug.min'      => Plugin::LOCALIZATION_KEY . 'form.series.slug_too_short',
     ];
 
     /**

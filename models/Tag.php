@@ -90,6 +90,11 @@ class Tag extends ModelAbstract
         'name.unique'   => Plugin::LOCALIZATION_KEY . 'form.tags.name_unique',
         'name.regex'    => Plugin::LOCALIZATION_KEY . 'form.tags.name_invalid',
         'name.min'      => Plugin::LOCALIZATION_KEY . 'form.tags.name_too_short',
+
+        'slug.required' => Plugin::LOCALIZATION_KEY . 'form.tags.slug_required',
+        'slug.unique'   => Plugin::LOCALIZATION_KEY . 'form.tags.slug_unique',
+        'slug.regex'    => Plugin::LOCALIZATION_KEY . 'form.tags.slug_invalid',
+        'slug.min'      => Plugin::LOCALIZATION_KEY . 'form.tags.slug_too_short',
     ];
 
     /**
