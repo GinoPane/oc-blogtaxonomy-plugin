@@ -16,6 +16,15 @@ Types of changes
 
 ## [Unreleased]
 
+## 1.4.0 - 2019-01-25
+
+### Added
+* Featured images for series
+
+### Changed
+* Series edit page enhanced
+* Several tweaks for tags and series lists
+
 ## 1.3.1 - 2019-01-23
 
 ### Fixed
