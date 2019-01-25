@@ -18,6 +18,11 @@ return [
             'description' => 'Description',
             'posts' => 'Posts'
         ],
+        'tabs' => [
+            'general' => 'General',
+            'posts' => 'Posts'
+        ],
+
         'tags' => [
             'label' => 'Tags',
 

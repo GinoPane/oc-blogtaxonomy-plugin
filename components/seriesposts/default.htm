@@ -1,5 +1,16 @@
 <h1>{{ "ginopane.blogtaxonomy::lang.components.series_posts.posts_in_series" | trans }} "{{ __SELF__.series.title }}"</h1>
 
+{% if __SELF__.series.featured_images.count %}
+    {% for image in __SELF__.series.featured_images  %}
+        <img
+            title="{{ image.title }}"
+            src="{{ image.path }}"
+            alt="{{ image.description }}"
+            style="width:200px; height:auto;"
+        />
+    {% endfor %}
+{% endif %}
+
 {% if __SELF__.posts %}
     <ul id="{{ __SELF__.alias }}-list">
         {% partial '@list' %}

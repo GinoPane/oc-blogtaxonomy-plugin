@@ -37,7 +37,7 @@ They were also placed in a new tag-like style along with tags and series in thei
 ## Implementing Frontend Pages
 
 The Blog Taxonomy plugin provides several useful components with basic markup for frontend usage. The default markup
-is not intended to fit to any existing frontend theme, so if the default markup is not suitable for your website,
+is **not intended to fit to any existing frontend** theme, it is just an example, so if the default markup is not suitable for your website,
 feel free to copy it from the default partial and replace the markup with your own.
 
 Available components:
@@ -131,9 +131,3 @@ the page URL must contain `:post` parameter which value will be used as post slu
 > It is not required to set it to a real value unless you want to display tags specific for the post
 
 * **Tag page** - CMS page which contains [`postsWithTag`](#posts-with-the-tag) component and is used to display a single tag content and posts;
-
-## To Do
-
-* complete localization for backend partials;
-* add translate capabilities;
-* add threshold parameter for related posts.
