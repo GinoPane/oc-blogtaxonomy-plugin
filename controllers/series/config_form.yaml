@@ -3,7 +3,7 @@
 # ===================================
 
 # Record name
-name: Series
+name: ginopane.blogtaxonomy::lang.form.series.label
 
 # Model Form Field configuration
 form: $/ginopane/blogtaxonomy/models/series/fields.yaml
@@ -16,12 +16,12 @@ defaultRedirect: ginopane/blogtaxonomy/series
 
 # Create page
 create:
-    title: Create Series
+    title: ginopane.blogtaxonomy::lang.form.series.create_title
     redirect: ginopane/blogtaxonomy/series/update/:id
     redirectClose: ginopane/blogtaxonomy/series
 
 # Update page
 update:
-    title: Edit Series
+    title: ginopane.blogtaxonomy::lang.form.series.edit_title
     redirect: ginopane/blogtaxonomy/series
     redirectClose: ginopane/blogtaxonomy/series

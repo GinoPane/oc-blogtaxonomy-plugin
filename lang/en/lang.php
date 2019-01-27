@@ -10,6 +10,9 @@ return [
 
     // form
     'form' => [
+        'errors' => [
+            'unknown' => 'An unknown error has occurred'
+        ],
         'fields' => [
             'tag' => 'Tag',
             'title' => 'Title',
@@ -28,8 +31,16 @@ return [
 
             'create_form_title' => 'Create a New Tag',
             'edit_form_title' => 'Edit the Tag',
+            'new_tag_label' => 'New Tag',
 
             'delete_confirm' => 'Do you really want to delete this tag?',
+            'remove_orphaned_load_indicator' => 'Removing orphaned tags...',
+            'remove_orphaned_label' => 'Remove Orphaned Tags',
+            'remove_orphaned_confirm' => 'Are you sure you want to remove orphaned tags?',
+            'no_orphaned_tags' => 'There are no orphaned tags',
+            'remove_orphaned_tags_success' => 'Successfully removed orphaned tags',
+            'delete_bulk_confirm' => 'Are you sure you want to delete selected tags?',
+            'delete_tags_success' => 'Successfully deleted tags',
 
             'comment' => 'Select tags that belong to the post',
 
@@ -45,6 +56,8 @@ return [
         ],
         'series' => [
             'label' => 'Series',
+            'create_title' => 'Create Series',
+            'edit_title' => 'Edit Series',
             'comment' => 'Choose a series the blog post belongs to',
 
             'title_invalid' => 'Series names may only contain alpha-numeric characters, spaces and hyphens',
@@ -55,7 +68,23 @@ return [
             'slug_invalid' => 'Series slugs may only contain alpha-numeric characters, spaces and hyphens',
             'slug_required' => 'The series slug field is required',
             'slug_unique' => 'This series slug is already taken',
-            'slug_too_short' => 'Series slug minimal length is :min'
+            'slug_too_short' => 'Series slug minimal length is :min',
+
+            'create_load_indicator' => 'Creating series...',
+            'update_load_indicator' => 'Updating series...',
+            'delete_load_indicator' => 'Deleting series...',
+            'delete_confirm' => 'Do you really want to delete this series?',
+            'new_series_button_label' => 'New Series',
+            'create_button_label' => 'Create',
+            'save_button_label' => 'Save',
+            'create_and_close_button_label' => 'Create and Close',
+            'save_and_close_button_label' => 'Save and Close',
+            'cancel_button_label' => 'Cancel',
+            'or' => 'or',
+            'return_to_list' => 'Return to series list'
+        ],
+        'posts' => [
+            'label' => 'Posts'
         ]
     ],
 

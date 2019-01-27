@@ -1,8 +1,11 @@
 1.4.0:
-  - Added featured images for series; series edit page enhanced; several minor tweaks for tags and series lists
+  - Added featured images for series
+  - Series edit page enhanced
+  - Several minor tweaks for tags and series lists
 
 1.3.1:
-  - Added missing slug generation for tags; minor enhancements
+  - Added missing slug generation for tags
+  - Minor enhancements
 
 1.3.0:
   - Use another style to list required plugins

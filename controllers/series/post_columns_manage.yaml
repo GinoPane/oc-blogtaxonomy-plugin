@@ -10,7 +10,7 @@ columns:
         sortable: true
 
     series:
-        label: Series
+        label: ginopane.blogtaxonomy::lang.form.series.label
         relation: series
         select: title
         searchable: true

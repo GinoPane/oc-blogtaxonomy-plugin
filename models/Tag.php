@@ -31,6 +31,16 @@ class Tag extends ModelAbstract
      */
     public $table = self::TABLE_NAME;
 
+    public $implement = ['RainLab.Translate.Behaviors.TranslatableModel'];
+
+    public $translatable = [
+        'name',
+        [
+            'slug',
+            'index' => true
+        ]
+    ];
+
     /**
      * @var array
      */

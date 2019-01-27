@@ -5,15 +5,15 @@
         data-control="popup"
         data-handler="onCreateForm"
         class="btn btn-primary oc-icon-plus">
-        New Tag
+        <?= e(trans('ginopane.blogtaxonomy::lang.form.tags.new_tag_label')) ?>
     </button>
 
     <button
         class="btn btn-default oc-icon-eraser"
         data-request="onRemoveOrphanedTags"
-        data-request-confirm="<?= e(trans('rainlab.blog::lang.blog.delete_confirm')) ?>"
-        data-stripe-load-indicator>
-        Remove Orphaned Tags
+        data-request-confirm="<?= e(trans('ginopane.blogtaxonomy::lang.form.tags.remove_orphaned_confirm')) ?>"
+        data-stripe-load-indicator="<?= e(trans('ginopane.blogtaxonomy::lang.form.tags.remove_orphaned_load_indicator')) ?>">
+        <?= e(trans('ginopane.blogtaxonomy::lang.form.tags.remove_orphaned_label')) ?>
     </button>
 
     <button
@@ -23,7 +23,7 @@
             checked: $('.control-list').listWidget('getChecked')
         })"
         data-request="onBulkDelete"
-        data-request-confirm="<?= e(trans('rainlab.blog::lang.blog.delete_confirm')) ?>"
+        data-request-confirm="<?= e(trans('ginopane.blogtaxonomy::lang.form.tags.delete_bulk_confirm')) ?>"
         data-trigger-action="enable"
         data-trigger=".control-list input[type=checkbox]"
         data-trigger-condition="checked"

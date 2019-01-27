@@ -56,7 +56,13 @@ class TagPosts extends PostListAbstract
     protected function prepareContextItem()
     {
         // load tag
-        $this->tag = Tag::where('slug', $this->property('tag'))->first();
+        $tag = new Tag();
+
+        $tag = $tag->isClassExtendedWith('RainLab.Translate.Behaviors.TranslatableModel')
+            ? $tag->transWhere('slug', $this->property('tag'))
+            : $tag->where('slug', $this->property('tag'));
+
+        $this->tag = $tag->first();
 
         return $this->tag;
     }
