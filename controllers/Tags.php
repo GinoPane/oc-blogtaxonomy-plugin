@@ -54,18 +54,17 @@ class Tags extends Controller
      */
     public function onBulkDelete()
     {
-        if (($checkedIds = (array)post('checked', []))) {
+        if ($checkedIds = (array)post('checked', [])) {
             $delete = Tag::whereIn('id', $checkedIds)->delete();
         }
 
         if (empty($delete)) {
-            //@todo add localization for messages
-            Flash::error('An unknown error has occurred.');
+            Flash::error(e(trans(Plugin::LOCALIZATION_KEY . 'form.errors.unknown')));
 
             return;
         }
 
-        Flash::success('Successfully deleted tags.');
+        Flash::success(e(trans(Plugin::LOCALIZATION_KEY . 'form.tags.delete_tags_success')));
 
         return $this->listRefresh();
     }
@@ -78,20 +77,18 @@ class Tags extends Controller
     public function index_onRemoveOrphanedTags()
     {
         if (!Tag::has('posts', 0)->count()) {
-            //@todo add localization for messages
-            Flash::warning('There are no orphaned tags.');
+            Flash::warning(e(trans(Plugin::LOCALIZATION_KEY . 'form.tags.no_orphaned_tags')));
 
             return;
         }
 
         if (!Tag::has('posts', 0)->delete()) {
-            //@todo add localization for messages
-            Flash::error('An unknown error has occurred.');
+            Flash::error(e(trans(Plugin::LOCALIZATION_KEY . 'form.errors.unknown')));
 
             return;
         }
 
-        Flash::success('Successfully deleted orphaned tags.');
+        Flash::success(e(trans(Plugin::LOCALIZATION_KEY . 'form.tags.remove_orphaned_tags_success')));
 
         return $this->listRefresh();
     }

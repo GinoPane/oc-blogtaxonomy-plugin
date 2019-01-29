@@ -1,6 +1,6 @@
 <?php Block::put('breadcrumb') ?>
     <ul>
-        <li><a href="<?= Backend::url(GinoPane\BlogTaxonomy\Plugin::DIRECTORY_KEY . '/series') ?>">Series</a></li>
+        <li><a href="<?= Backend::url(GinoPane\BlogTaxonomy\Plugin::DIRECTORY_KEY . '/series') ?>"><?= e(trans('ginopane.blogtaxonomy::lang.form.series.label')) ?></a></li>
         <li><?= e($this->pageTitle) ?></li>
     </ul>
 <?php Block::endPut() ?>
@@ -20,28 +20,28 @@
                     data-request="onSave"
                     data-request-data="redirect:0"
                     data-hotkey="ctrl+s, cmd+s"
-                    data-load-indicator="Saving Series..."
+                    data-load-indicator="<?= e(trans('ginopane.blogtaxonomy::lang.form.series.update_load_indicator')) ?>"
                     class="btn btn-primary">
-                    <u>S</u>ave
+                    <?= e(trans('ginopane.blogtaxonomy::lang.form.series.save_button_label')) ?>
                 </button>
                 <button
                     type="button"
                     data-request="onSave"
                     data-request-data="close:1"
                     data-hotkey="ctrl+enter, cmd+enter"
-                    data-load-indicator="Saving Series..."
+                    data-load-indicator="<?= e(trans('ginopane.blogtaxonomy::lang.form.series.update_load_indicator')) ?>"
                     class="btn btn-default">
-                    Save and Close
+                    <?= e(trans('ginopane.blogtaxonomy::lang.form.series.save_and_close_button_label')) ?>
                 </button>
                 <button
                     type="button"
                     class="oc-icon-trash-o btn-icon danger pull-right"
                     data-request="onDelete"
-                    data-load-indicator="Deleting Series..."
-                    data-request-confirm="Do you really want to delete this series?">
+                    data-load-indicator="<?= e(trans('ginopane.blogtaxonomy::lang.form.series.delete_load_indicator')) ?>"
+                    data-request-confirm="<?= e(trans('ginopane.blogtaxonomy::lang.form.series.delete_confirm')) ?>">
                 </button>
                 <span class="btn-text">
-                    or <a href="<?= Backend::url(GinoPane\BlogTaxonomy\Plugin::DIRECTORY_KEY . '/series') ?>">Cancel</a>
+                    <?= e(trans('ginopane.blogtaxonomy::lang.form.series.or')) ?> <a href="<?= Backend::url(GinoPane\BlogTaxonomy\Plugin::DIRECTORY_KEY . '/series') ?>"><?= e(trans('ginopane.blogtaxonomy::lang.form.series.cancel_button_label')) ?></a>
                 </span>
             </div>
         </div>
@@ -51,6 +51,6 @@
 <?php else: ?>
 
     <p class="flash-message static error"><?= e($this->fatalError) ?></p>
-    <p><a href="<?= Backend::url(GinoPane\BlogTaxonomy\Plugin::DIRECTORY_KEY . '/series') ?>" class="btn btn-default">Return to series list</a></p>
+    <p><a href="<?= Backend::url(GinoPane\BlogTaxonomy\Plugin::DIRECTORY_KEY . '/series') ?>" class="btn btn-default"><?= e(trans('ginopane.blogtaxonomy::lang.form.series.return_to_list')) ?></a></p>
 
 <?php endif ?>

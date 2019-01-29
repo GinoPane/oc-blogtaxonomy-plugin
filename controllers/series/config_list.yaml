@@ -9,13 +9,13 @@ list: $/ginopane/blogtaxonomy/models/series/columns.yaml
 modelClass: GinoPane\BlogTaxonomy\Models\Series
 
 # List Title
-title: Manage Series
+title: ginopane.blogtaxonomy::lang.form.series.list_title
 
 # Link URL for each record
 recordUrl: ginopane/blogtaxonomy/series/update/:id
 
 # Message to display if the list is empty
-noRecordsMessage: backend::lang.list.no_records
+noRecordsMessage: ginopane.blogtaxonomy::lang.form.series.no_series_message
 
 # Records to display per page
 recordsPerPage: 20

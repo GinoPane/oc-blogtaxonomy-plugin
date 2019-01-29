@@ -20,7 +20,6 @@ class Tag extends ModelAbstract
 {
     use Sluggable;
     use Validation;
-    use PostsRelationScopeTrait;
 
     const TABLE_NAME = 'ginopane_blogtaxonomy_tags';
 
@@ -30,6 +29,28 @@ class Tag extends ModelAbstract
      * @var string The database table used by the model
      */
     public $table = self::TABLE_NAME;
+
+    /**
+     * Specifying of implemented behaviours as strings is convenient when
+     * the target behaviour could be missing due to disabled or not installed
+     * plugin. You won't get an error, the plugin would simply work without model
+     *
+     * @var array
+     */
+    public $implement = ['RainLab.Translate.Behaviors.TranslatableModel'];
+
+    /**
+     * Translatable properties, indexed property will be available in queries
+     *
+     * @var array
+     */
+    public $translatable = [
+        'name',
+        [
+            'slug',
+            'index' => true
+        ]
+    ];
 
     /**
      * @var array
@@ -112,6 +133,11 @@ class Tag extends ModelAbstract
         'random' => Plugin::LOCALIZATION_KEY . 'order_options.random'
     ];
 
+    /**
+     * @param array $params
+     *
+     * @return array
+     */
     protected function getModelUrlParams(array $params): array
     {
         return [

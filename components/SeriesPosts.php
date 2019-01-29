@@ -54,7 +54,7 @@ class SeriesPosts extends PostListAbstract
     protected function prepareContextItem()
     {
         // load series
-        $this->series = Series::where('slug', $this->property('series'))->first();
+        $this->series = Series::whereTranslatable('slug', $this->property('series'))->first();
 
         return $this->series;
     }
@@ -65,7 +65,7 @@ class SeriesPosts extends PostListAbstract
     protected function getPostsQuery()
     {
         $query = Post::whereHas('series', function ($query) {
-            $query->where('slug', $this->series->slug);
+            $query->whereTranslatable('slug', $this->series->slug);
         })->isPublished();
 
         return $query;

@@ -127,7 +127,7 @@ abstract class PostListAbstract extends ComponentAbstract
      */
     public function onRun()
     {
-        if (is_null($this->prepareContextItem())) {
+        if ($this->prepareContextItem() === null) {
             return Redirect::to($this->controller->pageUrl(Response::HTTP_NOT_FOUND));
         }
 
@@ -146,8 +146,9 @@ abstract class PostListAbstract extends ComponentAbstract
      */
     protected function prepareVars()
     {
-        $this->currentPage = intval($this->property('page', 1)) ?: intval(post('page'));
-        $this->resultsPerPage = intval($this->property('resultsPerPage'))
+        // Paginator settings
+        $this->currentPage = (int)$this->property('page', 1) ?: (int)post('page');
+        $this->resultsPerPage = (int)$this->property('resultsPerPage')
             ?: $this->defineProperties()['resultsPerPage']['default'];
 
         $this->orderBy = $this->page['orderBy'] = $this->property('orderBy');
@@ -164,8 +165,8 @@ abstract class PostListAbstract extends ComponentAbstract
     {
         $query = $this->getPostsQuery();
 
-        if (in_array($this->orderBy, array_keys(self::$postAllowedSortingOptions))) {
-            if ($this->orderBy == 'random') {
+        if (array_key_exists($this->orderBy, self::$postAllowedSortingOptions)) {
+            if ($this->orderBy === 'random') {
                 $query->inRandomOrder();
             } else {
                 list($sortField, $sortDirection) = explode(' ', $this->orderBy);

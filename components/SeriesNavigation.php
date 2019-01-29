@@ -6,6 +6,7 @@ use Cms\Classes\Page;
 use RainLab\Blog\Models\Post;
 use GinoPane\BlogTaxonomy\Plugin;
 use GinoPane\BlogTaxonomy\Models\Series;
+use GinoPane\BlogTaxonomy\Models\ModelAbstract;
 
 /**
  * Class SeriesNavigation
@@ -22,7 +23,8 @@ class SeriesNavigation extends ComponentAbstract
     public $series;
 
     /**
-     * Series slug
+     * Post slug
+     *
      * @var string
      */
     public $slug;
@@ -123,7 +125,7 @@ class SeriesNavigation extends ComponentAbstract
         $series = Series::whereHas(
             'posts',
             function($query) {
-                $query->where('slug', $this->slug);
+                ModelAbstract::whereTranslatableProperty($query, 'slug', $this->property('slug'));
             }
         )->with(
             [
@@ -133,7 +135,7 @@ class SeriesNavigation extends ComponentAbstract
             ]
         )->first();
 
-        if (!is_null($series)) {
+        if ($series !== null) {
             $seriesComponent = $this->getComponent(SeriesPosts::NAME, $this->seriesPage);
 
             $series->setUrl($this->seriesPage, $this->controller, [

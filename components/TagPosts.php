@@ -56,7 +56,7 @@ class TagPosts extends PostListAbstract
     protected function prepareContextItem()
     {
         // load tag
-        $this->tag = Tag::where('slug', $this->property('tag'))->first();
+        $this->tag = Tag::whereTranslatable('slug', $this->property('tag'))->first();
 
         return $this->tag;
     }
@@ -67,7 +67,7 @@ class TagPosts extends PostListAbstract
     protected function getPostsQuery()
     {
         $query = Post::whereHas('tags', function ($query) {
-            $query->where('slug', $this->tag->slug);
+            $query->whereTranslatable('slug', $this->tag->slug);
         })->isPublished();
 
         return $query;

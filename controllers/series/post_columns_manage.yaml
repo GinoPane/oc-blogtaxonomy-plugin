@@ -10,7 +10,7 @@ columns:
         sortable: true
 
     series:
-        label: Series
+        label: ginopane.blogtaxonomy::lang.form.series.label
         relation: series
         select: title
         searchable: true
@@ -18,14 +18,5 @@ columns:
 
     published_at:
         label: rainlab.blog::lang.post.published
+        sortable: true
         type: date
-
-    created_at:
-        label: rainlab.blog::lang.post.created
-        type: date
-        invisible: true
-
-    updated_at:
-        label: rainlab.blog::lang.post.updated
-        type: date
-        invisible: true

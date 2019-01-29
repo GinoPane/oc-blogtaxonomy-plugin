@@ -2,24 +2,30 @@
 #  Column Definitions
 # ===================================
 
-columns:
+noRecordsMessage: ginopane.blogtaxonomy::lang.form.series.no_posts_in_series
 
+# Displays the list column set up button
+showSetup: true
+
+columns:
     title:
         label: rainlab.blog::lang.post.title
-        sortable: false
+        sortable: true
         searchable: true
+
+    published_at:
+        label: rainlab.blog::lang.post.published
+        sortable: true
+        type: date
 
     created_at:
         label: rainlab.blog::lang.post.created
         type: date
-        invisible: true
+        sortable: true
+        invisible: false
 
     updated_at:
         label: rainlab.blog::lang.post.updated
         type: date
-        invisible: true
-
-    published_at:
-        label: rainlab.blog::lang.post.published
-        sortable: false
-        type: date
+        sortable: true
+        invisible: false

@@ -4,10 +4,11 @@ namespace GinoPane\BlogTaxonomy\Components;
 
 use DB;
 use Cms\Classes\Page;
-use GinoPane\BlogTaxonomy\Models\Tag;
-use October\Rain\Database\Collection;
 use RainLab\Blog\Models\Post;
 use GinoPane\BlogTaxonomy\Plugin;
+use GinoPane\BlogTaxonomy\Models\Tag;
+use October\Rain\Database\Collection;
+use GinoPane\BlogTaxonomy\Models\ModelAbstract;
 
 /**
  * Class RelatedPosts
@@ -155,9 +156,11 @@ class RelatedPosts extends ComponentAbstract
      */
     private function loadRelatedPosts()
     {
-        $post = Post::where('slug', $this->property('slug'))
-            ->with('tags')
-            ->first();
+        $post = Post::with('tags');
+
+        ModelAbstract::whereTranslatableProperty($post, 'slug', $this->property('slug'));
+
+        $post = $post->first();
 
         if (!$post || (!$tagIds = $post->tags->lists('id'))) {
             return null;
@@ -172,7 +175,7 @@ class RelatedPosts extends ComponentAbstract
 
         $this->queryOrderBy($query, $tagIds);
 
-        if ($take = intval($this->property('limit'))) {
+        if ($take = (int)$this->property('limit')) {
             $query->take($take);
         }
 
@@ -189,13 +192,13 @@ class RelatedPosts extends ComponentAbstract
      */
     private function queryOrderBy($query, $tagIds)
     {
-        if (in_array($this->orderBy, array_keys($this->getOrderByOptions()))) {
-            if ($this->orderBy == 'random') {
+        if (array_key_exists($this->orderBy, $this->getOrderByOptions())) {
+            if ($this->orderBy === 'random') {
                 $query->inRandomOrder();
             } else {
                 list($sortField, $sortDirection) = explode(' ', $this->orderBy);
 
-                if ($sortField == 'relevance') {
+                if ($sortField === 'relevance') {
                     $sortField = DB::raw(
                         sprintf(
                             '(

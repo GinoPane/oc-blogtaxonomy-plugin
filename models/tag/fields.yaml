@@ -20,4 +20,4 @@ fields:
         label: ginopane.blogtaxonomy::lang.form.fields.posts
         type: relation
         nameFrom: title
-        emptyOption: No posts available.
+        emptyOption: ginopane.blogtaxonomy::lang.placeholder.no_posts_available

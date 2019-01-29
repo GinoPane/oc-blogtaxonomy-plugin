@@ -3,7 +3,7 @@
 # ===================================
 
 # Record name
-name: Tag
+name: ginopane.blogtaxonomy::lang.form.tags.label
 
 # Model Form Field configuration
 form: $/ginopane/blogtaxonomy/models/tag/fields.yaml

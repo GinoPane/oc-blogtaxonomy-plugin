@@ -1,6 +1,6 @@
 <?php Block::put('breadcrumb') ?>
     <ul>
-        <li><a href="<?= Backend::url(GinoPane\BlogTaxonomy\Plugin::DIRECTORY_KEY . '/series') ?>">Series</a></li>
+        <li><a href="<?= Backend::url(GinoPane\BlogTaxonomy\Plugin::DIRECTORY_KEY . '/series') ?>"><?= e(trans('ginopane.blogtaxonomy::lang.form.series.label')) ?></a></li>
         <li><?= e($this->pageTitle) ?></li>
     </ul>
 <?php Block::endPut() ?>
@@ -19,21 +19,21 @@
                     type="submit"
                     data-request="onSave"
                     data-hotkey="ctrl+s, cmd+s"
-                    data-load-indicator="Creating Series..."
+                    data-load-indicator="<?= e(trans('ginopane.blogtaxonomy::lang.form.series.create_load_indicator')) ?>"
                     class="btn btn-primary">
-                    Create
+                    <?= e(trans('ginopane.blogtaxonomy::lang.form.series.create_button_label')) ?>
                 </button>
                 <button
                     type="button"
                     data-request="onSave"
                     data-request-data="close:1"
                     data-hotkey="ctrl+enter, cmd+enter"
-                    data-load-indicator="Creating Series..."
+                    data-load-indicator="<?= e(trans('ginopane.blogtaxonomy::lang.form.series.create_load_indicator')) ?>"
                     class="btn btn-default">
-                    Create and Close
+                    <?= e(trans('ginopane.blogtaxonomy::lang.form.series.create_and_close_button_label')) ?>
                 </button>
                 <span class="btn-text">
-                    or <a href="<?= Backend::url(GinoPane\BlogTaxonomy\Plugin::DIRECTORY_KEY . '/series') ?>">Cancel</a>
+                    <?= e(trans('ginopane.blogtaxonomy::lang.form.series.or')) ?> <a href="<?= Backend::url(GinoPane\BlogTaxonomy\Plugin::DIRECTORY_KEY . '/series') ?>"><?= e(trans('ginopane.blogtaxonomy::lang.form.series.cancel_button_label')) ?></a>
                 </span>
             </div>
         </div>
@@ -43,6 +43,6 @@
 <?php else: ?>
 
     <p class="flash-message static error"><?= e($this->fatalError) ?></p>
-    <p><a href="<?= Backend::url(GinoPane\BlogTaxonomy\Plugin::DIRECTORY_KEY . '/series') ?>" class="btn btn-default">Return to series list</a></p>
+    <p><a href="<?= Backend::url(GinoPane\BlogTaxonomy\Plugin::DIRECTORY_KEY . '/series') ?>" class="btn btn-default"><?= e(trans('ginopane.blogtaxonomy::lang.form.series.return_to_list')) ?></a></p>
 
 <?php endif ?>
