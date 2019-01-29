@@ -37,7 +37,7 @@ They were also placed in a new tag-like style along with tags and series in thei
 
 ## Translate Plugin Support
 
-Starting from XXX version Blog Taxonomy supports [RainLab Translate](https://octobercms.com/plugin/rainlab-translate) plugin when it's installed. All tag and series fields could be translated. 
+Starting from 1.5.0 version Blog Taxonomy supports [RainLab Translate](https://octobercms.com/plugin/rainlab-translate) plugin when it's installed. All tag and series fields could be translated. 
 
 ## Implementing Frontend Pages
 

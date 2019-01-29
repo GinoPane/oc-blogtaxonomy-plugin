@@ -16,6 +16,17 @@ Types of changes
 
 ## [Unreleased]
 
+## 1.5.0 - 2019-01-29
+
+### Added
+* Added Translate plugin support
+* Added localization support for different strings
+
+### Changed
+* Changed series description column type
+* Loosen series title validation to allow punctuation
+* Multiple internal enhancements
+
 ## 1.4.0 - 2019-01-25
 
 ### Added
