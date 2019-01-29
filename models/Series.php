@@ -20,7 +20,6 @@ class Series extends ModelAbstract
 {
     use Sluggable;
     use Validation;
-    use PostsRelationScopeTrait;
 
     const TABLE_NAME = 'ginopane_blogtaxonomy_series';
 
@@ -30,6 +29,29 @@ class Series extends ModelAbstract
      * @var string
      */
     public $table = self::TABLE_NAME;
+
+    /**
+     * Specifying of implemented behaviours as strings is convenient when
+     * the target behaviour could be missing due to disabled or not installed
+     * plugin. You won't get an error, the plugin would simply work without model
+     *
+     * @var array
+     */
+    public $implement = ['RainLab.Translate.Behaviors.TranslatableModel'];
+
+    /**
+     * Translatable properties, indexed property will be available in queries
+     *
+     * @var array
+     */
+    public $translatable = [
+        'title',
+        [
+            'slug',
+            'index' => true
+        ],
+        'description'
+    ];
 
     /**
      * Relations
@@ -109,6 +131,11 @@ class Series extends ModelAbstract
         return $this->posts()->isPublished()->count();
     }
 
+    /**
+     * @param array $params
+     *
+     * @return array
+     */
     protected function getModelUrlParams(array $params): array
     {
         return [

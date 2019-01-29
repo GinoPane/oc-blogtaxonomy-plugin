@@ -3,7 +3,7 @@
 # ===================================
 
 posts:
-    label: ginopane.blogtaxonomy::lang.form.posts.label
+    label: ginopane.blogtaxonomy::lang.form.fields.posts
     view:
         showSearch: true
         list: post_columns_view.yaml

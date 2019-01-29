@@ -172,7 +172,7 @@ class RelatedPosts extends ComponentAbstract
 
         $this->queryOrderBy($query, $tagIds);
 
-        if ($take = intval($this->property('limit'))) {
+        if ($take = (int)$this->property('limit')) {
             $query->take($take);
         }
 
@@ -189,13 +189,13 @@ class RelatedPosts extends ComponentAbstract
      */
     private function queryOrderBy($query, $tagIds)
     {
-        if (in_array($this->orderBy, array_keys($this->getOrderByOptions()))) {
-            if ($this->orderBy == 'random') {
+        if (array_key_exists($this->orderBy, $this->getOrderByOptions())) {
+            if ($this->orderBy === 'random') {
                 $query->inRandomOrder();
             } else {
                 list($sortField, $sortDirection) = explode(' ', $this->orderBy);
 
-                if ($sortField == 'relevance') {
+                if ($sortField === 'relevance') {
                     $sortField = DB::raw(
                         sprintf(
                             '(

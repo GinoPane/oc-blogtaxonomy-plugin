@@ -30,13 +30,6 @@ class SeriesList extends ComponentAbstract
     public $seriesPage;
 
     /**
-     * Series slug name for series page URL
-     *
-     * @var string
-     */
-    public $seriesSlug;
-
-    /**
      * If the series list should be ordered by another attribute
      *
      * @var string

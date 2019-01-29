@@ -18,14 +18,5 @@ columns:
 
     published_at:
         label: rainlab.blog::lang.post.published
+        sortable: true
         type: date
-
-    created_at:
-        label: rainlab.blog::lang.post.created
-        type: date
-        invisible: true
-
-    updated_at:
-        label: rainlab.blog::lang.post.updated
-        type: date
-        invisible: true

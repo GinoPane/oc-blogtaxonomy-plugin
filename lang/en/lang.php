@@ -26,12 +26,17 @@ return [
             'posts' => 'Posts'
         ],
 
+        'categories' => [
+            'no_posts_in_categories' => 'There are no posts in this category'
+        ],
         'tags' => [
             'label' => 'Tags',
 
             'create_form_title' => 'Create a New Tag',
             'edit_form_title' => 'Edit the Tag',
+            'list_title' => 'Manage Tags',
             'new_tag_label' => 'New Tag',
+            'no_tags_message' => 'There are no tags. Create some to get started',
 
             'delete_confirm' => 'Do you really want to delete this tag?',
             'remove_orphaned_load_indicator' => 'Removing orphaned tags...',
@@ -58,6 +63,9 @@ return [
             'label' => 'Series',
             'create_title' => 'Create Series',
             'edit_title' => 'Edit Series',
+            'list_title' => 'Manage Series',
+            'no_series_message' => 'There are no series. Create some to get started',
+            'no_posts_in_series' => 'There are no posts in this series',
             'comment' => 'Choose a series the blog post belongs to',
 
             'title_invalid' => 'Series names may only contain alpha-numeric characters, spaces and hyphens',
@@ -82,9 +90,6 @@ return [
             'cancel_button_label' => 'Cancel',
             'or' => 'or',
             'return_to_list' => 'Return to series list'
-        ],
-        'posts' => [
-            'label' => 'Posts'
         ]
     ],
 

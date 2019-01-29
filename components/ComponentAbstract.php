@@ -97,7 +97,7 @@ abstract class ComponentAbstract extends ComponentBase
      *
      * @return string|null
      */
-    protected function urlProperty(ComponentBase $component = null, string $name)
+    protected function urlProperty(ComponentBase $component = null, string $name = '')
     {
         return $component ? $component->propertyName($name, $name) : null;
     }
@@ -127,11 +127,11 @@ abstract class ComponentAbstract extends ComponentBase
 
         $page = Page::load(Theme::getActiveTheme(), $page);
 
-        if (!is_null($page)) {
+        if ($page !== null) {
             $component = $page->getComponent($componentName);
         }
 
-        if (!empty($component) && is_callable([$this->controller, 'setComponentPropertiesFromParams'])) {
+        if (!empty($component) && \is_callable([$this->controller, 'setComponentPropertiesFromParams'])) {
             $this->controller->setComponentPropertiesFromParams($component);
         }
 

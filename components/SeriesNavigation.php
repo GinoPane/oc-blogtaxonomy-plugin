@@ -22,7 +22,8 @@ class SeriesNavigation extends ComponentAbstract
     public $series;
 
     /**
-     * Series slug
+     * Post slug
+     *
      * @var string
      */
     public $slug;
@@ -133,7 +134,7 @@ class SeriesNavigation extends ComponentAbstract
             ]
         )->first();
 
-        if (!is_null($series)) {
+        if ($series !== null) {
             $seriesComponent = $this->getComponent(SeriesPosts::NAME, $this->seriesPage);
 
             $series->setUrl($this->seriesPage, $this->controller, [

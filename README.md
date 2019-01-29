@@ -9,6 +9,7 @@ Taxonomy extension for [RainLab Blog](https://octobercms.com/plugin/rainlab-blog
 
 ## Table of Contents
 * [Changes to Original Blog Plugin](#changes-to-original-blog-plugin)
+* [Translate Plugin Support](#translate-plugin-support)
 * [Implementing Frontend Pages](#implementing-frontend-pages)
     * [Post Series Navigation](#post-series-navigation)
     * [Posts in the Series](#posts-in-the-series)
@@ -33,6 +34,10 @@ And series could help you to organize your posts in a single flow of related pos
 
 Original blog categories were enhanced with ability to add posts while being on the single category page.
 They were also placed in a new tag-like style along with tags and series in their own **Taxonomy** tab of a backend CMS blog page.
+
+## Translate Plugin Support
+
+Starting from XXX version Blog Taxonomy supports [RainLab Translate](https://octobercms.com/plugin/rainlab-translate) plugin when it's installed. All tag and series fields could be translated. 
 
 ## Implementing Frontend Pages
 
