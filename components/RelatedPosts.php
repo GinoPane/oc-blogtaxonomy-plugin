@@ -4,10 +4,11 @@ namespace GinoPane\BlogTaxonomy\Components;
 
 use DB;
 use Cms\Classes\Page;
-use GinoPane\BlogTaxonomy\Models\Tag;
-use October\Rain\Database\Collection;
 use RainLab\Blog\Models\Post;
 use GinoPane\BlogTaxonomy\Plugin;
+use GinoPane\BlogTaxonomy\Models\Tag;
+use October\Rain\Database\Collection;
+use GinoPane\BlogTaxonomy\Models\ModelAbstract;
 
 /**
  * Class RelatedPosts
@@ -155,9 +156,11 @@ class RelatedPosts extends ComponentAbstract
      */
     private function loadRelatedPosts()
     {
-        $post = Post::where('slug', $this->property('slug'))
-            ->with('tags')
-            ->first();
+        $post = Post::with('tags');
+
+        ModelAbstract::whereTranslatableProperty($post, 'slug', $this->property('slug'));
+
+        $post = $post->first();
 
         if (!$post || (!$tagIds = $post->tags->lists('id'))) {
             return null;

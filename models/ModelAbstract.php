@@ -73,6 +73,16 @@ abstract class ModelAbstract extends Model
      */
     public function scopeWhereTranslatable(Builder $query, string $property, $value)
     {
+        self::whereTranslatableProperty($query, $property, $value);
+    }
+
+    /**
+     * @param Builder $query
+     * @param string $property
+     * @param $value
+     */
+    public static function whereTranslatableProperty(Builder $query, string $property, $value)
+    {
         $query->getModel()->isClassExtendedWith('RainLab.Translate.Behaviors.TranslatableModel')
             ? $query->transWhere($property, $value)
             : $query->where($property, $value);
@@ -109,7 +119,7 @@ abstract class ModelAbstract extends Model
             $query->whereHas(
                 'posts',
                 function ($query) use ($options) {
-                    $query->whereSlug($options['post']);
+                    ModelAbstract::whereTranslatableProperty($query, 'slug', $options['post']);
                 }
             );
         }
