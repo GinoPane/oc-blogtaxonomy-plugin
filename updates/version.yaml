@@ -1,3 +1,7 @@
+1.5.1:
+  - Fixed relation count condition for non-SQLite installations
+  - Fixed sorting options for post-related components
+
 1.5.0:
   - Added Translate plugin support
   - Added localization support for different strings
