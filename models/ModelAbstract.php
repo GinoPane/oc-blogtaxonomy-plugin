@@ -15,6 +15,8 @@ use October\Rain\Database\Builder;
  */
 abstract class ModelAbstract extends Model
 {
+    const CONNECTION_SQLITE = 'sqlite';
+
     /**
      * @var array
      */
@@ -103,7 +105,16 @@ abstract class ModelAbstract extends Model
                         $query->isPublished();
                     }
                 ]
-            )->where('posts_count', '>', 0);
+            )->having('posts_count', '>', 0);
+
+            $connectionConfig = $query->getConnection()->getConfig();
+
+            // GROUP BY is required for SQLite-based installations
+            if (!empty($connectionConfig['name']) &&
+                strtolower($connectionConfig['name']) === self::CONNECTION_SQLITE
+            ) {
+                $query->groupBy('id');
+            }
         }
     }
 
@@ -146,7 +157,7 @@ abstract class ModelAbstract extends Model
      */
     private function queryOrderBy(Builder $query, array $options)
     {
-        if (array_key_exists($options['sort'], self::$sortingOptions)) {
+        if (\array_key_exists($options['sort'], static::$sortingOptions)) {
             if ($options['sort'] === 'random') {
                 $query->inRandomOrder();
             } else {
@@ -181,5 +192,13 @@ abstract class ModelAbstract extends Model
                 }
             ]
         );
+    }
+
+    /**
+     * @param Builder $query
+     */
+    private function queryGroupBy(Builder $query)
+    {
+        $query->groupBy('id');
     }
 }
