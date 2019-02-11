@@ -119,7 +119,7 @@ Available properties:
 
 ### Tag List
 
-Component `postTagList` displays a list of tags. Can be used to build a tag cloud (because post count with each tag is available).
+Component `tagList` displays a list of tags. Can be used to build a tag cloud (because post count with each tag is available).
 It also can be used to retrieve a list of tags for specific post.
 
 > Please don't forget to use different aliases for components if you use the same component several times on the same page

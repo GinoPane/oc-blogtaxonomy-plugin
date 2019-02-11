@@ -15,8 +15,6 @@ use October\Rain\Database\Builder;
  */
 abstract class ModelAbstract extends Model
 {
-    const CONNECTION_SQLITE = 'sqlite';
-
     /**
      * @var array
      */
@@ -65,6 +63,11 @@ abstract class ModelAbstract extends Model
 
         $this->queryLimit($query, $options);
 
+        // GROUP BY is required for SQLite to deal with HAVING
+        // We use it for all connections just to keep implementation
+        // independent from the connection being used
+        $this->queryGroupBy($query);
+
         return $query->get();
     }
 
@@ -106,15 +109,6 @@ abstract class ModelAbstract extends Model
                     }
                 ]
             )->having('posts_count', '>', 0);
-
-            $connectionConfig = $query->getConnection()->getConfig();
-
-            // GROUP BY is required for SQLite-based installations
-            if (!empty($connectionConfig['name']) &&
-                strtolower($connectionConfig['name']) === self::CONNECTION_SQLITE
-            ) {
-                $query->groupBy('id');
-            }
         }
     }
 
