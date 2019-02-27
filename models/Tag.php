@@ -86,8 +86,8 @@ class Tag extends ModelAbstract
      * @var array
      */
     public $rules = [
-        'name' => "required|unique:" . self::TABLE_NAME . "|min:2|regex:/^[a-z0-9\-\. ]+$/i",
-        'slug' => "required|unique:" . self::TABLE_NAME . "|min:2|regex:/^[a-z0-9\-]+$/i"
+        'name' => "required|unique:" . self::TABLE_NAME . "|min:2|regex:/^[\w\-\. ]+$/iu",
+        'slug' => "required|unique:" . self::TABLE_NAME . "|min:2|regex:/^[\w\-]+$/iu"
     ];
 
     /**
