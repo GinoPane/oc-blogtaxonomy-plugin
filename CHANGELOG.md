@@ -16,11 +16,11 @@ Types of changes
 
 ## [Unreleased]
 
-## 1.5.1 - 2019-02-08
+## 1.5.2 - 2019-02-27
 
 ### Fixed
-* Fixed relation count condition for non-SQLite installations
-* Fixed sorting options for post-related components
+* Make translatable implementation truly optional
+* Allow any valid character in validation for titles, names, etc.
 
 ## 1.5.0 - 2019-01-29
 
@@ -75,4 +75,4 @@ Types of changes
 ### Features
 * The initial release of Blog Taxonomy.
 
-[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v1.5.1...HEAD
+[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v1.5.2...HEAD

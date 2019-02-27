@@ -1,3 +1,7 @@
+1.5.2:
+  - Make translatable implementation truly optional
+  - Allow any valid character in validation for titles, names, etc.
+
 1.5.1:
   - Fixed relation count condition for non-SQLite installations
   - Fixed sorting options for post-related components
