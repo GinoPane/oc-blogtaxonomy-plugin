@@ -37,7 +37,7 @@ class Series extends ModelAbstract
      *
      * @var array
      */
-    public $implement = ['RainLab.Translate.Behaviors.TranslatableModel'];
+    public $implement = ['@RainLab.Translate.Behaviors.TranslatableModel'];
 
     /**
      * Translatable properties, indexed property will be available in queries
