@@ -13,11 +13,11 @@
 
 {% if __SELF__.posts %}
     <ul id="{{ __SELF__.alias }}-list">
-        {% partial __SELF__ ~ "::list" %}
+        {% partial __SELF__ ~ '::list' %}
     </ul>
 
     <nav id="{{ __SELF__.alias }}-pagination">
-        {% partial __SELF__ ~ "::pagination" %}
+        {% partial __SELF__ ~ '::pagination' %}
     </nav>
 {% else %}
     {{ "ginopane.blogtaxonomy::lang.components.series_posts.no_posts_message" | trans }}
