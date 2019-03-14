@@ -1,5 +1,5 @@
 ---
-name: "\U0001F4A1 Feature Request"
+name: "💡 Feature Request"
 about: Suggest an idea for Blog Taxonomy
 title: "[FEATURE REQUEST]"
 labels: enhancement
