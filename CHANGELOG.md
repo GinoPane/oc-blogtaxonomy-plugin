@@ -16,6 +16,11 @@ Types of changes
 
 ## [Unreleased]
 
+## 1.5.4 - 2019-03-14
+
+### Fixed
+* Improved missing partials references so the backend expander could work correctly
+
 ## 1.5.3 - 2019-03-10
 
 ### Fixed
@@ -80,4 +85,4 @@ Types of changes
 ### Features
 * The initial release of Blog Taxonomy.
 
-[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v1.5.3...HEAD
+[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v1.5.4...HEAD
