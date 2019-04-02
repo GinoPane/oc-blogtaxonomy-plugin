@@ -16,6 +16,13 @@ Types of changes
 
 ## [Unreleased]
 
+## 1.6.0 - 2019-04-02
+
+### Changed
+
+* Stop using default slug value for TagList (to allow valid empty slug)
+* Simplify internal query for posts relation
+
 ## 1.5.4 - 2019-03-14
 
 ### Fixed
@@ -85,4 +92,4 @@ Types of changes
 ### Features
 * The initial release of Blog Taxonomy.
 
-[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v1.5.4...HEAD
+[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v1.6.0...HEAD

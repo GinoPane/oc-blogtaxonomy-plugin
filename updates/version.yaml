@@ -1,3 +1,10 @@
+1.6.0:
+  - Stop using default slug value for TagList (to allow valid empty slug)
+  - Simplify internal query for posts relation
+
+1.5.4:
+  - Improved missing partials references so the backend expander could work correctly
+
 1.5.3:
   - Improved partials references so the backend expander could work correctly
 
