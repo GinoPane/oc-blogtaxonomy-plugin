@@ -105,7 +105,6 @@ class TagList extends ComponentAbstract
             'postSlug' => [
                 'title'       => Plugin::LOCALIZATION_KEY . 'components.tag_list.post_slug_title',
                 'description' => Plugin::LOCALIZATION_KEY . 'components.tag_list.post_slug_description',
-                'default'     => '{{ :slug }}',
                 'type'        => 'string'
             ],
             'tagsPage' => [

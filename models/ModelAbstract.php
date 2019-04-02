@@ -102,13 +102,7 @@ abstract class ModelAbstract extends Model
     private function queryDisplayEmpty(Builder $query, array $options)
     {
         if (empty($options['displayEmpty'])) {
-            $query->withCount(
-                [
-                    'posts' => function ($query) {
-                        $query->isPublished();
-                    }
-                ]
-            )->having('posts_count', '>', 0);
+            $query->having('posts_count', '>', 0);
         }
     }
 
@@ -157,16 +151,6 @@ abstract class ModelAbstract extends Model
             } else {
                 list($sortField, $sortDirection) = explode(' ', $options['sort']);
 
-                if ($sortField === 'posts_count') {
-                    $query->withCount(
-                        [
-                            'posts' => function ($query) {
-                                $query->isPublished();
-                            }
-                        ]
-                    );
-                }
-
                 $query->orderBy($sortField, $sortDirection);
             }
         }
@@ -179,7 +163,7 @@ abstract class ModelAbstract extends Model
      */
     private function withRelation(Builder $query)
     {
-        $query->with(
+        $query->withCount(
             [
                 'posts' => function ($query) {
                     $query->isPublished();
