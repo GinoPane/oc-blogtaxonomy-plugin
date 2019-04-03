@@ -16,6 +16,12 @@ Types of changes
 
 ## [Unreleased]
 
+## 1.7.0 - 2019-04-03
+
+### Fixed
+
+* Fixed a method to get real URL parameter names
+
 ## 1.6.0 - 2019-04-02
 
 ### Changed
@@ -92,4 +98,4 @@ Types of changes
 ### Features
 * The initial release of Blog Taxonomy.
 
-[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v1.6.0...HEAD
+[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v1.7.0...HEAD
