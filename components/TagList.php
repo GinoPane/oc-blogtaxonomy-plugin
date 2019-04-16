@@ -249,11 +249,11 @@ class TagList extends ComponentAbstract
      */
     public function onRun()
     {
-        $this->tagPage = $this->getProperty('tagPage');
-        $this->tagsPage = $this->getProperty('tagsPage');
+        $this->tagPage = (string) $this->getProperty('tagPage');
+        $this->tagsPage = (string) $this->getProperty('tagsPage');
 
         $this->orderBy = $this->getProperty('orderBy');
-        $this->postSlug = $this->property('postSlug');
+        $this->postSlug = $this->getProperty('postSlug');
         $this->displayEmpty = (bool) $this->getProperty('displayEmpty');
         $this->limit =  (int) $this->getProperty('limit');
         $this->exposeTotalCount =  (bool) $this->getProperty('exposeTotalCount');
