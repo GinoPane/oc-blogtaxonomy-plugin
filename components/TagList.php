@@ -24,11 +24,25 @@ class TagList extends ComponentAbstract
     public $tags = [];
 
     /**
-     * Reference to the page name for linking to tags page
+     * Reference to the page name for linking to tag page
+     *
+     * @var string
+     */
+    private $tagPage;
+
+    /**
+     * Reference to the page name for linking to all tags page
      *
      * @var string
      */
     private $tagsPage;
+
+    /**
+     * URL to the page where all tags are listed
+     *
+     * @var string
+     */
+    public $tagsPageUrl;
 
     /**
      * If the tag list should be ordered by another attribute
@@ -59,9 +73,9 @@ class TagList extends ComponentAbstract
     public $limit;
 
     /**
-     * Whether count overall amount of tags or count amount of tags under "limit" only
+     * Count whether overall amount of tags or amount of tags under "limit" only
      *
-     * @var
+     * @var bool
      */
     private $exposeTotalCount;
 
@@ -72,6 +86,35 @@ class TagList extends ComponentAbstract
      * @var int
      */
     public $totalCount;
+
+    /**
+     * Whether enable tag filter input or not
+     *
+     * @var bool
+     */
+    private $enableTagFilter;
+
+    /**
+     * Whether include tag filter input or not
+     *
+     * @var bool
+     */
+    public $tagFilterEnabled;
+
+    const TAG_FILTER_NEVER = 'never';
+    const TAG_FILTER_ALWAYS = 'always';
+    const TAG_FILTER_ON_OVERFLOW = 'on_overflow';
+
+    /**
+     * The attributes on which the post list can be ordered
+     *
+     * @var array
+     */
+    private static $enableTagFilterOptions = [
+        self::TAG_FILTER_NEVER => Plugin::LOCALIZATION_KEY . 'components.tag_list.tag_filter_options.never',
+        self::TAG_FILTER_ALWAYS => Plugin::LOCALIZATION_KEY . 'components.tag_list.tag_filter_options.always',
+        self::TAG_FILTER_ON_OVERFLOW => Plugin::LOCALIZATION_KEY . 'components.tag_list.tag_filter_options.on_overflow'
+    ];
 
     /**
      * Component Registration
@@ -118,8 +161,8 @@ class TagList extends ComponentAbstract
 
             //Limit properties
             'limit' => [
-                'title'             => Plugin::LOCALIZATION_KEY . 'components.tag_list.limit_title',
                 'group'             => Plugin::LOCALIZATION_KEY . 'components.tag_list.limit_group',
+                'title'             => Plugin::LOCALIZATION_KEY . 'components.tag_list.limit_title',
                 'description'       => Plugin::LOCALIZATION_KEY . 'components.tag_list.limit_description',
                 'type'              => 'string',
                 'default'           => '0',
@@ -128,24 +171,47 @@ class TagList extends ComponentAbstract
                 'showExternalParam' => false
             ],
             'exposeTotalCount' => [
-                'title'             => Plugin::LOCALIZATION_KEY . 'components.tag_list.expose_total_count_title',
                 'group'             => Plugin::LOCALIZATION_KEY . 'components.tag_list.limit_group',
+                'title'             => Plugin::LOCALIZATION_KEY . 'components.tag_list.expose_total_count_title',
                 'description'       => Plugin::LOCALIZATION_KEY . 'components.tag_list.expose_total_count_description',
                 'type'              => 'checkbox',
                 'default'           => false,
                 'showExternalParam' => false
             ],
+            'enableTagFilter' => [
+                'group'             => Plugin::LOCALIZATION_KEY . 'components.tag_list.limit_group',
+                'title'             => Plugin::LOCALIZATION_KEY . 'components.tag_list.tag_filter_title',
+                'description'       => Plugin::LOCALIZATION_KEY . 'components.tag_list.tag_filter_description',
+                'type'              => 'dropdown',
+                'default'           => self::TAG_FILTER_NEVER,
+                'showExternalParam' => false
+            ],
 
             //Links
+            'tagPage' => [
+                'title'         => Plugin::LOCALIZATION_KEY . 'components.tag_list.tag_page_title',
+                'group'         => Plugin::LOCALIZATION_KEY . 'components.post_list_abstract.links_group',
+                'description'   => Plugin::LOCALIZATION_KEY . 'components.tag_list.tag_page_description',
+                'type'          => 'dropdown',
+                'showExternalParam' => false
+            ],
+
             'tagsPage' => [
                 'title'         => Plugin::LOCALIZATION_KEY . 'components.tag_list.tags_page_title',
                 'group'         => Plugin::LOCALIZATION_KEY . 'components.post_list_abstract.links_group',
                 'description'   => Plugin::LOCALIZATION_KEY . 'components.tag_list.tags_page_description',
                 'type'          => 'dropdown',
-                'default'       => 'blog/tag',
                 'showExternalParam' => false
             ],
         ];
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTagPageOptions()
+    {
+        return Page::sortBy('baseFileName')->lists('baseFileName', 'baseFileName');
     }
 
     /**
@@ -157,9 +223,9 @@ class TagList extends ComponentAbstract
     }
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function getOrderByOptions()
+    public function getOrderByOptions(): array
     {
         $order = $this->translate(Tag::$sortingOptions);
 
@@ -169,18 +235,29 @@ class TagList extends ComponentAbstract
     }
 
     /**
+     * @return array
+     */
+    public function getEnableTagFilterOptions(): array
+    {
+        return $this->translate(self::$enableTagFilterOptions);
+    }
+
+    /**
      * Prepare and return a tag list
      *
      * @return void
      */
     public function onRun()
     {
+        $this->tagPage = $this->getProperty('tagPage');
         $this->tagsPage = $this->getProperty('tagsPage');
+
         $this->orderBy = $this->getProperty('orderBy');
         $this->postSlug = $this->property('postSlug');
         $this->displayEmpty = (bool) $this->getProperty('displayEmpty');
         $this->limit =  (int) $this->getProperty('limit');
         $this->exposeTotalCount =  (bool) $this->getProperty('exposeTotalCount');
+        $this->enableTagFilter = (string) $this->getProperty('enableTagFilter');
 
         $this->tags = $this->listTags();
     }
@@ -199,6 +276,7 @@ class TagList extends ComponentAbstract
 
         $this->handleCount($tags);
         $this->handleTagUrls($tags);
+        $this->handleTagFilter();
 
         return $tags;
     }
@@ -208,9 +286,11 @@ class TagList extends ComponentAbstract
      */
     private function handleTagUrls($tags)
     {
-        $tagComponent = $this->getComponent(TagPosts::NAME, $this->tagsPage);
+        $tagComponent = $this->getComponent(TagPosts::NAME, $this->tagPage);
 
-        $this->setUrls($tags, $this->tagsPage, $this->controller, ['tag' => $this->urlProperty($tagComponent, 'tag')]);
+        $this->tagsPageUrl = $this->controller->pageUrl($this->tagsPage);
+
+        $this->setUrls($tags, $this->tagPage, $this->controller, ['tag' => $this->urlProperty($tagComponent, 'tag')]);
     }
 
     /**
@@ -225,6 +305,27 @@ class TagList extends ComponentAbstract
                 'displayEmpty' => $this->displayEmpty,
                 'post' => $this->postSlug
             ])->count();
+        }
+    }
+
+    /**
+     * Enable tag filter input if required
+     */
+    private function handleTagFilter()
+    {
+        $this->tagFilterEnabled = false;
+
+        switch ($this->enableTagFilter) {
+            case self::TAG_FILTER_ON_OVERFLOW:
+                if (!($this->totalCount > $this->limit)) {
+                    break;
+                }
+            case self::TAG_FILTER_ALWAYS:
+                $this->tagFilterEnabled = true;
+        }
+
+        if ($this->tagFilterEnabled) {
+            $this->addJs('/plugins/' . Plugin::DIRECTORY_KEY . '/assets/js/jquery.mark.min.js');
         }
     }
 }

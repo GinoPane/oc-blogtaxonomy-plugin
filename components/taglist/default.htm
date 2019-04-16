@@ -1,7 +1,41 @@
 {% set tags = __SELF__.tags %}
 
+{% if __SELF__.tagFilterEnabled %}
+    {% set searchInputId = __SELF__.alias ~ "-filter" %}
+    {% set tagSectionId = __SELF__.alias ~ "-tags" %}
+
+    <!-- Search form -->
+    <div class="md-form mb-3">
+        <input id="{{ searchInputId }}" class="form-control" type="text" placeholder="{{ "Search tags"|_ }}" aria-label="Search tags">
+    </div>
+
+    {% put scripts %}
+        <script type="application/javascript">
+            $(document).ready(function() {
+                $(function() {
+                    var $input = $('input#{{ searchInputId }}'),
+                        $context = $('div#{{ tagSectionId }}').find("a.list-group-item");
+                    $input.on("input", function() {
+                        var term = $(this).val();
+                        $context.show().unmark();
+                        if (term) {
+                            $context.mark(term, {
+                                done: function() {
+                                    $context.not(":has(mark)").hide();
+                                }
+                            });
+                        }
+                    });
+                });
+            });
+        </script>
+    {% endput %}
+
+    <a href="{{ __SELF__.tagsPageUrl }}">{{ "ginopane.blogtaxonomy::lang.components.tag_list.all_tags_link" | trans }}</a>
+{% endif %}
+
 {% if tags | length %}
-    <div class="list-group">
+    <div class="list-group" id="{{ tagSectionId }}">
         {% for item in tags %}
         {% set postCount = item.posts|length %}
         <a href="{{ item.url }}" class="list-group-item">
