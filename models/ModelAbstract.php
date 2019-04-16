@@ -117,7 +117,7 @@ abstract class ModelAbstract extends Model
         if (!empty($options['post'])) {
             $query->whereHas(
                 'posts',
-                function ($query) use ($options) {
+                static function ($query) use ($options) {
                     ModelAbstract::whereTranslatableProperty($query, 'slug', $options['post']);
                 }
             );
@@ -145,7 +145,7 @@ abstract class ModelAbstract extends Model
      */
     private function queryOrderBy(Builder $query, array $options)
     {
-        if (\array_key_exists($options['sort'], static::$sortingOptions)) {
+        if (!empty($options['sort']) && \array_key_exists($options['sort'], static::$sortingOptions)) {
             if ($options['sort'] === 'random') {
                 $query->inRandomOrder();
             } else {
@@ -165,7 +165,7 @@ abstract class ModelAbstract extends Model
     {
         $query->withCount(
             [
-                'posts' => function ($query) {
+                'posts' => static function ($query) {
                     $query->isPublished();
                 }
             ]

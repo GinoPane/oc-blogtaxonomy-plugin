@@ -5,7 +5,7 @@ namespace GinoPane\BlogTaxonomy\Components;
 use Cms\Classes\Page;
 use GinoPane\BlogTaxonomy\Plugin;
 use GinoPane\BlogTaxonomy\Models\Tag;
-use Illuminate\Database\Eloquent\Collection;
+use October\Rain\Database\Collection;
 
 /**
  * Class TagList
@@ -28,28 +28,28 @@ class TagList extends ComponentAbstract
      *
      * @var string
      */
-    public $tagsPage;
+    private $tagsPage;
 
     /**
      * If the tag list should be ordered by another attribute
      *
      * @var string
      */
-    public $orderBy;
+    private $orderBy;
 
     /**
-     * Whether display or not empty tags
+     * Whether display empty tags or not
      *
      * @var bool
      */
-    public $displayEmpty;
+    private $displayEmpty;
 
     /**
      * Filter tags for the post defined by slug
      *
      * @var string
      */
-    public $postSlug;
+    private $postSlug;
 
     /**
      * Limits the number of records to display
@@ -59,11 +59,26 @@ class TagList extends ComponentAbstract
     public $limit;
 
     /**
+     * Whether count overall amount of tags or count amount of tags under "limit" only
+     *
+     * @var
+     */
+    private $exposeTotalCount;
+
+    /**
+     * Contains either the total number of tags in the list limited by "limit", or
+     * the total number of tags which may be more than the limit if "exposeTotalCount" is used
+     *
+     * @var int
+     */
+    public $totalCount;
+
+    /**
      * Component Registration
      *
      * @return  array
      */
-    public function componentDetails()
+    public function componentDetails(): array
     {
         return [
             'name'        => Plugin::LOCALIZATION_KEY . 'components.tag_list.name',
@@ -76,23 +91,16 @@ class TagList extends ComponentAbstract
      *
      * @return  array
      */
-    public function defineProperties()
+    public function defineProperties(): array
     {
         return [
+
+            //General properties
             'displayEmpty' => [
                 'title'             => Plugin::LOCALIZATION_KEY . 'components.tag_list.display_empty_title',
                 'description'       => Plugin::LOCALIZATION_KEY . 'components.tag_list.display_empty_description',
                 'type'              => 'checkbox',
                 'default'           => false,
-                'showExternalParam' => false
-            ],
-            'limit' => [
-                'title'             => Plugin::LOCALIZATION_KEY . 'components.tag_list.limit_title',
-                'description'       => Plugin::LOCALIZATION_KEY . 'components.tag_list.limit_description',
-                'type'              => 'string',
-                'default'           => '0',
-                'validationPattern' => '^[0-9]+$',
-                'validationMessage' => Plugin::LOCALIZATION_KEY . 'components.tag_list.limit_validation_message',
                 'showExternalParam' => false
             ],
             'orderBy' => [
@@ -107,9 +115,31 @@ class TagList extends ComponentAbstract
                 'description' => Plugin::LOCALIZATION_KEY . 'components.tag_list.post_slug_description',
                 'type'        => 'string'
             ],
+
+            //Limit properties
+            'limit' => [
+                'title'             => Plugin::LOCALIZATION_KEY . 'components.tag_list.limit_title',
+                'group'             => Plugin::LOCALIZATION_KEY . 'components.tag_list.limit_group',
+                'description'       => Plugin::LOCALIZATION_KEY . 'components.tag_list.limit_description',
+                'type'              => 'string',
+                'default'           => '0',
+                'validationPattern' => '^[0-9]+$',
+                'validationMessage' => Plugin::LOCALIZATION_KEY . 'components.tag_list.limit_validation_message',
+                'showExternalParam' => false
+            ],
+            'exposeTotalCount' => [
+                'title'             => Plugin::LOCALIZATION_KEY . 'components.tag_list.expose_total_count_title',
+                'group'             => Plugin::LOCALIZATION_KEY . 'components.tag_list.limit_group',
+                'description'       => Plugin::LOCALIZATION_KEY . 'components.tag_list.expose_total_count_description',
+                'type'              => 'checkbox',
+                'default'           => false,
+                'showExternalParam' => false
+            ],
+
+            //Links
             'tagsPage' => [
                 'title'         => Plugin::LOCALIZATION_KEY . 'components.tag_list.tags_page_title',
-                'group'         =>  Plugin::LOCALIZATION_KEY . 'components.post_list_abstract.links_group',
+                'group'         => Plugin::LOCALIZATION_KEY . 'components.post_list_abstract.links_group',
                 'description'   => Plugin::LOCALIZATION_KEY . 'components.tag_list.tags_page_description',
                 'type'          => 'dropdown',
                 'default'       => 'blog/tag',
@@ -148,16 +178,17 @@ class TagList extends ComponentAbstract
         $this->tagsPage = $this->getProperty('tagsPage');
         $this->orderBy = $this->getProperty('orderBy');
         $this->postSlug = $this->property('postSlug');
-        $this->displayEmpty = $this->getProperty('displayEmpty');
-        $this->limit =  $this->getProperty('limit');
+        $this->displayEmpty = (bool) $this->getProperty('displayEmpty');
+        $this->limit =  (int) $this->getProperty('limit');
+        $this->exposeTotalCount =  (bool) $this->getProperty('exposeTotalCount');
 
         $this->tags = $this->listTags();
     }
 
     /**
-     * @return mixed
+     * @return Collection
      */
-    protected function listTags()
+    private function listTags(): Collection
     {
         $tags = Tag::listFrontend([
             'sort' => $this->orderBy,
@@ -166,10 +197,34 @@ class TagList extends ComponentAbstract
             'post' => $this->postSlug
         ]);
 
+        $this->handleCount($tags);
+        $this->handleTagUrls($tags);
+
+        return $tags;
+    }
+
+    /**
+     * @param $tags
+     */
+    private function handleTagUrls($tags)
+    {
         $tagComponent = $this->getComponent(TagPosts::NAME, $this->tagsPage);
 
         $this->setUrls($tags, $this->tagsPage, $this->controller, ['tag' => $this->urlProperty($tagComponent, 'tag')]);
+    }
 
-        return $tags;
+    /**
+     * @param $tags
+     */
+    private function handleCount($tags)
+    {
+        $this->totalCount = $tags->count();
+
+        if ($this->exposeTotalCount && ($this->limit > 0) && ($this->totalCount === $this->limit)) {
+            $this->totalCount = Tag::listFrontend([
+                'displayEmpty' => $this->displayEmpty,
+                'post' => $this->postSlug
+            ])->count();
+        }
     }
 }
