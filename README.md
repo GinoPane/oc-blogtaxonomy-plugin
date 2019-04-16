@@ -2,7 +2,6 @@
 
 Taxonomy extension for [RainLab Blog](https://octobercms.com/plugin/rainlab-blog) plugin.
 
-
 [![GitHub tag](https://img.shields.io/github/tag/ginopane/oc-blogtaxonomy-plugin.svg)](https://github.com/GinoPane/oc-blogtaxonomy-plugin)
 [![Maintainability](https://api.codeclimate.com/v1/badges/60ecdc5d75bb0e490049/maintainability)](https://codeclimate.com/github/GinoPane/oc-blogtaxonomy-plugin/maintainability)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/GinoPane/oc-blogtaxonomy-plugin/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/GinoPane/oc-blogtaxonomy-plugin/?branch=master)
@@ -128,11 +127,29 @@ It also can be used to retrieve a list of tags for specific post.
 Available properties:
 
 * **Display empty tags** - whether to show tags which were no assigned to any posts or not;
-* **Limit** - number of tags to display, 0 retrieves all tags;
 * **Tag order** - how tags should be ordered;
-* **Post slug** - get tags for the post specified by slug value from URL parameter; e.g. if post slug is `:post`
-the page URL must contain `:post` parameter which value will be used as post slug to retrieve the tags;
+* **Limit** - number of tags to display, 0 retrieves all tags;
+* **Expose total count** - the component has `totalCount` property which would contain either overall amount of tags or
+amount of tags under "limit" only. For example you have 10 tags overall but you use a **limit** of 5. This will make component
+to display 5 tags only. With **Expose total count** enabled you could still get "10" in `totalCount`. And you'll get 5 otherwise;
+
+> Leave this as `false` if you do not require a whole total count, because it will give you more optimised result
+
+* **Include tag filter** - whether to include a tag filter input or not. Tag filter is a text input with some JavaScript
+powered by [mark.js](https://markjs.io/) that allows you to filter a tag list nicely. Use it if you have a lot of tags to
+display, because it would allow to search for a specific tag quickly. Possible values are "Never", "Always" and
+"When tag total count > limit". All of them are self-descriptive, but keep in mind that the last option should be used
+when both **Limit** and **Expose total count** enabled, because you'd get probably an undesired result otherwise.
+The component exposes `tagFilterEnabled` property which would be set to `true` when the filter assets are included and
+the filter could be used;
+
+> The default markup injects JavaScript into `{% scripts %}` placeholder so please make sure your theme has it. Also, the
+default code requires jQuery. If you do not have it, please make sure to adjust the code to fulfill your needs
+
+* **Post slug** - get tags for the post specified by a slug value from URL parameter; e.g. if the post slug is `:post`
+the page URL must contain `:post` parameter which value will be used as post slug to retrieve tags;
 
 > It is not required to set it to a real value unless you want to display tags specific for the post
 
-* **Tag page** - CMS page which contains [`postsWithTag`](#posts-with-the-tag) component and is used to display a single tag content and posts;
+* **Tag page** - CMS page which contains [`postsWithTag`](#posts-with-the-tag) component and is used to display a single tag content (its posts);
+* **Tags page** - CMS page which probably contains [`tagList`](#tag-list) component and is used to display all tags you have;
