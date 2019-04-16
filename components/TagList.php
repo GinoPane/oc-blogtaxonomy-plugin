@@ -316,6 +316,7 @@ class TagList extends ComponentAbstract
         $this->tagFilterEnabled = false;
 
         switch ($this->enableTagFilter) {
+            // fall-through is intentional here, setting of tagFilterEnabled to true is valid for both cases
             case self::TAG_FILTER_ON_OVERFLOW:
                 if (!($this->totalCount > $this->limit)) {
                     break;
