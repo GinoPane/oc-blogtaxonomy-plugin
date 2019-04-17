@@ -101,12 +101,15 @@ class TagList extends ComponentAbstract
      */
     public $tagFilterEnabled;
 
+    /**
+     * Tag filter options
+     */
     const TAG_FILTER_NEVER = 'never';
     const TAG_FILTER_ALWAYS = 'always';
     const TAG_FILTER_ON_OVERFLOW = 'on_overflow';
 
     /**
-     * The attributes on which the post list can be ordered
+     * Translations for tag filter options
      *
      * @var array
      */
