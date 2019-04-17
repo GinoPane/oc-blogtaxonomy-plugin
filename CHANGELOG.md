@@ -16,7 +16,7 @@ Types of changes
 
 ## [Unreleased]
 
-## 1.8.0 - 2019-04-XX
+## 1.8.0 - 2019-04-17
 
 ### Added
 
