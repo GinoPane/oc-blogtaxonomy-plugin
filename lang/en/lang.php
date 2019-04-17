@@ -147,18 +147,34 @@ return [
             'order_title' => 'Tag order',
             'order_description' => 'How tags should be ordered',
 
-            'limit_title' => 'Limit',
-            'limit_description' => 'Number of tags to display, 0 retrieves all tags',
+            'tag_page_title' => 'Tag page',
+            'tag_page_description' => 'The page where a single tag content is displayed',
 
-            'tags_page_title' => 'Tag page',
-            'tags_page_description' => 'The page where the single tag content is displayed',
+            'tags_page_title' => 'Tags page',
+            'tags_page_description' => 'The page where all tags are listed',
 
             'post_slug_title' => 'Post slug',
             'post_slug_description' => 'Get tags for the post specified by slug value from URL parameter',
 
             'no_tags_message' => 'No tags found',
+            'all_tags_link' => 'Show all',
 
-            'limit_validation_message' => 'Limit of tags must be a valid non-negative integer number'
+            'limit_validation_message' => 'Limit of tags must be a valid non-negative integer number',
+
+            'limit_group' => 'Limit',
+
+            'limit_title' => 'Limit',
+            'limit_description' => 'Number of tags to display, 0 retrieves all tags',
+            'expose_total_count_title' => 'Expose total count',
+            'expose_total_count_description' => 'Count whether overall amount of tags or amount of tags under "limit" only',
+            'tag_filter_title' => 'Include tag filter',
+            'tag_filter_description' => 'Whether include tag filter input or not',
+
+            'tag_filter_options' => [
+                'never' => 'Never',
+                'always' => 'Always',
+                'on_overflow' => 'When tag total count > limit'
+            ]
         ],
         'tag_posts' => [
             'name' => 'Posts With the Tag',
@@ -226,7 +242,7 @@ return [
             'pagination_per_page_title' => 'Items per page',
             'pagination_per_page_description' => 'How many items (if any) should be displayed per page',
             'links_group' => 'Links',
-            'pagination_validation_message' => 'Per page number must be a valid non-negative integer number'
+            'pagination_validation_message' => 'Per page number must be a valid non-negative integer number',
         ]
     ],
 

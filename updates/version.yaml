@@ -1,3 +1,9 @@
+1.8.0:
+  - !!! Some properties of TagList component were either renamed or set to private, please check the changelog
+  - Exposed total tag count over the limit
+  - Implemented client tag filter for tag list
+  - Micro refactorings and optimizations
+
 1.7.0:
   - Fixed a method to get real URL parameter names
 

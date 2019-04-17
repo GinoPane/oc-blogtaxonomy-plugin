@@ -16,6 +16,17 @@ Types of changes
 
 ## [Unreleased]
 
+## 1.8.0 - 2019-04-17
+
+### Added
+
+* Exposed total tag count over the limit
+* Implemented client tag filter for tag list
+
+### Changed
+
+* Micro refactorings and optimizations
+
 ## 1.7.0 - 2019-04-03
 
 ### Fixed
