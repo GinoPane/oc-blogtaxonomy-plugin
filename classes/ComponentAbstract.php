@@ -1,6 +1,6 @@
 <?php
 
-namespace GinoPane\BlogTaxonomy\Components;
+namespace GinoPane\BlogTaxonomy\Classes;
 
 use ArrayAccess;
 use Cms\Classes\Page;
@@ -14,7 +14,7 @@ use October\Rain\Database\Collection;
 /**
  * Class ComponentAbstract
  *
- * @package GinoPane\BlogTaxonomy\Components
+ * @package GinoPane\BlogTaxonomy\Classes
  */
 abstract class ComponentAbstract extends ComponentBase
 {
@@ -59,11 +59,11 @@ abstract class ComponentAbstract extends ComponentBase
     public function setPostUrls(ArrayAccess $posts)
     {
         // Add a "url" helper attribute for linking to each post and category
-        if ($posts && $posts->count() && !empty($this->postPage)) {
+        if (!empty($this->postPage) && $posts && $posts->count()) {
             $blogPostComponent = $this->getComponent('blogPost', $this->postPage);
-            $blogCategoriesComponent = $this->getComponent('blogCategories', $this->categoryPage ?? '');
+            $blogPostsComponent = $this->getComponent('blogPosts', $this->categoryPage ?? '');
 
-            $posts->each(function($post) use ($blogPostComponent, $blogCategoriesComponent) {
+            $posts->each(function($post) use ($blogPostComponent, $blogPostsComponent) {
                 /** @var Post $post */
                 $post->setUrl(
                     $this->postPage,
@@ -74,13 +74,13 @@ abstract class ComponentAbstract extends ComponentBase
                 );
 
                 if (!empty($this->categoryPage) && $post->categories->count()) {
-                    $post->categories->each(function ($category) use ($blogCategoriesComponent) {
+                    $post->categories->each(function ($category) use ($blogPostsComponent) {
                         /** @var Category $category */
                         $category->setUrl(
                             $this->categoryPage,
                             $this->controller,
                             [
-                                'slug' => $this->urlProperty($blogCategoriesComponent, 'slug')
+                                'slug' => $this->urlProperty($blogPostsComponent, 'categoryFilter')
                             ]
                         );
                     });
@@ -103,12 +103,14 @@ abstract class ComponentAbstract extends ComponentBase
     {
         $property = null;
 
-        if ($component && ($property = $component->property($name))) {
+        if ($component !== null && ($property = $component->property($name))) {
             preg_match('/{{ :([^ ]+) }}/', $property, $matches);
 
             if (isset($matches[1])) {
                 $property = $matches[1];
             }
+        } else {
+            $property = $name;
         }
 
         return $property;

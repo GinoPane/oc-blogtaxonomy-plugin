@@ -1,11 +1,11 @@
 <?php
 
-namespace GinoPane\BlogTaxonomy\Components;
+namespace GinoPane\BlogTaxonomy\Classes;
 
 /**
  * Trait TranslateArrayTrait
  *
- * @package GinoPane\BlogTaxonomy\Components
+ * @package GinoPane\BlogTaxonomy\Classes
  */
 trait TranslateArrayTrait
 {

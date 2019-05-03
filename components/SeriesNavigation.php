@@ -3,10 +3,10 @@
 namespace GinoPane\BlogTaxonomy\Components;
 
 use Cms\Classes\Page;
-use RainLab\Blog\Models\Post;
 use GinoPane\BlogTaxonomy\Plugin;
 use GinoPane\BlogTaxonomy\Models\Series;
 use GinoPane\BlogTaxonomy\Models\ModelAbstract;
+use GinoPane\BlogTaxonomy\Classes\ComponentAbstract;
 
 /**
  * Class SeriesNavigation
