@@ -51,6 +51,13 @@ class SeriesList extends ComponentAbstract
     public $limit;
 
     /**
+     * Whether to query related posts or not
+     *
+     * @var string
+     */
+    private $fetchPosts;
+
+    /**
      * @return array
      */
     public function componentDetails()
@@ -72,6 +79,13 @@ class SeriesList extends ComponentAbstract
                 'description' =>    Plugin::LOCALIZATION_KEY . 'components.series_list.display_empty_description',
                 'type'        =>    'checkbox',
                 'default'     =>    false,
+                'showExternalParam' => false
+            ],
+            'fetchPosts' => [
+                'title'             => Plugin::LOCALIZATION_KEY . 'components.series_list.fetch_posts_title',
+                'description'       => Plugin::LOCALIZATION_KEY . 'components.series_list.fetch_posts_description',
+                'type'              => 'checkbox',
+                'default'           => false,
                 'showExternalParam' => false
             ],
             'limit' => [
@@ -130,7 +144,8 @@ class SeriesList extends ComponentAbstract
     {
         $this->seriesPage = $this->getProperty('seriesPage');
         $this->orderBy = $this->getProperty('orderBy');
-        $this->displayEmpty = $this->getProperty('displayEmpty');
+        $this->displayEmpty = (bool) $this->getProperty('displayEmpty');
+        $this->fetchPosts = (bool) $this->getProperty('fetchPosts');
         $this->limit = $this->getProperty('limit');
 
         $this->series = $this->listSeries();
@@ -146,9 +161,20 @@ class SeriesList extends ComponentAbstract
         $series = Series::listFrontend([
             'sort' => $this->orderBy,
             'displayEmpty' => $this->displayEmpty,
-            'limit' => $this->limit
+            'limit' => $this->limit,
+            'fetchPosts' => $this->fetchPosts
         ]);
 
+        $this->handleUrls($series);
+
+        return $series;
+    }
+
+    /**
+     * @param $series
+     */
+    private function handleUrls($series)
+    {
         $seriesComponent = $this->getComponent(SeriesPosts::NAME, $this->seriesPage);
 
         $this->setUrls(
@@ -159,7 +185,5 @@ class SeriesList extends ComponentAbstract
                 'series' => $this->urlProperty($seriesComponent, 'series')
             ]
         );
-
-        return $series;
     }
 }

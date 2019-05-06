@@ -155,6 +155,8 @@ return [
 
             'post_slug_title' => 'Post slug',
             'post_slug_description' => 'Get tags for the post specified by slug value from URL parameter',
+            'fetch_posts_title' => 'Fetch related posts',
+            'fetch_posts_description' => 'Fetches related posts so they are available as `posts` property of the tag item. Slows down performance',
 
             'no_tags_message' => 'No tags found',
             'all_tags_link' => 'Show all',
@@ -206,6 +208,9 @@ return [
 
             'series_slug_title' => 'Series slug parameter',
             'series_slug_description' => 'The setting must be equal to slug parameter being used for Series Page (e.g. /blog/series/:series will give you :series)',
+
+            'fetch_posts_title' => 'Fetch related posts',
+            'fetch_posts_description' => 'Fetches related posts so they are available as `posts` property of the series item. Slows down performance',
 
             'limit_title' => 'Limit',
             'limit_description' => 'Number of series to display, 0 retrieves all series',

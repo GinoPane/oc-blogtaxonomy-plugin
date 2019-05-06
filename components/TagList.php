@@ -66,6 +66,13 @@ class TagList extends ComponentAbstract
     private $postSlug;
 
     /**
+     * Whether to query related posts or not
+     *
+     * @var string
+     */
+    private $fetchPosts;
+
+    /**
      * Limits the number of records to display
      *
      * @var int
@@ -145,6 +152,13 @@ class TagList extends ComponentAbstract
             'displayEmpty' => [
                 'title'             => Plugin::LOCALIZATION_KEY . 'components.tag_list.display_empty_title',
                 'description'       => Plugin::LOCALIZATION_KEY . 'components.tag_list.display_empty_description',
+                'type'              => 'checkbox',
+                'default'           => false,
+                'showExternalParam' => false
+            ],
+            'fetchPosts' => [
+                'title'             => Plugin::LOCALIZATION_KEY . 'components.tag_list.fetch_posts_title',
+                'description'       => Plugin::LOCALIZATION_KEY . 'components.tag_list.fetch_posts_description',
                 'type'              => 'checkbox',
                 'default'           => false,
                 'showExternalParam' => false
@@ -257,6 +271,7 @@ class TagList extends ComponentAbstract
 
         $this->orderBy = $this->getProperty('orderBy');
         $this->postSlug = $this->getProperty('postSlug');
+        $this->fetchPosts = (bool) $this->getProperty('fetchPosts');
         $this->displayEmpty = (bool) $this->getProperty('displayEmpty');
         $this->limit =  (int) $this->getProperty('limit');
         $this->exposeTotalCount =  (bool) $this->getProperty('exposeTotalCount');
@@ -274,7 +289,8 @@ class TagList extends ComponentAbstract
             'sort' => $this->orderBy,
             'displayEmpty' => $this->displayEmpty,
             'limit' => $this->limit,
-            'post' => $this->postSlug
+            'post' => $this->postSlug,
+            'fetchPosts' => $this->fetchPosts
         ]);
 
         $this->handleCount($tags);
