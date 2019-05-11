@@ -25,7 +25,6 @@ Types of changes
 ### Fixed
 
 * Count only published blog posts in series list
-* Implemented client tag filter for tag list
 
 ### Changed
 
