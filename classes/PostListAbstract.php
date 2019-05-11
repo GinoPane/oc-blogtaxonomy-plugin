@@ -1,6 +1,6 @@
 <?php
 
-namespace GinoPane\BlogTaxonomy\Components;
+namespace GinoPane\BlogTaxonomy\Classes;
 
 use Cms\Classes\Page;
 use Illuminate\Http\Response;
@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Collection;
 /**
  * Class PostListAbstract
  *
- * @package GinoPane\BlogTaxonomy\Components
+ * @package GinoPane\BlogTaxonomy\Classes
  */
 abstract class PostListAbstract extends ComponentAbstract
 {

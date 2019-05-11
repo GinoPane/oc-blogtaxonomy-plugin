@@ -5,6 +5,7 @@ namespace GinoPane\BlogTaxonomy\Components;
 use RainLab\Blog\Models\Post;
 use GinoPane\BlogTaxonomy\Plugin;
 use GinoPane\BlogTaxonomy\Models\Series;
+use GinoPane\BlogTaxonomy\Classes\PostListAbstract;
 
 /**
  * Class SeriesPosts
