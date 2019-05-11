@@ -3,7 +3,7 @@
 {% if series|length %}
     <div class="list-group">
         {% for item in series %}
-            {% set postCount = item.posts|length %}
+            {% set postCount = item.posts_count %}
             <a href="{{ item.url }}" class="list-group-item">
                 {{ item.title }}
                 {% if postCount %}

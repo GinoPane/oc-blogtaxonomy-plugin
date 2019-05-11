@@ -53,7 +53,7 @@ abstract class ModelAbstract extends Model
      */
     public function scopeListFrontend(Builder $query, array $options = [])
     {
-        $this->withRelation($query);
+        $this->withRelation($query, $options);
 
         $this->queryOrderBy($query, $options);
 
@@ -158,11 +158,22 @@ abstract class ModelAbstract extends Model
 
     /**
      * @param Builder $query
+     * @param array   $options
      *
      * @return void
      */
-    private function withRelation(Builder $query)
+    private function withRelation(Builder $query, array $options)
     {
+        if (!empty($options['fetchPosts'])) {
+            $query->with(
+                [
+                    'posts' => static function ($query) {
+                        $query->isPublished();
+                    }
+                ]
+            );
+        }
+
         $query->withCount(
             [
                 'posts' => static function ($query) {
