@@ -1,3 +1,8 @@
+1.9.0:
+  - !!! Internal directory structure was slightly changed
+  - Count only published blog posts in series list
+  - Allow fetching of all related posts for tags and series lists via a new option
+
 1.8.0:
   - !!! Some properties of TagList component were either renamed or set to private, please check the changelog
   - Exposed total tag count over the limit

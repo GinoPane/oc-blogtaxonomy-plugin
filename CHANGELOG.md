@@ -16,6 +16,21 @@ Types of changes
 
 ## [Unreleased]
 
+## 1.9.0 - 2019-05-11
+
+### Added
+
+* Allow fetching of all related posts for tags and series lists via a new option
+
+### Fixed
+
+* Count only published blog posts in series list
+* Implemented client tag filter for tag list
+
+### Changed
+
+* Internal directory structure was slightly changed
+
 ## 1.8.0 - 2019-04-17
 
 ### Added
@@ -109,4 +124,4 @@ Types of changes
 ### Features
 * The initial release of Blog Taxonomy.
 
-[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v1.7.0...HEAD
+[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v1.9.0...HEAD
