@@ -55,7 +55,7 @@ class SeriesList extends ComponentAbstract
     /**
      * Whether to query related posts or not
      *
-     * @var string
+     * @var bool
      */
     private $fetchPosts;
 
