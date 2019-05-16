@@ -1,6 +1,6 @@
 <h1>{{ "ginopane.blogtaxonomy::lang.components.tag_posts.posts_with_tag" | trans }} "{{ __SELF__.tag.name }}"</h1>
 
-{% if __SELF__.posts %}
+{% if __SELF__.posts | length %}
     <ul id="{{ __SELF__.alias }}-list">
         {% partial __SELF__ ~ '::list' %}
     </ul>

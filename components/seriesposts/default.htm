@@ -11,7 +11,7 @@
     {% endfor %}
 {% endif %}
 
-{% if __SELF__.posts %}
+{% if __SELF__.posts | length %}
     <ul id="{{ __SELF__.alias }}-list">
         {% partial __SELF__ ~ '::list' %}
     </ul>
