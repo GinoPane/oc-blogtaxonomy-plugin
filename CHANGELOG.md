@@ -16,6 +16,16 @@ Types of changes
 
 ## [Unreleased]
 
+## 1.10.0 - 2019-05-17
+
+### Fixed
+
+* Fixed default templates for posts with tags and series to show correct empty message on wrong pagination
+
+## Changed
+
+* Updated mark.js
+
 ## 1.9.0 - 2019-05-11
 
 ### Added
@@ -123,4 +133,4 @@ Types of changes
 ### Features
 * The initial release of Blog Taxonomy.
 
-[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v1.9.0...HEAD
+[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v1.10.0...HEAD

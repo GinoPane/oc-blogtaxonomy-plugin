@@ -1,3 +1,7 @@
+1.10.0:
+  - Fixed default templates for posts with tags and series to show correct empty message on wrong pagination
+  - Updated mark.js
+
 1.9.0:
   - !!! Internal directory structure was slightly changed
   - Count only published blog posts in series list
