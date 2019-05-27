@@ -5,7 +5,7 @@ return [
     // plugin
     'plugin' => [
         'name' => 'Blog Taxonomy',
-        'description' => 'Adds tags and series management to RainLab Blog posts, which are put along with categories in a brand new taxonomy tab',
+        'description' => 'Adds tags and series management for RainLab Blog posts',
     ],
 
     // form
@@ -68,7 +68,8 @@ return [
             'no_posts_in_series' => 'There are no posts in this series',
             'comment' => 'Choose a series the blog post belongs to',
 
-            'title_invalid' => 'Series names may only contain alpha-numeric characters, spaces, hyphens and some punctuation',
+            'title_invalid' => 'Series names may only contain alpha-numeric characters,
+                                spaces, hyphens and somepunctuation',
             'title_required' => 'The series title field is required',
             'title_unique' => 'This series title is already taken',
             'title_too_short' => 'Series title minimal length is :min',
