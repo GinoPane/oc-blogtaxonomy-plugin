@@ -24,7 +24,7 @@ class SeriesPosts extends PostListAbstract
     /**
      * @return array
      */
-    public function componentDetails()
+    public function componentDetails(): array
     {
         return [
             'name'        => Plugin::LOCALIZATION_KEY . 'components.series_posts.name',
@@ -35,7 +35,7 @@ class SeriesPosts extends PostListAbstract
     /**
      * @return array
      */
-    public function defineProperties()
+    public function defineProperties(): array
     {
         $properties = [
                 'series' => [
