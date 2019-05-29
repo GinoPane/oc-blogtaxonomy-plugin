@@ -2,7 +2,6 @@
 
 namespace GinoPane\BlogTaxonomy\Components;
 
-use Cms\Classes\Page;
 use GinoPane\BlogTaxonomy\Plugin;
 use GinoPane\BlogTaxonomy\Models\Series;
 use GinoPane\BlogTaxonomy\Classes\TranslateArrayTrait;
