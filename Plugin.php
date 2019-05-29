@@ -15,6 +15,7 @@ use GinoPane\BlogTaxonomy\Components\TagPosts;
 use GinoPane\BlogTaxonomy\Components\SeriesList;
 use GinoPane\BlogTaxonomy\Components\SeriesPosts;
 use GinoPane\BlogTaxonomy\Components\RelatedPosts;
+use GinoPane\BlogTaxonomy\Components\RelatedSeries;
 use RainLab\Blog\Controllers\Posts as PostsController;
 use GinoPane\BlogTaxonomy\Components\SeriesNavigation;
 use RainLab\Blog\Controllers\Categories as CategoriesController;
@@ -69,6 +70,7 @@ class Plugin extends PluginBase
             SeriesList::class       => SeriesList::NAME,
             SeriesPosts::class      => SeriesPosts::NAME,
             SeriesNavigation::class => SeriesNavigation::NAME,
+            RelatedSeries::class    => RelatedSeries::NAME
         ];
     }
 

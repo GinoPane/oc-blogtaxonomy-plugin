@@ -2,6 +2,7 @@
 
 namespace GinoPane\BlogTaxonomy\Models;
 
+use October\Rain\Database\Builder;
 use System\Models\File;
 use RainLab\Blog\Models\Post;
 use GinoPane\BlogTaxonomy\Plugin;
@@ -22,6 +23,8 @@ class Series extends ModelAbstract
     use Validation;
 
     const TABLE_NAME = 'ginopane_blogtaxonomy_series';
+
+    const RELATED_SERIES_TABLE_NAME = 'ginopane_blogtaxonomy_related_series';
 
     /**
      * The database table used by the model
@@ -54,7 +57,7 @@ class Series extends ModelAbstract
     ];
 
     /**
-     * Relations
+     * Has-many relations
      *
      * @var array
      */
@@ -66,13 +69,30 @@ class Series extends ModelAbstract
     ];
 
     /**
+     * Belongs-to-many relations
+     *
+     * @var array
+     */
+    public $belongsToMany = [
+        'related_series' => [
+            Series::class,
+            'table' => Series::RELATED_SERIES_TABLE_NAME,
+            'order' => 'id',
+            'key' => 'series_id',
+            'otherKey' => 'related_series_id'
+        ]
+    ];
+
+    /**
      * Relations
      *
      * @var array
      */
     public $attachMany = [
         'featured_images' => [
-            File::class
+            File::class,
+            'order' => 'sort_order',
+            'delete' => true
         ]
     ];
 
@@ -124,11 +144,14 @@ class Series extends ModelAbstract
     protected $slugs = ['slug' => 'title'];
 
     /**
-     * @return mixed
+     * @param Builder $query
+     * @param Series  $current
+     *
+     * @return Builder
      */
-    public function getPostCountAttribute()
+    public function scopeExcludeCurrent(Builder $query, Series $current): Builder
     {
-        return $this->posts()->isPublished()->count();
+        return $query->where('id', '!=', $current->id);
     }
 
     /**

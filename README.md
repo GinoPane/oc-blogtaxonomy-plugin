@@ -16,6 +16,7 @@ Taxonomy extension for [RainLab Blog](https://octobercms.com/plugin/rainlab-blog
     * [Related Posts](#related-posts)
     * [Series List](#series-list)
     * [Tag List](#tag-list)
+    * [Related Series](#related-series)
 
 Inspired by [Blog Tags Extension](https://octobercms.com/plugin/bedard-blogtags) and [Blog Series](https://octobercms.com/plugin/pkleindienst-blogseries)
 plugins Blog Taxonomy adds both tags and series functionality in a high quality and reliable way. Every post could belong
@@ -115,7 +116,7 @@ Available properties:
 * **Limit** - number of series to display, 0 retrieves all series;
 * **Series order** - how series list should be ordered;
 * **Series page** - CMS page which contains [`postsInSeries`](#posts-in-the-series) component and is used to display a single series content and posts;
-* **Fetch related posts** - if enabled, the component will fetch related posts, so they are properly available as `posts` property of the series item; it does an additional request, so decreases performance a little.
+* **Fetch related posts** - if enabled, the component will fetch related posts, so they are properly (**as published**) available via `posts` property of the series item; it does an additional request, so decreases performance a little.
 
 ### Tag List
 
@@ -133,7 +134,7 @@ Available properties:
 * **Expose total count** - the component has `totalCount` property which would contain either overall amount of tags or
 amount of tags under "limit" only. For example you have 10 tags overall but you use a **limit** of 5. This will make component
 to display 5 tags only. With **Expose total count** enabled you could still get "10" in `totalCount`. And you'll get 5 otherwise;
-* **Fetch related posts** - if enabled, the component will fetch related posts, so they are properly available as `posts` property of the tag item; it does an additional request, so decreases performance a little;
+* **Fetch related posts** - if enabled, the component will fetch related posts, so they are properly (**as published**) available via `posts` property of the tag item; it does an additional request, so decreases performance a little;
 
 > Leave this as `false` if you do not require a whole total count, because it will give you more optimised result
 
@@ -155,3 +156,7 @@ the page URL must contain `:post` parameter which value will be used as post slu
 
 * **Tag page** - CMS page which contains [`postsWithTag`](#posts-with-the-tag) component and is used to display a single tag content (its posts);
 * **Tags page** - CMS page which probably contains [`tagList`](#tag-list) component and is used to display all tags you have;
+
+### Related Series
+
+Component `relatesSeries` provides a list of related series. The same list could be fetched for individual series by accessing its property `related_series`. The only difference is that the component fills urls for related series.

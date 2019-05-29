@@ -60,7 +60,7 @@ abstract class PostListAbstract extends ComponentAbstract
      * Component Properties
      * @return array
      */
-    public function defineProperties()
+    public function defineProperties(): array
     {
         return [
             'orderBy' => [
