@@ -19,11 +19,13 @@ return [
             'images' => 'Images',
             'slug' => 'Slug',
             'description' => 'Description',
-            'posts' => 'Posts'
+            'posts' => 'Posts',
+            'related_series' => 'Related Series'
         ],
         'tabs' => [
             'general' => 'General',
-            'posts' => 'Posts'
+            'posts' => 'Posts',
+            'related_series' => 'Related Series'
         ],
 
         'categories' => [
@@ -240,6 +242,11 @@ return [
             'no_posts_message' => 'No related posts found',
             'related_posts' => 'Related posts',
             'links_group' => 'Links'
+        ],
+        'related_series' => [
+            'name' => 'Related Series',
+            'description' => 'Gets properly filled related series list',
+            'no_series_message' => 'No related series',
         ],
         'post_list_abstract' => [
             'pagination_group' => 'Pagination',

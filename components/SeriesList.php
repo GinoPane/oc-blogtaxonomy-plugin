@@ -29,7 +29,7 @@ class SeriesList extends ComponentAbstract
      *
      * @var string
      */
-    public $seriesPage;
+    protected $seriesPage;
 
     /**
      * If the series list should be ordered by another attribute
@@ -73,7 +73,7 @@ class SeriesList extends ComponentAbstract
     /**
      * @return array
      */
-    public function defineProperties()
+    public function defineProperties(): array
     {
         return [
             'displayEmpty' => [
@@ -128,7 +128,7 @@ class SeriesList extends ComponentAbstract
     /**
      * @return string[]
      */
-    public function getOrderByOptions()
+    public function getOrderByOptions(): array
     {
         $order = $this->translate(Series::$sortingOptions);
 
@@ -164,7 +164,7 @@ class SeriesList extends ComponentAbstract
             'sort' => $this->orderBy,
             'displayEmpty' => $this->displayEmpty,
             'limit' => $this->limit,
-            'fetchPosts' => $this->fetchPosts
+            'fetchPosts' => $this->fetchPosts,
         ]);
 
         $this->handleUrls($series);
@@ -175,7 +175,7 @@ class SeriesList extends ComponentAbstract
     /**
      * @param $series
      */
-    private function handleUrls($series)
+    protected function handleUrls($series)
     {
         $seriesComponent = $this->getComponent(SeriesPosts::NAME, $this->seriesPage);
 

@@ -38,3 +38,9 @@ tabs:
             type: partial
             path: field_posts
             tab: ginopane.blogtaxonomy::lang.form.tabs.posts
+
+        related_series:
+            label: ginopane.blogtaxonomy::lang.form.fields.related_series
+            type: partial
+            path: related_series
+            tab: ginopane.blogtaxonomy::lang.form.tabs.related_series
