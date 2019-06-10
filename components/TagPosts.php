@@ -25,7 +25,7 @@ class TagPosts extends PostListAbstract
      * Component Registration
      * @return array
      */
-    public function componentDetails()
+    public function componentDetails(): array
     {
         return [
             'name'        => Plugin::LOCALIZATION_KEY . 'components.tag_posts.name',
@@ -37,7 +37,7 @@ class TagPosts extends PostListAbstract
      * Component Properties
      * @return array
      */
-    public function defineProperties()
+    public function defineProperties(): array
     {
         $properties = [
             'tag' => [

@@ -249,6 +249,11 @@ return [
             'pagination_per_page_description' => 'How many items (if any) should be displayed per page',
             'links_group' => 'Links',
             'pagination_validation_message' => 'Per page number must be a valid non-negative integer number',
+            'exceptions_group' => 'Exceptions',
+            'except_posts_title' => 'Except posts',
+            'except_posts_description' => 'List post ids or slugs separated by comma to exclude them from the list',
+            'except_categories_title' => 'Except categories',
+            'except_categories_description' => 'List category ids or slugs separated by comma to exclude their posts from the list',
         ]
     ],
 

@@ -6,6 +6,8 @@ use Cms\Classes\Page;
 use Illuminate\Http\Response;
 use Rainlab\Blog\Models\Post;
 use GinoPane\BlogTaxonomy\Plugin;
+use October\Rain\Database\Builder;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -41,6 +43,20 @@ abstract class PostListAbstract extends ComponentAbstract
     public $orderBy;
 
     /**
+     * Filter out posts based on their slugs or ids
+     *
+     * @var array
+     */
+    protected $exceptPosts;
+
+    /**
+     * Filter out posts based on their categories slugs or ids
+     *
+     * @var array
+     */
+    protected $exceptCategories;
+
+    /**
      * The attributes on which the post list can be ordered
      * @var array
      */
@@ -57,20 +73,127 @@ abstract class PostListAbstract extends ComponentAbstract
     ];
 
     /**
-     * Component Properties
+     * Component properties
+     *
      * @return array
      */
-    public function defineProperties()
+    public function defineProperties(): array
     {
-        return [
+        $properties = [
             'orderBy' => [
                 'title'       => 'rainlab.blog::lang.settings.posts_order',
                 'description' => 'rainlab.blog::lang.settings.posts_order_description',
                 'type'        => 'dropdown',
                 'default'     => 'published_at asc',
                 'showExternalParam' => false
-            ],
+            ]
+        ];
 
+        return array_merge(
+            $properties,
+            $this->getPaginationProperties(),
+            $this->getPageLinkProperties(),
+            $this->getExceptionProperties()
+        );
+    }
+
+    /**
+     * @see Post::$allowedSortingOptions
+     *
+     * @return string[]
+     */
+    public function getOrderByOptions(): array
+    {
+        $order = $this->translate(static::$postAllowedSortingOptions);
+
+        asort($order);
+
+        return $order;
+    }
+
+    /**
+     * Query the item and posts belonging to it
+     *
+     * @return void|RedirectResponse
+     */
+    public function onRun()
+    {
+        if ($this->prepareContextItem() === null) {
+            return Redirect::to($this->controller->pageUrl(Response::HTTP_NOT_FOUND));
+        }
+
+        $this->prepareVars();
+
+        $this->listPosts();
+    }
+
+    /**
+     * Load a list of posts
+     */
+    public function listPosts()
+    {
+        $query = $this->getPostsQuery();
+
+        $this->handlePostExceptions($query);
+
+        $this->handleOrder($query);
+
+        $posts = $query->paginate($this->resultsPerPage, $this->currentPage);
+
+        $this->setPostUrls($posts);
+
+        $this->posts = $posts;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPostPageOptions()
+    {
+        return Page::sortBy('baseFileName')->lists('baseFileName', 'baseFileName');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCategoryPageOptions()
+    {
+        return Page::sortBy('baseFileName')->lists('baseFileName', 'baseFileName');
+    }
+
+    /**
+     * Prepare variables
+     */
+    abstract protected function prepareContextItem();
+
+    /**
+     * @return mixed
+     */
+    abstract protected function getPostsQuery();
+
+    /**
+     * Prepare variables
+     */
+    protected function prepareVars()
+    {
+        // Paginator settings
+        $this->populatePagination();
+        // Page links
+        $this->populateLinks();
+        // Exceptions
+        $this->populateExceptions();
+
+        $this->orderBy = $this->property('orderBy');
+    }
+
+    /**
+     * Properties for pagination handling
+     *
+     * @return array
+     */
+    private function getPaginationProperties(): array
+    {
+        return [
             'page' => [
                 'group'         => Plugin::LOCALIZATION_KEY . 'components.post_list_abstract.pagination_group',
                 'title'         => Plugin::LOCALIZATION_KEY . 'components.post_list_abstract.page_parameter_title',
@@ -87,8 +210,18 @@ abstract class PostListAbstract extends ComponentAbstract
                 'validationPattern' => '^(0+)?[1-9]\d*$',
                 'validationMessage' => Plugin::LOCALIZATION_KEY . 'components.post_list_abstract.pagination_validation_message',
                 'showExternalParam' => false,
-            ],
+            ]
+        ];
+    }
 
+    /**
+     * Properties for proper links handling
+     *
+     * @return array
+     */
+    private function getPageLinkProperties(): array
+    {
+        return [
             'postPage' => [
                 'group'       => Plugin::LOCALIZATION_KEY . 'components.post_list_abstract.links_group',
                 'title'       => 'rainlab.blog::lang.settings.posts_post',
@@ -104,67 +237,70 @@ abstract class PostListAbstract extends ComponentAbstract
                 'type'        => 'dropdown',
                 'default'     => 'blog/category',
                 'showExternalParam' => false,
-            ]
+            ],
         ];
     }
 
     /**
-     * @see Post::$allowedSortingOptions
+     * Properties for list exceptions handling
      *
-     * @return string[]
+     * @return array
      */
-    public function getOrderByOptions()
+    private function getExceptionProperties(): array
     {
-        $order = $this->translate(static::$postAllowedSortingOptions);
-
-        asort($order);
-
-        return $order;
+        return [
+            'exceptPosts' => [
+                'group'             => Plugin::LOCALIZATION_KEY . 'components.post_list_abstract.exceptions_group',
+                'title'             => Plugin::LOCALIZATION_KEY . 'components.post_list_abstract.except_posts_title',
+                'description'       => Plugin::LOCALIZATION_KEY . 'components.post_list_abstract.except_posts_description',
+                'type'              => 'string',
+                'default'           => '',
+                'showExternalParam' => false,
+            ],
+            'exceptCategories' => [
+                'group'             => Plugin::LOCALIZATION_KEY . 'components.post_list_abstract.exceptions_group',
+                'title'             => Plugin::LOCALIZATION_KEY . 'components.post_list_abstract.except_categories_title',
+                'description'       => Plugin::LOCALIZATION_KEY . 'components.post_list_abstract.except_categories_description',
+                'type'              => 'string',
+                'default'           => '',
+                'showExternalParam' => false,
+            ],
+        ];
     }
 
     /**
-     * Query the tag and posts belonging to it
+     * @return void
      */
-    public function onRun()
+    private function populatePagination()
     {
-        if ($this->prepareContextItem() === null) {
-            return Redirect::to($this->controller->pageUrl(Response::HTTP_NOT_FOUND));
-        }
-
-        $this->prepareVars();
-
-        $this->listPosts();
-    }
-
-    /**
-     * Prepare variables
-     */
-    abstract protected function prepareContextItem();
-
-    /**
-     * Prepare variables
-     */
-    protected function prepareVars()
-    {
-        // Paginator settings
         $this->currentPage = (int)$this->property('page', 1) ?: (int)post('page');
         $this->resultsPerPage = (int)$this->property('resultsPerPage')
             ?: $this->defineProperties()['resultsPerPage']['default'];
-
-        $this->orderBy = $this->page['orderBy'] = $this->property('orderBy');
-
-        // Page links
-        $this->postPage = $this->page['postPage' ] = $this->property('postPage');
-        $this->categoryPage = $this->page['categoryPage'] = $this->property('categoryPage');
     }
 
     /**
-     * Load a list of posts
+     * @return void
      */
-    public function listPosts()
+    private function populateLinks()
     {
-        $query = $this->getPostsQuery();
+        $this->postPage = $this->property('postPage');
+        $this->categoryPage = $this->property('categoryPage');
+    }
 
+    /**
+     * @return void
+     */
+    private function populateExceptions()
+    {
+        $this->exceptPosts = $this->extractArrayFromProperty('exceptPosts');
+        $this->exceptCategories = $this->extractArrayFromProperty('exceptCategories');
+    }
+
+    /**
+     * @param $query
+     */
+    private function handleOrder(Builder $query)
+    {
         if (array_key_exists($this->orderBy, self::$postAllowedSortingOptions)) {
             if ($this->orderBy === 'random') {
                 $query->inRandomOrder();
@@ -174,32 +310,85 @@ abstract class PostListAbstract extends ComponentAbstract
                 $query->orderBy($sortField, $sortDirection);
             }
         }
-
-        $posts = $query->paginate($this->resultsPerPage, $this->currentPage);
-
-        $this->setPostUrls($posts);
-
-        $this->posts = $posts;
     }
 
     /**
-     * @return mixed
+     * @param $query
      */
-    abstract protected function getPostsQuery();
-
-    /**
-     * @return mixed
-     */
-    public function getPostPageOptions()
+    private function handlePostExceptions(Builder $query)
     {
-        return Page::sortBy('baseFileName')->lists('baseFileName', 'baseFileName');
+        $this->handleExceptionsByPost($query);
+        $this->handleExceptionByCategory($query);
     }
 
     /**
-     * @return mixed
+     * @param string $property
+     *
+     * @return array
      */
-    public function getCategoryPageOptions()
+    private function extractArrayFromProperty(string $property): array
     {
-        return Page::sortBy('baseFileName')->lists('baseFileName', 'baseFileName');
+        return array_map('trim', array_filter(explode(',', $this->property($property))));
+    }
+
+    /**
+     * Separates parameters into two arrays: ids and slugs
+     *
+     * @param array $parameters
+     *
+     * @return array Ids array an slugs array
+     */
+    private function separateParameters(array $parameters): array
+    {
+        $slugs = $parameters;
+        $ids = [];
+
+        foreach ($slugs as $index => $potentialId) {
+            if (is_numeric($potentialId)) {
+                $ids[] = $potentialId;
+                unset($slugs[$index]);
+            }
+        }
+
+        return [$ids, $slugs];
+    }
+
+    /**
+     * @param $query
+     *
+     */
+    private function handleExceptionByCategory(Builder $query)
+    {
+        if (!empty($this->exceptCategories)) {
+            list($ids, $slugs) = $this->separateParameters($this->exceptCategories);
+
+            $query->whereDoesntHave('categories', static function ($innerQuery) use ($ids, $slugs) {
+                if (!empty($ids)) {
+                    $innerQuery->whereIn('id', $ids);
+                }
+
+                if (!empty($slugs)) {
+                    $innerQuery->whereIn('slug', $slugs);
+                }
+            });
+        }
+    }
+
+    /**
+     * @param $query
+     */
+    private function handleExceptionsByPost(Builder $query)
+    {
+        if (!empty($this->exceptPosts)) {
+            list($ids, $slugs) = $this->separateParameters($this->exceptPosts);
+
+            if (!empty($ids)) {
+                $query->whereNotIn('id', $ids);
+            }
+
+            if (!empty($slugs)) {
+                $query->whereNotIn('slug', $slugs);
+            }
+        }
     }
 }
