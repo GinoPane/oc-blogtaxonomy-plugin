@@ -2,10 +2,10 @@
 
 namespace GinoPane\BlogTaxonomy\Models;
 
-use October\Rain\Database\Builder;
 use System\Models\File;
 use RainLab\Blog\Models\Post;
 use GinoPane\BlogTaxonomy\Plugin;
+use October\Rain\Database\Builder;
 use October\Rain\Database\Traits\Sluggable;
 use October\Rain\Database\Traits\Validation;
 

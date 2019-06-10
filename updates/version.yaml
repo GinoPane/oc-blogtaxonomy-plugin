@@ -1,3 +1,8 @@
+1.11.0:
+  - Implemented related series
+  - Implemented exclusions by post/category for post lists
+  - create_related_series_table.php
+
 1.10.0:
   - Fixed default templates for posts with tags and series to show correct empty message on wrong pagination
   - Updated mark.js
