@@ -164,3 +164,9 @@ the page URL must contain `:post` parameter which value will be used as post slu
 ### Related Series
 
 Component `relatesSeries` provides a list of related series. The same list could be fetched for individual series by accessing its property `related_series`. The only difference is that the component fills urls for related series.
+
+Available properties:
+
+* **Series slug** - look up the related series using the supplied slug value from this URL parameter; e.g. if series slug is `:series`
+the page URL must contain `:series` parameter which value will be used as series slug to retrieve the related series;
+* **Series page** - CMS page which contains [`postsInSeries`](#posts-in-the-series) component and is used to display a single series content and posts.
