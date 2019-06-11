@@ -52,7 +52,7 @@ class Plugin extends PluginBase
             'description' => self::LOCALIZATION_KEY . 'plugin.description',
             'author'      => 'Siarhei <Gino Pane> Karavai',
             'icon'        => 'icon-tags',
-            'homepage'    => 'https://github.com/ginopane/oc-blog-taxonomy'
+            'homepage'    => 'https://github.com/GinoPane/oc-blogtaxonomy-plugin'
         ];
     }
 
