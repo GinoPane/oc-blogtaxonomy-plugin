@@ -11,3 +11,14 @@ posts:
     manage:
         showSearch: true
         list: post_columns_manage.yaml
+
+related_series:
+    label: ginopane.blogtaxonomy::lang.form.fields.related_series
+    view:
+        showSearch: true
+        list: $/ginopane/blogtaxonomy/models/series/columns_short.yaml
+        toolbarButtons: add|remove
+    manage:
+        showSearch: true
+        list: $/ginopane/blogtaxonomy/models/series/columns_short.yaml
+        scope: excludeCurrent

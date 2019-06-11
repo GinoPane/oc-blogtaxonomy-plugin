@@ -16,6 +16,12 @@ Types of changes
 
 ## [Unreleased]
 
+## 1.11.0 - 2019-06-11
+
+### Added
+* Implemented related series
+* Implemented exclusions by post/category for post lists
+
 ## 1.10.0 - 2019-05-17
 
 ### Fixed
@@ -133,4 +139,4 @@ Types of changes
 ### Features
 * The initial release of Blog Taxonomy.
 
-[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v1.10.0...HEAD
+[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v1.11.0...HEAD
