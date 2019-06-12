@@ -47,17 +47,19 @@ class CreateRelatedSeriesTable extends Migration
      */
     private function createRelation()
     {
-        Schema::create(
-            Series::RELATED_SERIES_TABLE_NAME,
-            function ($table) {
-                $table->engine = 'InnoDB';
+        if (!Schema::hasTable(Series::RELATED_SERIES_TABLE_NAME)) {
+            Schema::create(
+                Series::RELATED_SERIES_TABLE_NAME,
+                static function ($table) {
+                    $table->engine = 'InnoDB';
 
-                $table->integer('series_id')->unsigned();
-                $table->integer('related_series_id')->unsigned();
-                $table->index(['series_id', 'related_series_id']);
-                $table->foreign('series_id', 'Series reference')->references('id')->on(Series::TABLE_NAME)->onDelete('cascade');
-                $table->foreign('related_series_id', 'Related series reference')->references('id')->on(Series::TABLE_NAME)->onDelete('cascade');
-            }
-        );
+                    $table->integer('series_id')->unsigned();
+                    $table->integer('related_series_id')->unsigned();
+                    $table->index(['series_id', 'related_series_id']);
+                    $table->foreign('series_id', 'Series reference')->references('id')->on(Series::TABLE_NAME)->onDelete('cascade');
+                    $table->foreign('related_series_id', 'Related series reference')->references('id')->on(Series::TABLE_NAME)->onDelete('cascade');
+                }
+            );
+        }
     }
 }

@@ -66,30 +66,34 @@ class CreateTaxonomiesTables extends Migration
      */
     private function createTags()
     {
-        Schema::create(
-            Tag::TABLE_NAME,
-            function ($table) {
-                $table->engine = 'InnoDB';
+        if (!Schema::hasTable(Tag::TABLE_NAME)) {
+            Schema::create(
+                Tag::TABLE_NAME,
+                static function ($table) {
+                    $table->engine = 'InnoDB';
 
-                $table->increments('id');
-                $table->string('name')->unique();
-                $table->string('slug')->unique();
-                $table->timestamps();
-            }
-        );
+                    $table->increments('id');
+                    $table->string('name')->unique();
+                    $table->string('slug')->unique();
+                    $table->timestamps();
+                }
+            );
+        }
 
-        Schema::create(
-            Tag::CROSS_REFERENCE_TABLE_NAME,
-            function ($table) {
-                $table->engine = 'InnoDB';
+        if (!Schema::hasTable(Tag::CROSS_REFERENCE_TABLE_NAME)) {
+            Schema::create(
+                Tag::CROSS_REFERENCE_TABLE_NAME,
+                static function ($table) {
+                    $table->engine = 'InnoDB';
 
-                $table->integer('tag_id')->unsigned()->nullable()->default(null);
-                $table->integer('post_id')->unsigned()->nullable()->default(null);
-                $table->index(['tag_id', 'post_id']);
-                $table->foreign('tag_id', 'Tag reference')->references('id')->on(Tag::TABLE_NAME)->onDelete('cascade');
-                $table->foreign('post_id', 'Post reference')->references('id')->on('rainlab_blog_posts')->onDelete('cascade');
-            }
-        );
+                    $table->integer('tag_id')->unsigned()->nullable()->default(null);
+                    $table->integer('post_id')->unsigned()->nullable()->default(null);
+                    $table->index(['tag_id', 'post_id']);
+                    $table->foreign('tag_id', 'Tag reference')->references('id')->on(Tag::TABLE_NAME)->onDelete('cascade');
+                    $table->foreign('post_id', 'Post reference')->references('id')->on('rainlab_blog_posts')->onDelete('cascade');
+                }
+            );
+        }
     }
 
     /**
@@ -97,22 +101,24 @@ class CreateTaxonomiesTables extends Migration
      */
     private function createSeries()
     {
-        Schema::create(
-            Series::TABLE_NAME,
-            function ($table) {
-                $table->engine = 'InnoDB';
+        if (!Schema::hasTable(Series::TABLE_NAME)) {
+            Schema::create(
+                Series::TABLE_NAME,
+                static function ($table) {
+                    $table->engine = 'InnoDB';
 
-                $table->increments('id');
-                $table->string('title')->unique();
-                $table->string('slug')->unique();
-                $table->string('description')->nullable();
-                $table->timestamps();
-            }
-        );
+                    $table->increments('id');
+                    $table->string('title')->unique();
+                    $table->string('slug')->unique();
+                    $table->string('description')->nullable();
+                    $table->timestamps();
+                }
+            );
 
-        Schema::table('rainlab_blog_posts', function ($table) {
-            $table->integer(Series::TABLE_NAME . '_id')->unsigned()->nullable()->default(null);
-            $table->foreign(Series::TABLE_NAME . '_id')->references('id')->on(Series::TABLE_NAME)->onDelete('cascade');
-        });
+            Schema::table('rainlab_blog_posts', function ($table) {
+                $table->integer(Series::TABLE_NAME . '_id')->unsigned()->nullable()->default(null);
+                $table->foreign(Series::TABLE_NAME . '_id')->references('id')->on(Series::TABLE_NAME)->onDelete('cascade');
+            });
+        }
     }
 }
