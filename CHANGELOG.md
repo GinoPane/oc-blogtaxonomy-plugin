@@ -16,6 +16,11 @@ Types of changes
 
 ## [Unreleased]
 
+## 1.11.1 - 2019-06-12
+
+### Fixed
+* Fixed migrations to prevent a ghost bug on update
+
 ## 1.11.0 - 2019-06-11
 
 ### Added

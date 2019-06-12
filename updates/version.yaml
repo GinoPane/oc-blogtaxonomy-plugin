@@ -1,5 +1,5 @@
 1.11.1:
-  - Fixed migration to prevent a ghost bug
+  - Fixed migration to prevent a ghost bug on update
   - create_related_series_table.php
 
 1.11.0:
