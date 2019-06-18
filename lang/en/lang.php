@@ -70,8 +70,7 @@ return [
             'no_posts_in_series' => 'There are no posts in this series',
             'comment' => 'Choose a series the blog post belongs to',
 
-            'title_invalid' => 'Series names may only contain alpha-numeric characters,
-                                spaces, hyphens and somepunctuation',
+            'title_invalid' => 'Series names may only contain alpha-numeric characters, spaces, hyphens and some punctuation',
             'title_required' => 'The series title field is required',
             'title_unique' => 'This series title is already taken',
             'title_too_short' => 'Series title minimal length is :min',

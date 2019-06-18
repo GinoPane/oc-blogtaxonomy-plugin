@@ -14,6 +14,7 @@ use October\Rain\Database\Traits\Validation;
  *
  * @property string title
  * @property string slug
+ * @property string description
  *
  * @package GinoPane\BlogTaxonomy\Models
  */
@@ -102,7 +103,7 @@ class Series extends ModelAbstract
      * @var array
      */
     public $rules = [
-        'title' => "required|unique:" . self::TABLE_NAME . "|min:3|regex:/^[\w\-\?!,.\" ]+$/iu",
+        'title' => "required|unique:" . self::TABLE_NAME . "|min:3|regex:/^[\w\-\?!,.()\" ]+$/iu",
         'slug'  => "required|unique:" . self::TABLE_NAME . "|min:3|regex:/^[\w\-]+$/iu"
     ];
 

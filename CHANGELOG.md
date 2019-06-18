@@ -16,6 +16,11 @@ Types of changes
 
 ## [Unreleased]
 
+## 1.12.0 - 2019-06-18
+
+### Added
+* Added functionality of migration from other plugins
+
 ## 1.11.1 - 2019-06-12
 
 ### Fixed
