@@ -9,6 +9,7 @@ Taxonomy extension for [RainLab Blog](https://octobercms.com/plugin/rainlab-blog
 ## Table of Contents
 * [Changes to Original Blog Plugin](#changes-to-original-blog-plugin)
 * [Translate Plugin Support](#translate-plugin-support)
+* [Migration from Other Plugins](#migration-from-other-plugins)
 * [Implementing Frontend Pages](#implementing-frontend-pages)
     * [Post Series Navigation](#post-series-navigation)
     * [Posts in the Series](#posts-in-the-series)
@@ -38,6 +39,46 @@ They were also placed in a new tag-like style along with tags and series in thei
 ## Translate Plugin Support
 
 Starting from 1.5.0 version Blog Taxonomy supports [RainLab Translate](https://octobercms.com/plugin/rainlab-translate) plugin when it's installed. All tag and series fields could be translated. 
+
+## Migration from Other Plugins
+
+Starting from 1.12.0 version Blog Taxonomy supports migration from other plugins. Currently supported plugins are: [BlogSeries](https://github.com/PascalKleindienst/october-blogseries-extension).
+
+The migration is done via console command:
+
+```php artisan blogtaxonomy:migrate PKleindienst.BlogSeries```
+
+Use `-h` or `--help` to get usage help.
+
+Migration example output:
+
+```bash
+**************************************************
+*     Migration from PKleindienst.BlogSeries     *
+**************************************************
+
+Migrating series
+2 series found
+Series "Series 1" => Blog Taxonomy Series "Series 1" (#3)
+Series "Series 2" => Blog Taxonomy Series "Series 2" (#4)
+All series have been migrated
+
+Migrating related series
+Relation "#4" => "#3" added
+Relation "#3" => "#4" added
+Related series have been migrated
+
+
+ Do you want to assign newly created series to posts (already assigned Blog Taxonomy series will be overwritten) (yes/no) [no]:
+ > yes
+
+Migrating series assigned to posts
+Series "#3" has been assigned to a post
+Series "#4" has been assigned to a post
+Migrated series has been assigned
+
+Migration from PKleindienst.BlogSeries finished
+```
 
 ## Implementing Frontend Pages
 
