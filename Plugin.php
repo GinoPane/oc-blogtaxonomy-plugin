@@ -16,6 +16,7 @@ use GinoPane\BlogTaxonomy\Components\SeriesList;
 use GinoPane\BlogTaxonomy\Components\SeriesPosts;
 use GinoPane\BlogTaxonomy\Components\RelatedPosts;
 use GinoPane\BlogTaxonomy\Components\RelatedSeries;
+use GinoPane\BlogTaxonomy\Console\MigrateFromPlugin;
 use RainLab\Blog\Controllers\Posts as PostsController;
 use GinoPane\BlogTaxonomy\Components\SeriesNavigation;
 use RainLab\Blog\Controllers\Categories as CategoriesController;
@@ -45,7 +46,7 @@ class Plugin extends PluginBase
      *
      * @return  array
      */
-    public function pluginDetails()
+    public function pluginDetails(): array
     {
         return [
             'name'        => self::LOCALIZATION_KEY . 'plugin.name',
@@ -61,7 +62,7 @@ class Plugin extends PluginBase
      *
      * @return  array
      */
-    public function registerComponents()
+    public function registerComponents(): array
     {
         return [
             TagList::class          => TagList::NAME,
@@ -72,6 +73,14 @@ class Plugin extends PluginBase
             SeriesNavigation::class => SeriesNavigation::NAME,
             RelatedSeries::class    => RelatedSeries::NAME
         ];
+    }
+
+    /**
+     *
+     */
+    public function register()
+    {
+        $this->registerConsoleCommand(MigrateFromPlugin::NAME, MigrateFromPlugin::class);
     }
 
     /**
