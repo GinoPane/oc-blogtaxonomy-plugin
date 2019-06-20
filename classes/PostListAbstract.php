@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Collection;
 abstract class PostListAbstract extends ComponentAbstract
 {
     use TranslateArrayTrait;
+    use PostListExceptionsTrait;
 
     /**
      * @var Collection | array
@@ -41,20 +42,6 @@ abstract class PostListAbstract extends ComponentAbstract
      * @var string
      */
     public $orderBy;
-
-    /**
-     * Filter out posts based on their slugs or ids
-     *
-     * @var array
-     */
-    protected $exceptPosts;
-
-    /**
-     * Filter out posts based on their categories slugs or ids
-     *
-     * @var array
-     */
-    protected $exceptCategories;
 
     /**
      * The attributes on which the post list can be ordered
@@ -93,7 +80,7 @@ abstract class PostListAbstract extends ComponentAbstract
             $properties,
             $this->getPaginationProperties(),
             $this->getPageLinkProperties(),
-            $this->getExceptionProperties()
+            $this->getPostExceptionProperties()
         );
     }
 
@@ -242,33 +229,6 @@ abstract class PostListAbstract extends ComponentAbstract
     }
 
     /**
-     * Properties for list exceptions handling
-     *
-     * @return array
-     */
-    private function getExceptionProperties(): array
-    {
-        return [
-            'exceptPosts' => [
-                'group'             => Plugin::LOCALIZATION_KEY . 'components.post_list_abstract.exceptions_group',
-                'title'             => Plugin::LOCALIZATION_KEY . 'components.post_list_abstract.except_posts_title',
-                'description'       => Plugin::LOCALIZATION_KEY . 'components.post_list_abstract.except_posts_description',
-                'type'              => 'string',
-                'default'           => '',
-                'showExternalParam' => false,
-            ],
-            'exceptCategories' => [
-                'group'             => Plugin::LOCALIZATION_KEY . 'components.post_list_abstract.exceptions_group',
-                'title'             => Plugin::LOCALIZATION_KEY . 'components.post_list_abstract.except_categories_title',
-                'description'       => Plugin::LOCALIZATION_KEY . 'components.post_list_abstract.except_categories_description',
-                'type'              => 'string',
-                'default'           => '',
-                'showExternalParam' => false,
-            ],
-        ];
-    }
-
-    /**
      * @return void
      */
     private function populatePagination()
@@ -288,15 +248,6 @@ abstract class PostListAbstract extends ComponentAbstract
     }
 
     /**
-     * @return void
-     */
-    private function populateExceptions()
-    {
-        $this->exceptPosts = $this->extractArrayFromProperty('exceptPosts');
-        $this->exceptCategories = $this->extractArrayFromProperty('exceptCategories');
-    }
-
-    /**
      * @param $query
      */
     private function handleOrder(Builder $query)
@@ -308,86 +259,6 @@ abstract class PostListAbstract extends ComponentAbstract
                 list($sortField, $sortDirection) = explode(' ', $this->orderBy);
 
                 $query->orderBy($sortField, $sortDirection);
-            }
-        }
-    }
-
-    /**
-     * @param $query
-     */
-    private function handlePostExceptions(Builder $query)
-    {
-        $this->handleExceptionsByPost($query);
-        $this->handleExceptionByCategory($query);
-    }
-
-    /**
-     * @param string $property
-     *
-     * @return array
-     */
-    private function extractArrayFromProperty(string $property): array
-    {
-        return array_map('trim', array_filter(explode(',', $this->property($property))));
-    }
-
-    /**
-     * Separates parameters into two arrays: ids and slugs
-     *
-     * @param array $parameters
-     *
-     * @return array Ids array an slugs array
-     */
-    private function separateParameters(array $parameters): array
-    {
-        $slugs = $parameters;
-        $ids = [];
-
-        foreach ($slugs as $index => $potentialId) {
-            if (is_numeric($potentialId)) {
-                $ids[] = $potentialId;
-                unset($slugs[$index]);
-            }
-        }
-
-        return [$ids, $slugs];
-    }
-
-    /**
-     * @param $query
-     *
-     */
-    private function handleExceptionByCategory(Builder $query)
-    {
-        if (!empty($this->exceptCategories)) {
-            list($ids, $slugs) = $this->separateParameters($this->exceptCategories);
-
-            $query->whereDoesntHave('categories', static function ($innerQuery) use ($ids, $slugs) {
-                if (!empty($ids)) {
-                    $innerQuery->whereIn('id', $ids);
-                }
-
-                if (!empty($slugs)) {
-                    $innerQuery->whereIn('slug', $slugs);
-                }
-            });
-        }
-    }
-
-    /**
-     * @param $query
-     */
-    private function handleExceptionsByPost(Builder $query)
-    {
-        if (!empty($this->exceptPosts)) {
-            list($ids, $slugs) = $this->separateParameters($this->exceptPosts);
-
-            if (!empty($ids)) {
-                $query->whereNotIn('id', $ids);
-            }
-
-            if (!empty($slugs)) {
-                $query->whereNotIn('slug', $slugs);
             }
         }
     }

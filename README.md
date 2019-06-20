@@ -161,7 +161,9 @@ Available properties:
 * **Limit** - number of series to display, 0 retrieves all series;
 * **Series order** - how series list should be ordered;
 * **Series page** - CMS page which contains [`postsInSeries`](#posts-in-the-series) component and is used to display a single series content and posts;
-* **Fetch related posts** - if enabled, the component will fetch related posts, so they are properly (**as published**) available via `posts` property of the series item; it does an additional request, so decreases performance a little.
+* **Fetch related posts** - if enabled, the component will fetch related posts, so they are properly (**as published**) available via `posts` property of the series item; it does an additional request, so decreases performance a little;
+* **Except posts** - list of post ids/slugs (can be mixed together) separated by comma; these posts will be excluded from the post count and post list associated with the series;
+* **Except categories** - list of categories ids/slugs (can be mixed together) separated by comma; posts with these categories will be excluded from from the post count and post list associated with the series.
 
 ### Tag List
 
@@ -180,6 +182,8 @@ Available properties:
 amount of tags under "limit" only. For example you have 10 tags overall but you use a **limit** of 5. This will make component
 to display 5 tags only. With **Expose total count** enabled you could still get "10" in `totalCount`. And you'll get 5 otherwise;
 * **Fetch related posts** - if enabled, the component will fetch related posts, so they are properly (**as published**) available via `posts` property of the tag item; it does an additional request, so decreases performance a little;
+* **Except posts** - list of post ids/slugs (can be mixed together) separated by comma; these posts will be excluded from the post count and post list associated with the tag;
+* **Except categories** - list of categories ids/slugs (can be mixed together) separated by comma; posts with these categories will be excluded from from the post count and post list associated with the tag.
 
 > Leave this as `false` if you do not require a whole total count, because it will give you more optimised result
 

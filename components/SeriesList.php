@@ -7,6 +7,7 @@ use GinoPane\BlogTaxonomy\Plugin;
 use GinoPane\BlogTaxonomy\Models\Series;
 use GinoPane\BlogTaxonomy\Classes\ComponentAbstract;
 use GinoPane\BlogTaxonomy\Classes\TranslateArrayTrait;
+use GinoPane\BlogTaxonomy\Classes\PostListExceptionsTrait;
 
 /**
  * Class SeriesList
@@ -18,6 +19,7 @@ class SeriesList extends ComponentAbstract
     const NAME = 'seriesList';
 
     use TranslateArrayTrait;
+    use PostListExceptionsTrait;
 
     /**
      * @var Series
@@ -75,7 +77,7 @@ class SeriesList extends ComponentAbstract
      */
     public function defineProperties(): array
     {
-        return [
+        return array_merge([
             'displayEmpty' => [
                 'title'       =>    Plugin::LOCALIZATION_KEY . 'components.series_list.display_empty_title',
                 'description' =>    Plugin::LOCALIZATION_KEY . 'components.series_list.display_empty_description',
@@ -114,7 +116,7 @@ class SeriesList extends ComponentAbstract
                 'default'       =>  'blog/series',
                 'showExternalParam' => false
             ],
-        ];
+        ], $this->getPostExceptionProperties());
     }
 
     /**
@@ -150,6 +152,9 @@ class SeriesList extends ComponentAbstract
         $this->fetchPosts = (bool) $this->getProperty('fetchPosts');
         $this->limit = $this->getProperty('limit');
 
+        // Exceptions
+        $this->populateExceptions();
+
         $this->series = $this->listSeries();
     }
 
@@ -165,6 +170,8 @@ class SeriesList extends ComponentAbstract
             'displayEmpty' => $this->displayEmpty,
             'limit' => $this->limit,
             'fetchPosts' => $this->fetchPosts,
+            'exceptPosts' => $this->exceptPosts,
+            'exceptCategories' => $this->exceptCategories
         ]);
 
         $this->handleUrls($series);

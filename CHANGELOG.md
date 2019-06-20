@@ -16,6 +16,11 @@ Types of changes
 
 ## [Unreleased]
 
+## 1.13.0 - 2019-06-20
+
+### Added
+* Implemented exclusions by post/category for tag and series lists
+
 ## 1.12.0 - 2019-06-18
 
 ### Added

@@ -8,6 +8,7 @@ use GinoPane\BlogTaxonomy\Models\Tag;
 use October\Rain\Database\Collection;
 use GinoPane\BlogTaxonomy\Classes\ComponentAbstract;
 use GinoPane\BlogTaxonomy\Classes\TranslateArrayTrait;
+use GinoPane\BlogTaxonomy\Classes\PostListExceptionsTrait;
 
 /**
  * Class TagList
@@ -19,6 +20,7 @@ class TagList extends ComponentAbstract
     const NAME = 'tagList';
 
     use TranslateArrayTrait;
+    use PostListExceptionsTrait;
 
     /**
      * @var Collection | array
@@ -148,7 +150,7 @@ class TagList extends ComponentAbstract
      */
     public function defineProperties(): array
     {
-        return [
+        return array_merge([
 
             //General properties
             'displayEmpty' => [
@@ -222,7 +224,7 @@ class TagList extends ComponentAbstract
                 'type'          => 'dropdown',
                 'showExternalParam' => false
             ],
-        ];
+        ], $this->getPostExceptionProperties());
     }
 
     /**
@@ -279,6 +281,9 @@ class TagList extends ComponentAbstract
         $this->exposeTotalCount =  (bool) $this->getProperty('exposeTotalCount');
         $this->enableTagFilter = (string) $this->getProperty('enableTagFilter');
 
+        // Exceptions
+        $this->populateExceptions();
+
         $this->tags = $this->listTags();
     }
 
@@ -292,7 +297,9 @@ class TagList extends ComponentAbstract
             'displayEmpty' => $this->displayEmpty,
             'limit' => $this->limit,
             'post' => $this->postSlug,
-            'fetchPosts' => $this->fetchPosts
+            'fetchPosts' => $this->fetchPosts,
+            'exceptPosts' => $this->exceptPosts,
+            'exceptCategories' => $this->exceptCategories
         ]);
 
         $this->handleCount($tags);
