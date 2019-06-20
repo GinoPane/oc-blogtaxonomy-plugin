@@ -1,3 +1,6 @@
+1.13.0:
+  - Implemented exclusions by post/category for tag and series lists
+
 1.12.0:
   - Added functionality of migration from other plugins
 
