@@ -16,6 +16,11 @@ Types of changes
 
 ## [Unreleased]
 
+## 1.13.1 - 2019-06-25
+
+### Fixed
+* Fixed related posts component
+
 ## 1.13.0 - 2019-06-20
 
 ### Added

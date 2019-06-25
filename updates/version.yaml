@@ -1,3 +1,6 @@
+1.13.1:
+  - Fixed related posts component
+
 1.13.0:
   - Implemented exclusions by post/category for tag and series lists
 

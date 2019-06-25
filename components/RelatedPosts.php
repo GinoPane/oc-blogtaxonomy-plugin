@@ -9,6 +9,7 @@ use GinoPane\BlogTaxonomy\Plugin;
 use GinoPane\BlogTaxonomy\Models\Tag;
 use October\Rain\Database\Collection;
 use GinoPane\BlogTaxonomy\Models\ModelAbstract;
+use GinoPane\BlogTaxonomy\Classes\PostListAbstract;
 use GinoPane\BlogTaxonomy\Classes\ComponentAbstract;
 use GinoPane\BlogTaxonomy\Classes\TranslateArrayTrait;
 
