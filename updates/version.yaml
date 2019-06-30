@@ -1,3 +1,6 @@
+1.13.2:
+  - Added missing exclusions handling for series and tags
+
 1.13.1:
   - Fixed related posts component
 
