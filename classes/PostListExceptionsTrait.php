@@ -68,7 +68,7 @@ trait PostListExceptionsTrait
     private function handlePostExceptions(Builder $query)
     {
         self::handleExceptionsByPost($query, $this->exceptPosts);
-        self::handleExceptionByCategory($query, $this->exceptCategories);
+        self::handleExceptionsByCategory($query, $this->exceptCategories);
     }
 
     /**
@@ -107,7 +107,7 @@ trait PostListExceptionsTrait
      * @param Builder $query
      * @param array   $exceptCategories
      */
-    public static function handleExceptionByCategory($query, array $exceptCategories)
+    public static function handleExceptionsByCategory(Builder $query, array $exceptCategories)
     {
         if (!empty($exceptCategories)) {
             list($ids, $slugs) = self::separateParameters($exceptCategories);

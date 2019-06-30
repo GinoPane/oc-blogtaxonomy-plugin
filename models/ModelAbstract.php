@@ -5,6 +5,8 @@ namespace GinoPane\BlogTaxonomy\Models;
 use Model;
 use Cms\Classes\Controller;
 use October\Rain\Database\Builder;
+use October\Rain\Database\Relations\HasMany;
+use GinoPane\BlogTaxonomy\Classes\PostListExceptionsTrait;
 
 /**
  * Class ModelAbstract
@@ -167,8 +169,10 @@ abstract class ModelAbstract extends Model
         if (!empty($options['fetchPosts'])) {
             $query->with(
                 [
-                    'posts' => static function ($query) {
+                    'posts' => function (HasMany $query) use ($options) {
                         $query->isPublished();
+
+                        $this->handleExceptions($query->getQuery(), $options);
                     }
                 ]
             );
@@ -176,8 +180,10 @@ abstract class ModelAbstract extends Model
 
         $query->withCount(
             [
-                'posts' => static function ($query) {
+                'posts' => function ($query) use ($options) {
                     $query->isPublished();
+
+                    $this->handleExceptions($query, $options);
                 }
             ]
         );
@@ -189,5 +195,20 @@ abstract class ModelAbstract extends Model
     private function queryGroupBy(Builder $query)
     {
         $query->groupBy('id');
+    }
+
+    /**
+     * @param Builder   $query
+     * @param array     $options
+     */
+    private function handleExceptions(Builder $query, array $options)
+    {
+        if (!empty($options['exceptPosts'])) {
+            PostListExceptionsTrait::handleExceptionsByPost($query, $options['exceptPosts']);
+        }
+
+        if (!empty($options['exceptCategories'])) {
+            PostListExceptionsTrait::handleExceptionsByCategory($query, $options['exceptCategories']);
+        }
     }
 }
