@@ -208,7 +208,7 @@ the page URL must contain `:post` parameter which value will be used as post slu
 
 ### Related Series
 
-Component `relatesSeries` provides a list of related series. The same list could be fetched for individual series by accessing its property `related_series`. The only difference is that the component fills urls for related series.
+Component `relatedSeries` provides a list of related series. The same list could be fetched for individual series by accessing its property `related_series`. The only difference is that the component fills urls for related series.
 
 Available properties:
 
