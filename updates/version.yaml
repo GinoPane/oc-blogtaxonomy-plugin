@@ -1,3 +1,6 @@
+1.14.0:
+  - Expose page parameter name for simple pagination
+
 1.13.2:
   - Added missing exclusions handling for series and tags
 

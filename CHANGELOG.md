@@ -16,6 +16,11 @@ Types of changes
 
 ## [Unreleased]
 
+## 1.14.0 - 2019-07-29
+
+### Added
+* Expose page parameter name for simple pagination
+
 ## 1.13.2 - 2019-06-30
 
 ### Fixed

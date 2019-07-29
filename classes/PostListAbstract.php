@@ -27,12 +27,19 @@ abstract class PostListAbstract extends ComponentAbstract
     public $posts = [];
 
     /**
-     * @var integer             The current page
+     * Parameter to use for the page number
+     *
+     * @var string
+     */
+    public $pageParam;
+
+    /**
+     * @var integer The current page
      */
     public $currentPage;
 
     /**
-     * @var integer             The number of results per page
+     * @var integer The number of results per page
      */
     public $resultsPerPage;
 
@@ -233,6 +240,7 @@ abstract class PostListAbstract extends ComponentAbstract
      */
     private function populatePagination()
     {
+        $this->pageParam = $this->paramName('page');
         $this->currentPage = (int)$this->property('page', 1) ?: (int)post('page');
         $this->resultsPerPage = (int)$this->property('resultsPerPage')
             ?: $this->defineProperties()['resultsPerPage']['default'];
