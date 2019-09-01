@@ -55,9 +55,9 @@ class CreateRelatedSeriesTable extends Migration
 
                     $table->integer('series_id')->unsigned();
                     $table->integer('related_series_id')->unsigned();
-                    $table->index(['series_id', 'related_series_id']);
+                    $table->index(['series_id', 'related_series_id'], 'series_related);
                     $table->foreign('series_id', 'Series reference')->references('id')->on(Series::TABLE_NAME)->onDelete('cascade');
-                    $table->foreign('related_series_id', 'Related series reference')->references('id')->on(Series::RELATED_SERIES_TABLE_NAME)->onDelete('cascade');
+                    $table->foreign('related_series_id', 'Related series reference')->references('id')->on(Series::TABLE_NAME)->onDelete('cascade');
                 }
             );
         }
