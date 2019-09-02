@@ -16,6 +16,11 @@ Types of changes
 
 ## [Unreleased]
 
+## 1.14.1 - 2019-09-02
+
+### Fixed
+* Fixed auto generated index being too long
+
 ## 1.14.0 - 2019-07-29
 
 ### Added
@@ -169,4 +174,4 @@ Types of changes
 ### Features
 * The initial release of Blog Taxonomy.
 
-[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v1.13.2...HEAD
+[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v1.14.1...HEAD
