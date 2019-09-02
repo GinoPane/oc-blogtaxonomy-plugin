@@ -1,3 +1,6 @@
+1.14.1:
+  - Fixed auto generated index being too long
+
 1.14.0:
   - Expose page parameter name for simple pagination
 
