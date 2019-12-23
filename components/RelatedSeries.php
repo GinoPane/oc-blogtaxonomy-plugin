@@ -71,7 +71,19 @@ class RelatedSeries extends SeriesList
     protected function listRelatedSeries()
     {
         $series = Series::whereTranslatable('slug', $this->property('series'))
-            ->with('related_series')
+            ->with(
+                [
+                    'related_series' => static function ($query) {
+                        $query->withCount(
+                            [
+                                'posts' => static function ($query) {
+                                    $query->isPublished();
+                                }
+                            ]
+                        );
+                    }
+                ]
+            )
             ->first();
 
         $relatedSeries = $series->related_series;

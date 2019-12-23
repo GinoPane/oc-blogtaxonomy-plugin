@@ -16,6 +16,11 @@ Types of changes
 
 ## [Unreleased]
 
+## 1.14.2 - 2019-12-23
+
+### Fixed
+* Added missing count of posts in the related series component
+
 ## 1.14.1 - 2019-09-02
 
 ### Fixed
@@ -174,4 +179,4 @@ Types of changes
 ### Features
 * The initial release of Blog Taxonomy.
 
-[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v1.14.1...HEAD
+[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v1.14.2...HEAD

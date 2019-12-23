@@ -1,3 +1,6 @@
+1.14.2:
+  - Added missing count of posts in the related series component
+
 1.14.1:
   - Fixed auto generated index being too long
 
