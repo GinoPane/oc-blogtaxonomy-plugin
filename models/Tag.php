@@ -5,14 +5,18 @@ namespace GinoPane\BlogTaxonomy\Models;
 use Str;
 use RainLab\Blog\Models\Post;
 use GinoPane\BlogTaxonomy\Plugin;
+use October\Rain\Database\Builder;
 use October\Rain\Database\Traits\Sluggable;
 use October\Rain\Database\Traits\Validation;
+use October\Rain\Database\Relations\MorphToMany;
 
 /**
  * Class Tag
  *
  * @property string name
  * @property string slug
+ * @property int posts_count Post count of posts associated with the tag
+ * @property int series_posts_count Post count of posts associated with the tag via the series
  *
  * @package GinoPane\BlogTaxonomy\Models
  */
@@ -23,7 +27,12 @@ class Tag extends ModelAbstract
 
     const TABLE_NAME = 'ginopane_blogtaxonomy_tags';
 
+    /** @deprecated */
     const CROSS_REFERENCE_TABLE_NAME = 'ginopane_blogtaxonomy_post_tag';
+
+    const PIVOT_COLUMN = 'ginopane_blogtaxonomy_taggable';
+
+    const PIVOT_TABLE = 'ginopane_blogtaxonomy_taggables';
 
     /**
      * @var string The database table used by the model
@@ -62,12 +71,9 @@ class Tag extends ModelAbstract
      *
      * @var array
      */
-    public $belongsToMany = [
-        'posts' => [
-            Post::class,
-            'table' => self::CROSS_REFERENCE_TABLE_NAME,
-            'order' => 'published_at desc'
-        ]
+    public $morphedByMany = [
+        'posts'  => [Post::class, 'name' => Tag::PIVOT_COLUMN],
+        'series'  => [Series::class, 'name' => Tag::PIVOT_COLUMN],
     ];
 
     /**
@@ -134,6 +140,16 @@ class Tag extends ModelAbstract
     ];
 
     /**
+     * Returns post combined combined from posts with this tag and posts with series under this this tag
+     *
+     * @return int
+     */
+    public function getCombinedPostCountAttribute(): int
+    {
+        return $this->posts_count + $this->series_posts_count;
+    }
+
+    /**
      * @param array $params
      *
      * @return array
@@ -143,5 +159,97 @@ class Tag extends ModelAbstract
         return [
             array_get($params, 'tag', 'tag') => $this->slug
         ];
+    }
+
+    /**
+     * @param Builder $query
+     * @param array   $options
+     *
+     * @return void
+     */
+    protected function withRelation(Builder $query, array $options)
+    {
+        $this->postRelation($query, $options);
+
+        $this->seriesRelation($query, $options);
+    }
+
+    /**
+     * @param Builder $query
+     * @param array   $options
+     */
+    protected function queryPostSlug(Builder $query, array $options)
+    {
+        parent::queryPostSlug($query, $options);
+
+        if (!empty($options['post']) && !empty($options['includeSeriesTags'])) {
+            $query->orWhereHas('series', static function ($query) use ($options) {
+                $query->whereHas(
+                    'posts',
+                    static function ($query) use ($options) {
+                        ModelAbstract::whereTranslatableProperty($query, 'slug', $options['post']);
+                    });
+            });
+        }
+    }
+
+    /**
+     * @param Builder $query
+     * @param array   $options
+     *
+     * @return void
+     */
+    private function postRelation(Builder $query, array $options)
+    {
+        if (!empty($options['fetchPosts'])) {
+            $query->with(
+                [
+                    'posts' => static function (MorphToMany $query) use ($options) {
+                        $query->isPublished();
+
+                        self::handleExceptions($query->getQuery(), $options);
+                    }
+                ]
+            );
+        }
+
+        $query->withCount(
+            [
+                'posts' => static function ($query) use ($options) {
+                    $query->isPublished();
+
+                    self::handleExceptions($query, $options);
+                }
+            ]
+        );
+    }
+
+    /**
+     * @param Builder $query
+     * @param array   $options
+     *
+     * @return void
+     */
+    private function seriesRelation(Builder $query, array $options)
+    {
+        $query->withCount('series');
+
+        if (!empty($options['fetchSeriesPostCount'])) {
+            $query->with(
+                [
+                    'series' => static function (MorphToMany $query) use ($options) {
+                        $query->withCount(
+                            [
+                                'posts' => static function ($query) use ($options) {
+                                    $query->isPublished();
+
+                                    self::handleExceptions($query, $options);
+                                }
+                            ]
+                        );
+                    }
+                ]
+            );
+        }
     }
 }

@@ -12,7 +12,7 @@ modelClass: GinoPane\BlogTaxonomy\Models\Tag
 title: ginopane.blogtaxonomy::lang.form.tags.list_title
 
 # Link URL for each record
-recordOnClick: "$.popup({ handler: 'onUpdateForm', extraData: { record_id: ':id' } })"
+recordUrl: ginopane/blogtaxonomy/tags/update/:id
 
 # Message to display if the list is empty
 noRecordsMessage: ginopane.blogtaxonomy::lang.form.tags.no_tags_message

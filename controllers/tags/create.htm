@@ -1,0 +1,48 @@
+<?php Block::put('breadcrumb') ?>
+    <ul>
+        <li><a href="<?= Backend::url(GinoPane\BlogTaxonomy\Plugin::DIRECTORY_KEY . '/tags') ?>"><?= e(trans('ginopane.blogtaxonomy::lang.form.tags.label')) ?></a></li>
+        <li><?= e($this->pageTitle) ?></li>
+    </ul>
+<?php Block::endPut() ?>
+
+<?php if (!$this->fatalError): ?>
+
+    <?= Form::open(['class' => 'layout']) ?>
+
+        <div class="layout-row">
+            <?= $this->formRender() ?>
+        </div>
+
+        <div class="form-buttons">
+            <div class="loading-indicator-container">
+                <button
+                    type="submit"
+                    data-request="onSave"
+                    data-hotkey="ctrl+s, cmd+s"
+                    data-load-indicator="<?= e(trans('ginopane.blogtaxonomy::lang.form.tags.create_load_indicator')) ?>"
+                    class="btn btn-primary">
+                    <?= e(trans('ginopane.blogtaxonomy::lang.form.tags.create_button_label')) ?>
+                </button>
+                <button
+                    type="button"
+                    data-request="onSave"
+                    data-request-data="close:1"
+                    data-hotkey="ctrl+enter, cmd+enter"
+                    data-load-indicator="<?= e(trans('ginopane.blogtaxonomy::lang.form.tags.create_load_indicator')) ?>"
+                    class="btn btn-default">
+                    <?= e(trans('ginopane.blogtaxonomy::lang.form.tags.create_and_close_button_label')) ?>
+                </button>
+                <span class="btn-text">
+                    <?= e(trans('ginopane.blogtaxonomy::lang.form.tags.or')) ?> <a href="<?= Backend::url(GinoPane\BlogTaxonomy\Plugin::DIRECTORY_KEY . '/tags') ?>"><?= e(trans('ginopane.blogtaxonomy::lang.form.tags.cancel_button_label')) ?></a>
+                </span>
+            </div>
+        </div>
+
+    <?= Form::close() ?>
+
+<?php else: ?>
+
+    <p class="flash-message static error"><?= e($this->fatalError) ?></p>
+    <p><a href="<?= Backend::url(GinoPane\BlogTaxonomy\Plugin::DIRECTORY_KEY . '/tags') ?>" class="btn btn-default"><?= e(trans('ginopane.blogtaxonomy::lang.form.series.return_to_list')) ?></a></p>
+
+<?php endif ?>

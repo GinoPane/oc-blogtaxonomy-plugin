@@ -156,7 +156,7 @@ abstract class PostListAbstract extends ComponentAbstract
     }
 
     /**
-     * Prepare variables
+     * Prepare main context item
      */
     abstract protected function prepareContextItem();
 

@@ -2,7 +2,7 @@
 #  Column Definitions
 # ===================================
 
-noRecordsMessage: ginopane.blogtaxonomy::lang.form.series.no_posts_in_series
+noRecordsMessage: ginopane.blogtaxonomy::lang.form.tags.no_posts_with_such_tag
 
 columns:
     title:
@@ -10,12 +10,19 @@ columns:
         sortable: true
         searchable: true
 
+    tags:
+        label: ginopane.blogtaxonomy::lang.form.tags.label
+        relation: tags
+        select: name
+        searchable: true
+        sortable: true
+
     published_at:
         label: rainlab.blog::lang.post.published
-        sortable: true
         type: date
+        sortable: true
 
     created_at:
         label: rainlab.blog::lang.post.created
-        type: date
         sortable: true
+        type: date

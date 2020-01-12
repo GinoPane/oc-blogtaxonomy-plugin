@@ -22,6 +22,11 @@ class TagPosts extends PostListAbstract
     public $tag;
 
     /**
+     * @var bool
+     */
+    protected $includeSeriesPosts = false;
+
+    /**
      * Component Registration
      * @return array
      */
@@ -39,20 +44,35 @@ class TagPosts extends PostListAbstract
      */
     public function defineProperties(): array
     {
-        $properties = [
+        return [
             'tag' => [
                 'title'         => Plugin::LOCALIZATION_KEY . 'components.tag_posts.tag_title',
                 'description'   => Plugin::LOCALIZATION_KEY . 'components.tag_posts.tag_description',
                 'default'       => '{{ :tag }}',
                 'type'          => 'string'
+            ],
+            'includeSeriesPosts' => [
+                'title'         => Plugin::LOCALIZATION_KEY . 'components.tag_posts.include_series_posts_title',
+                'description'   => Plugin::LOCALIZATION_KEY . 'components.tag_posts.include_series_posts_description',
+                'default'       => false,
+                'type'          => 'checkbox',
+                'showExternalParam' => false
             ]
         ] + parent::defineProperties();
-
-        return $properties;
     }
 
     /**
-     * Prepare variables
+     * @inheritDoc
+     */
+    protected function prepareVars()
+    {
+        parent::prepareVars();
+
+        $this->includeSeriesPosts = $this->property('includeSeriesPosts', false);
+    }
+
+    /**
+     * @inheritDoc
      */
     protected function prepareContextItem()
     {
@@ -69,7 +89,17 @@ class TagPosts extends PostListAbstract
     {
         $query = Post::whereHas('tags', function ($query) {
             $query->whereTranslatable('slug', $this->tag->slug);
-        })->isPublished();
+        });
+
+        if ($this->includeSeriesPosts) {
+            $query->orWhereHas('series', function ($query) {
+                $query->whereHas('tags', function ($query) {
+                    $query->whereTranslatable('slug', $this->tag->slug);
+                });
+            });
+        }
+
+        $query->isPublished();
 
         return $query;
     }
