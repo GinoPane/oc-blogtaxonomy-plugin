@@ -20,11 +20,13 @@ return [
             'slug' => 'Slug',
             'description' => 'Description',
             'posts' => 'Posts',
+            'series' => 'Series',
             'related_series' => 'Related Series'
         ],
         'tabs' => [
             'general' => 'General',
             'posts' => 'Posts',
+            'series' => 'Series',
             'related_series' => 'Related Series'
         ],
 
@@ -34,11 +36,14 @@ return [
         'tags' => [
             'label' => 'Tags',
 
-            'create_form_title' => 'Create a New Tag',
-            'edit_form_title' => 'Edit the Tag',
+            'create_title' => 'Create a New Tag',
+            'edit_title' => 'Edit the Tag ":tag"',
             'list_title' => 'Manage Tags',
             'new_tag_label' => 'New Tag',
             'no_tags_message' => 'There are no tags. Create some to get started',
+            'tag_does_not_exist' => 'The tag does not exist',
+            'no_posts_with_such_tag' => 'There are no posts with this tag',
+            'no_series_with_such_tag' => 'There are no series with this tag',
 
             'delete_confirm' => 'Do you really want to delete this tag?',
             'remove_orphaned_load_indicator' => 'Removing orphaned tags...',
@@ -49,7 +54,8 @@ return [
             'delete_bulk_confirm' => 'Are you sure you want to delete selected tags?',
             'delete_tags_success' => 'Successfully deleted tags',
 
-            'comment' => 'Select tags that belong to the post',
+            'comment_post' => 'Select tags that are applicable to the post',
+            'comment_series' => 'Select tags that are applicable to the series',
 
             'name_invalid' => 'Tag names may only contain alpha-numeric characters, spaces and hyphens',
             'name_required' => 'The tag name field is required',
@@ -59,13 +65,28 @@ return [
             'slug_invalid' => 'Tag slugs may only contain alpha-numeric characters, spaces and hyphens',
             'slug_required' => 'The tag slug field is required',
             'slug_unique' => 'This tag slug is already taken',
-            'slug_too_short' => 'Tag slug minimal length is :min'
+            'slug_too_short' => 'Tag slug minimal length is :min',
+
+            'return_to_list' => 'Return to the tags list',
+            'create_load_indicator' => 'Creating a tag...',
+            'update_load_indicator' => 'Updating the tag...',
+            'delete_load_indicator' => 'Deleting the tag...',
+            'new_series_button_label' => 'New Tag',
+            'create_button_label' => 'Create',
+            'save_button_label' => 'Save',
+            'create_and_close_button_label' => 'Create and Close',
+            'save_and_close_button_label' => 'Save and Close',
+            'cancel_button_label' => 'Cancel',
+            'or' => 'or',
         ],
         'series' => [
             'label' => 'Series',
+            'description' => 'Description',
+
             'create_title' => 'Create Series',
-            'edit_title' => 'Edit Series',
+            'edit_title' => 'Edit the Series ":series"',
             'list_title' => 'Manage Series',
+            'series_does_not_exist' => 'The series does not exist',
             'no_series_message' => 'There are no series. Create some to get started',
             'no_posts_in_series' => 'There are no posts in this series',
             'comment' => 'Choose a series the blog post belongs to',
@@ -91,7 +112,7 @@ return [
             'save_and_close_button_label' => 'Save and Close',
             'cancel_button_label' => 'Cancel',
             'or' => 'or',
-            'return_to_list' => 'Return to series list'
+            'return_to_list' => 'Return to the series list'
         ]
     ],
 
@@ -99,6 +120,7 @@ return [
         'columns' => [
             'title' => 'Title',
             'posts' => 'Posts',
+            'series' => 'Series',
             'tag' => 'Tag',
             'slug' => 'Slug'
         ]
@@ -119,7 +141,8 @@ return [
         'title' => 'Enter title...',
         'name' => 'Enter name...',
         'slug' => 'Enter slug...',
-        'no_posts_available' => 'No posts available'
+        'no_posts_available' => 'No posts available',
+        'no_series_available' => 'No series available'
     ],
 
     // component-specific strings
@@ -157,8 +180,12 @@ return [
 
             'post_slug_title' => 'Post slug',
             'post_slug_description' => 'Get tags for the post specified by slug value from URL parameter',
-            'fetch_posts_title' => 'Fetch related posts',
-            'fetch_posts_description' => 'Fetches related posts so they are available as `posts` property of the tag item. Slows down performance',
+            'fetch_posts_title' => 'Fetch tagged posts',
+            'fetch_posts_description' => 'Fetches tagged posts so they are available as `posts` property of the tag item. Slows down performance',
+            'include_series_tags_title' => 'Include series tags',
+            'include_series_tags_description' => 'Additionally includes tags applied to the post\'s series if the post has series and the series has tags',
+            'fetch_series_post_count_title' => 'Fetch series post count',
+            'fetch_series_post_count_description' => 'Additionally fetches count of posts which belong to series tagged with this tag',
 
             'no_tags_message' => 'No tags found',
             'all_tags_link' => 'Show all',
@@ -178,7 +205,11 @@ return [
                 'never' => 'Never',
                 'always' => 'Always',
                 'on_overflow' => 'When tag total count > limit'
-            ]
+            ],
+
+            'special_group' => 'Special',
+            'debug_output_title' => 'Debug output',
+            'debug_output_description' => 'Allows to enable debug output to the browser\'s console. Depends on the theme'
         ],
         'tag_posts' => [
             'name' => 'Posts With the Tag',
@@ -186,7 +217,9 @@ return [
             'no_posts_message' => 'No posts with this tag',
             'posts_with_tag' => 'Posts with the tag',
             'tag_title' => 'Tag slug',
-            'tag_description' => 'Look up the tag using the supplied slug value from this URL parameter'
+            'tag_description' => 'Look up the tag using the supplied slug value from this URL parameter',
+            'include_series_posts_title' => 'Include series posts',
+            'include_series_posts_description' => 'Additionally include posts which belongs to the series tagged with the current tag'
         ],
         'series_navigation' => [
             'name' => 'Post Series Navigation',

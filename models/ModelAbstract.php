@@ -104,7 +104,9 @@ abstract class ModelAbstract extends Model
     private function queryDisplayEmpty(Builder $query, array $options)
     {
         if (empty($options['displayEmpty'])) {
-            $query->having('posts_count', '>', 0);
+            $query
+                ->having('posts_count', '>', 0)
+                ->orHaving('series_count', '>', 0);
         }
     }
 
@@ -114,7 +116,7 @@ abstract class ModelAbstract extends Model
      *
      * @return void
      */
-    private function queryPostSlug(Builder $query, array $options)
+    protected function queryPostSlug(Builder $query, array $options)
     {
         if (!empty($options['post'])) {
             $query->whereHas(
@@ -151,7 +153,7 @@ abstract class ModelAbstract extends Model
             if ($options['sort'] === 'random') {
                 $query->inRandomOrder();
             } else {
-                list($sortField, $sortDirection) = explode(' ', $options['sort']);
+                [$sortField, $sortDirection] = explode(' ', $options['sort']);
 
                 $query->orderBy($sortField, $sortDirection);
             }
@@ -164,15 +166,15 @@ abstract class ModelAbstract extends Model
      *
      * @return void
      */
-    private function withRelation(Builder $query, array $options)
+    protected function withRelation(Builder $query, array $options)
     {
         if (!empty($options['fetchPosts'])) {
             $query->with(
                 [
-                    'posts' => function (HasMany $query) use ($options) {
+                    'posts' => static function (HasMany $query) use ($options) {
                         $query->isPublished();
 
-                        $this->handleExceptions($query->getQuery(), $options);
+                        self::handleExceptions($query->getQuery(), $options);
                     }
                 ]
             );
@@ -180,10 +182,10 @@ abstract class ModelAbstract extends Model
 
         $query->withCount(
             [
-                'posts' => function ($query) use ($options) {
+                'posts' => static function ($query) use ($options) {
                     $query->isPublished();
 
-                    $this->handleExceptions($query, $options);
+                    self::handleExceptions($query, $options);
                 }
             ]
         );
@@ -201,7 +203,7 @@ abstract class ModelAbstract extends Model
      * @param Builder   $query
      * @param array     $options
      */
-    private function handleExceptions(Builder $query, array $options)
+    protected static function handleExceptions(Builder $query, array $options)
     {
         if (!empty($options['exceptPosts'])) {
             PostListExceptionsTrait::handleExceptionsByPost($query, $options['exceptPosts']);

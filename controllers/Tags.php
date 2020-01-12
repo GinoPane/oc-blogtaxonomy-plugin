@@ -2,6 +2,7 @@
 
 namespace GinoPane\BlogTaxonomy\Controllers;
 
+use Backend\Behaviors\RelationController;
 use Flash;
 use BackendMenu;
 use Backend\Classes\Controller;
@@ -9,8 +10,6 @@ use GinoPane\BlogTaxonomy\Models\Tag;
 use GinoPane\BlogTaxonomy\Plugin;
 use Backend\Behaviors\FormController;
 use Backend\Behaviors\ListController;
-use October\Rain\Exception\SystemException;
-use October\Rain\Flash\FlashBag;
 
 /**
  * Class Tags
@@ -26,7 +25,8 @@ class Tags extends Controller
      */
     public $implement = [
         FormController::class,
-        ListController::class
+        ListController::class,
+        RelationController::class
     ];
 
     /**
@@ -36,6 +36,7 @@ class Tags extends Controller
      */
     public $formConfig = 'config_form.yaml';
     public $listConfig = 'config_list.yaml';
+    public $relationConfig = 'config_relation.yaml';
 
     /**
      * Tags constructor
@@ -76,13 +77,13 @@ class Tags extends Controller
      */
     public function index_onRemoveOrphanedTags()
     {
-        if (!Tag::has('posts', 0)->count()) {
+        if (!Tag::has('posts', 0)->has('series', 0)->count() ) {
             Flash::warning(e(trans(Plugin::LOCALIZATION_KEY . 'form.tags.no_orphaned_tags')));
 
             return;
         }
 
-        if (!Tag::has('posts', 0)->delete()) {
+        if (!Tag::has('posts', 0)->has('series', 0)->delete()) {
             Flash::error(e(trans(Plugin::LOCALIZATION_KEY . 'form.errors.unknown')));
 
             return;
@@ -94,58 +95,24 @@ class Tags extends Controller
     }
 
     /**
-     * @throws \SystemException
+     * Controller "update" action used for updating existing model records.
+     * This action takes a record identifier (primary key of the model)
+     * to locate the record used for sourcing the existing form values.
      *
-     * @return mixed
+     * @param int $recordId Record identifier
+     * @param string $context Form context
+     * @return void
      */
-    public function onCreateForm()
+    public function update($recordId = null, $context = null)
     {
-        $this->asExtension('FormController')->create();
+        $tag = Tag::whereId($recordId)->first();
 
-        return $this->makePartial('tag_create_modal_form');
-    }
+        if ($tag !== null) {
+            $this->pageTitle = trans(Plugin::LOCALIZATION_KEY . 'form.tags.edit_title', ['tag' => $tag->name]);
+        } else {
+            $this->pageTitle = trans(Plugin::LOCALIZATION_KEY . 'form.tags.tag_does_not_exist');
+        }
 
-    /**
-     * @throws \SystemException
-     *
-     * @return mixed
-     */
-    public function onUpdateForm()
-    {
-        $this->asExtension('FormController')->update(post('record_id'));
-
-        $this->vars['recordId'] = post('record_id');
-
-        return $this->makePartial('tag_update_modal_form');
-    }
-
-    /**
-     * @return mixed
-     */
-    public function onCreate()
-    {
-        $this->asExtension('FormController')->create_onSave();
-
-        return $this->listRefresh('tags');
-    }
-
-    /**
-     * @return mixed
-     */
-    public function onUpdate()
-    {
-        $this->asExtension('FormController')->update_onSave(post('record_id'));
-
-        return $this->listRefresh('tags');
-    }
-
-    /**
-     * @return mixed
-     */
-    public function onDelete()
-    {
-        $this->asExtension('FormController')->update_onDelete(post('record_id'));
-
-        return $this->listRefresh('tags');
+        return $this->asExtension('FormController')->update($recordId, $context);
     }
 }

@@ -21,6 +21,14 @@ tabs:
                 type: slug
             tab: ginopane.blogtaxonomy::lang.form.tabs.general
 
+        tags:
+            label: ginopane.blogtaxonomy::lang.form.tags.label
+            comment: ginopane.blogtaxonomy::lang.form.tags.comment_series
+            mode: 'relation'
+            type: taglist
+            placeholder: ginopane.blogtaxonomy::lang.placeholders.tags
+            tab: ginopane.blogtaxonomy::lang.form.tabs.general
+
         featured_images:
             label: ginopane.blogtaxonomy::lang.form.fields.images
             type: fileupload

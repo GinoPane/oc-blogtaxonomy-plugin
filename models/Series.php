@@ -69,6 +69,10 @@ class Series extends ModelAbstract
         ],
     ];
 
+    public $morphToMany = [
+        'tags' => [Tag::class, 'name' => Tag::PIVOT_COLUMN]
+    ];
+
     /**
      * Belongs-to-many relations
      *

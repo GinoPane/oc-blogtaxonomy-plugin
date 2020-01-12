@@ -129,7 +129,7 @@ class SeriesNavigation extends ComponentAbstract
             }
         )->with(
             [
-                'posts' => function($query) {
+                'posts' => static function($query) {
                     $query->isPublished();
                 }
             ]

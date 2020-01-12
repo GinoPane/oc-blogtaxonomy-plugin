@@ -19,6 +19,7 @@ class CreateRelatedSeriesTable extends Migration
      */
     public function up()
     {
+        return;
         if (PluginManager::instance()->hasPlugin('RainLab.Blog')) {
             $this->createRelation();
         }
@@ -29,6 +30,7 @@ class CreateRelatedSeriesTable extends Migration
      */
     public function down()
     {
+        return;
         if (PluginManager::instance()->hasPlugin('RainLab.Blog')) {
             $this->dropRelation();
         }

@@ -17,6 +17,11 @@ columns:
         relation: posts
         useRelationCount: true
 
+    series:
+        label: ginopane.blogtaxonomy::lang.list.columns.series
+        relation: series
+        useRelationCount: true
+
     created_at:
         label: rainlab.blog::lang.post.created
         type: date
