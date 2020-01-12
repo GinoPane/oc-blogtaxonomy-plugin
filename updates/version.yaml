@@ -1,5 +1,7 @@
 2.0.0:
-  - Migrated to polymorphic tag relation
+  - !!! Migrated to polymorphic tag relation. Make sure to backup and proceed with caution
+  - Implemented tags for series
+  - New options for existing components
   - create_polymorphic_tag_table.php
 
 1.14.2:
