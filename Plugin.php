@@ -131,12 +131,6 @@ class Plugin extends PluginBase
     private function extendModel()
     {
         PostModel::extend(function ($model) {
-//            $model->belongsToMany['tags'] = [
-//                Tag::class,
-//                'table' => Tag::CROSS_REFERENCE_TABLE_NAME,
-//                'order' => 'name'
-//            ];
-
             $model->morphToMany = [
                 'tags' => [Tag::class, 'name' => Tag::PIVOT_COLUMN]
             ];
