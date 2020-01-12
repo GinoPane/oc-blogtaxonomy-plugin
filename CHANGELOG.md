@@ -16,6 +16,16 @@ Types of changes
 
 ## [Unreleased]
 
+## 2.0.0 - 2020-01-XX
+
+### Features
+* Taggable series
+
+### Added
+* 'Include series posts' option for the 'Posts With the Tag' component
+* 'Include series tags' option for the 'Tag List' component
+* 'Fetch series posts count' option for the 'Tag List' component
+
 ## 1.14.2 - 2019-12-23
 
 ### Fixed

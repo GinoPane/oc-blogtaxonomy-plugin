@@ -146,11 +146,7 @@ class SeriesList extends ComponentAbstract
      */
     public function onRun()
     {
-        $this->seriesPage = $this->getProperty('seriesPage');
-        $this->orderBy = $this->getProperty('orderBy');
-        $this->displayEmpty = (bool) $this->getProperty('displayEmpty');
-        $this->fetchPosts = (bool) $this->getProperty('fetchPosts');
-        $this->limit = $this->getProperty('limit');
+        $this->prepareVars();
 
         // Exceptions
         $this->populateExceptions();
@@ -194,5 +190,14 @@ class SeriesList extends ComponentAbstract
                 'series' => $this->urlProperty($seriesComponent, 'series')
             ]
         );
+    }
+
+    private function prepareVars(): void
+    {
+        $this->seriesPage = $this->getProperty('seriesPage');
+        $this->orderBy = $this->getProperty('orderBy');
+        $this->displayEmpty = (bool)$this->getProperty('displayEmpty');
+        $this->fetchPosts = (bool)$this->getProperty('fetchPosts');
+        $this->limit = $this->getProperty('limit');
     }
 }

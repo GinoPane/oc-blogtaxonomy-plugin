@@ -91,6 +91,20 @@ class TagList extends ComponentAbstract
     private $exposeTotalCount;
 
     /**
+     * Fetches post count of posts which belong to series tagged with the tag
+     *
+     * @var bool
+     */
+    private $fetchSeriesPostCount;
+
+    /**
+     * Whether include or not tags which belong to the post
+     *
+     * @var bool
+     */
+    private $includeSeriesTags;
+
+    /**
      * Contains either the total number of tags in the list limited by "limit", or
      * the total number of tags which may be more than the limit if "exposeTotalCount" is used
      *
@@ -111,6 +125,13 @@ class TagList extends ComponentAbstract
      * @var bool
      */
     public $tagFilterEnabled;
+
+    /**
+     * Allows to output some debug information
+     *
+     * @var bool
+     */
+    public $debugOutput;
 
     /**
      * Tag filter options
@@ -179,6 +200,20 @@ class TagList extends ComponentAbstract
                 'description' => Plugin::LOCALIZATION_KEY . 'components.tag_list.post_slug_description',
                 'type'        => 'string'
             ],
+            'includeSeriesTags' => [
+                'title'             => Plugin::LOCALIZATION_KEY . 'components.tag_list.include_series_tags_title',
+                'description'       => Plugin::LOCALIZATION_KEY . 'components.tag_list.include_series_tags_description',
+                'type'              => 'checkbox',
+                'default'           => false,
+                'showExternalParam' => false
+            ],
+            'fetchSeriesPostCount' => [
+                'title'             => Plugin::LOCALIZATION_KEY . 'components.tag_list.fetch_series_post_count_title',
+                'description'       => Plugin::LOCALIZATION_KEY . 'components.tag_list.fetch_series_post_count_description',
+                'type'              => 'checkbox',
+                'default'           => false,
+                'showExternalParam' => false
+            ],
 
             //Limit properties
             'limit' => [
@@ -222,6 +257,16 @@ class TagList extends ComponentAbstract
                 'group'         => Plugin::LOCALIZATION_KEY . 'components.post_list_abstract.links_group',
                 'description'   => Plugin::LOCALIZATION_KEY . 'components.tag_list.tags_page_description',
                 'type'          => 'dropdown',
+                'showExternalParam' => false
+            ],
+
+            //Special
+            'debugOutput' => [
+                'title'         => Plugin::LOCALIZATION_KEY . 'components.tag_list.debug_output_title',
+                'group'         => Plugin::LOCALIZATION_KEY . 'components.tag_list.special_group',
+                'description'   => Plugin::LOCALIZATION_KEY . 'components.tag_list.debug_output_description',
+                'type'          => 'checkbox',
+                'default'           => false,
                 'showExternalParam' => false
             ],
         ], $this->getPostExceptionProperties());
@@ -270,16 +315,7 @@ class TagList extends ComponentAbstract
      */
     public function onRun()
     {
-        $this->tagPage = (string) $this->getProperty('tagPage');
-        $this->tagsPage = (string) $this->getProperty('tagsPage');
-
-        $this->orderBy = $this->getProperty('orderBy');
-        $this->postSlug = $this->getProperty('postSlug');
-        $this->fetchPosts = (bool) $this->getProperty('fetchPosts');
-        $this->displayEmpty = (bool) $this->getProperty('displayEmpty');
-        $this->limit =  (int) $this->getProperty('limit');
-        $this->exposeTotalCount =  (bool) $this->getProperty('exposeTotalCount');
-        $this->enableTagFilter = (string) $this->getProperty('enableTagFilter');
+        $this->prepareVars();
 
         // Exceptions
         $this->populateExceptions();
@@ -299,8 +335,18 @@ class TagList extends ComponentAbstract
             'post' => $this->postSlug,
             'fetchPosts' => $this->fetchPosts,
             'exceptPosts' => $this->exceptPosts,
-            'exceptCategories' => $this->exceptCategories
+            'exceptCategories' => $this->exceptCategories,
+            'fetchSeriesPostCount' => $this->fetchSeriesPostCount,
+            'includeSeriesTags' => $this->includeSeriesTags
         ]);
+
+        if ($this->fetchSeriesPostCount) {
+            foreach ($tags as $tag) {
+                foreach ($tag->series as $tagSeries) {
+                    $tag->series_posts_count += $tagSeries->posts_count;
+                }
+            }
+        }
 
         $this->handleCount($tags);
         $this->handleTagUrls($tags);
@@ -356,5 +402,22 @@ class TagList extends ComponentAbstract
         if ($this->tagFilterEnabled) {
             $this->addJs('/plugins/' . Plugin::DIRECTORY_KEY . '/assets/js/jquery.mark.min.js');
         }
+    }
+
+    private function prepareVars()
+    {
+        $this->tagPage = (string) $this->getProperty('tagPage');
+        $this->tagsPage = (string) $this->getProperty('tagsPage');
+
+        $this->orderBy = $this->getProperty('orderBy');
+        $this->postSlug = $this->getProperty('postSlug');
+        $this->fetchPosts = (bool) $this->getProperty('fetchPosts');
+        $this->displayEmpty = (bool) $this->getProperty('displayEmpty');
+        $this->limit = (int) $this->getProperty('limit');
+        $this->exposeTotalCount = (bool) $this->getProperty('exposeTotalCount');
+        $this->enableTagFilter = (string) $this->getProperty('enableTagFilter');
+        $this->includeSeriesTags = (bool) $this->getProperty('includeSeriesTags');
+        $this->fetchSeriesPostCount = (bool) $this->getProperty('fetchSeriesPostCount');
+        $this->debugOutput = (bool) $this->getProperty('debugOutput');
     }
 }

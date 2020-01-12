@@ -1,12 +1,10 @@
 <div data-control="toolbar">
 
-    <button
-        href="#"
-        data-control="popup"
-        data-handler="onCreateForm"
+    <a
+        href="<?= Backend::url(GinoPane\BlogTaxonomy\Plugin::DIRECTORY_KEY . '/tags/create') ?>"
         class="btn btn-primary oc-icon-plus">
         <?= e(trans('ginopane.blogtaxonomy::lang.form.tags.new_tag_label')) ?>
-    </button>
+    </a>
 
     <button
         class="btn btn-default oc-icon-eraser"

@@ -37,20 +37,18 @@ class SeriesPosts extends PostListAbstract
      */
     public function defineProperties(): array
     {
-        $properties = [
-                'series' => [
-                    'title'       => Plugin::LOCALIZATION_KEY . 'components.series_posts.series_title',
-                    'description' => Plugin::LOCALIZATION_KEY . 'components.series_posts.series_description',
-                    'type'        => 'string',
-                    'default'     => '{{ :series }}',
-                ],
-            ] + parent::defineProperties();
-
-        return $properties;
+        return [
+            'series' => [
+                'title'       => Plugin::LOCALIZATION_KEY . 'components.series_posts.series_title',
+                'description' => Plugin::LOCALIZATION_KEY . 'components.series_posts.series_description',
+                'type'        => 'string',
+                'default'     => '{{ :series }}',
+            ],
+        ] + parent::defineProperties();
     }
 
     /**
-     * Prepare variables
+     * @inheritDoc
      */
     protected function prepareContextItem()
     {

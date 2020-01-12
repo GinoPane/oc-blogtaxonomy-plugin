@@ -2,26 +2,20 @@
 #  Column Definitions
 # ===================================
 
+noRecordsMessage: ginopane.blogtaxonomy::lang.form.tags.no_series_with_such_tag
+
 columns:
-
     title:
-        label: rainlab.blog::lang.post.title
-        searchable: true
-        sortable: true
-
-    series:
         label: ginopane.blogtaxonomy::lang.form.series.label
-        relation: series
-        select: title
         searchable: true
         sortable: true
 
-    published_at:
-        label: rainlab.blog::lang.post.published
-        type: date
-        sortable: true
+    description:
+        label: ginopane.blogtaxonomy::lang.form.series.description
+        type: partial
+        path: ~/plugins/ginopane/blogtaxonomy/controllers/tags/_column_series_description.htm
 
     created_at:
         label: rainlab.blog::lang.post.created
-        type: date
         sortable: true
+        type: date

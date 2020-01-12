@@ -131,10 +131,8 @@ class Plugin extends PluginBase
     private function extendModel()
     {
         PostModel::extend(function ($model) {
-            $model->belongsToMany['tags'] = [
-                Tag::class,
-                'table' => Tag::CROSS_REFERENCE_TABLE_NAME,
-                'order' => 'name'
+            $model->morphToMany = [
+                'tags' => [Tag::class, 'name' => Tag::PIVOT_COLUMN]
             ];
 
             $model->belongsTo['series'] = [
@@ -182,7 +180,7 @@ class Plugin extends PluginBase
                 'categories' => $categoriesConfig,
                 'tags' => [
                     'label' => self::LOCALIZATION_KEY . 'form.tags.label',
-                    'comment' => self::LOCALIZATION_KEY . 'form.tags.comment',
+                    'comment' => self::LOCALIZATION_KEY . 'form.tags.comment_post',
                     'mode' => 'relation',
                     'tab' => $tab,
                     'type' => 'taglist',

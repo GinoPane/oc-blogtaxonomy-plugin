@@ -20,6 +20,7 @@ class CreateTaxonomiesTables extends Migration
      */
     public function up()
     {
+        return;
         if (PluginManager::instance()->hasPlugin('RainLab.Blog')) {
             $this->createTags();
 
@@ -32,6 +33,7 @@ class CreateTaxonomiesTables extends Migration
      */
     public function down()
     {
+        return;
         if (PluginManager::instance()->hasPlugin('RainLab.Blog')) {
             $this->dropTags();
 
@@ -53,7 +55,7 @@ class CreateTaxonomiesTables extends Migration
      */
     private function dropSeries()
     {
-        Schema::table('rainlab_blog_posts', function ($table) {
+        Schema::table('rainlab_blog_posts', static function ($table) {
             $table->dropForeign([Series::TABLE_NAME . '_id']);
             $table->dropColumn(Series::TABLE_NAME . '_id');
         });

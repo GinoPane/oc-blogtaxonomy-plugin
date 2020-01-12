@@ -131,6 +131,7 @@ Available properties:
 
 * **Tag slug** - look up the tag using the supplied slug value from this URL parameter; e.g. if tag slug is `:tag`
 the page URL must contain `:tag` parameter which value will be used as tag slug to retrieve the tag;
+* **Include series posts** - additionally include posts which belongs to the series tagged with the current tag;
 * **Post order** - attribute and direction on which posts should be ordered;
 * **Page parameter** - calculate pagination based on this URL parameter;
 * **Items per page** - how many items (if any) should be displayed per page, "0" displays all items;
@@ -181,7 +182,12 @@ Available properties:
 * **Expose total count** - the component has `totalCount` property which would contain either overall amount of tags or
 amount of tags under "limit" only. For example you have 10 tags overall but you use a **limit** of 5. This will make component
 to display 5 tags only. With **Expose total count** enabled you could still get "10" in `totalCount`. And you'll get 5 otherwise;
-* **Fetch related posts** - if enabled, the component will fetch related posts, so they are properly (**as published**) available via `posts` property of the tag item; it does an additional request, so decreases performance a little;
+* **Fetch tagged posts** - if enabled, the component will fetch tagged posts, so they are properly (**as published**) available via `posts` property of the tag item; it does an additional request, so decreases performance a little;
+* **Include series tags** - if enabled, the component will additionally include tags applied to the post's series if
+ the post has series and the series has tags;
+* **Debug output** - allows to enable debug output to the browser's console. Need to be implemented by the theme;
+* **Fetch series post count** - if enabled, the component will additionally fetch count of posts which belong to
+ series tagged with this tag, so it will be possible to create more accurately weighed tag cloud; 
 * **Except posts** - list of post ids/slugs (can be mixed together) separated by comma; these posts will be excluded from the post count and post list associated with the tag;
 * **Except categories** - list of categories ids/slugs (can be mixed together) separated by comma; posts with these categories will be excluded from from the post count and post list associated with the tag.
 
