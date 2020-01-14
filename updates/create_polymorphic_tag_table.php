@@ -62,9 +62,16 @@ class CreatePolymorphicTagTable extends Migration
                     $table->integer($pivotColumnId)->unsigned()->nullable()->default(null);
                     $table->string($pivotColumnType);
 
-                    $table->index(['tag_id', Tag::PIVOT_COLUMN . '_id', Tag::PIVOT_COLUMN . '_type']);
+                    $table->index(
+                        ['tag_id', Tag::PIVOT_COLUMN . '_id', Tag::PIVOT_COLUMN . '_type'],
+                        'ginopane_blogtaxonomy_taggable_index'
+                    );
 
-                    $table->foreign('tag_id', 'Tag reference')->references('id')->on(Tag::TABLE_NAME)->onDelete('cascade');
+                    $table
+                        ->foreign('tag_id', 'Tag reference')
+                        ->references('id')
+                        ->on(Tag::TABLE_NAME)
+                        ->onDelete('cascade');
                 }
             );
 

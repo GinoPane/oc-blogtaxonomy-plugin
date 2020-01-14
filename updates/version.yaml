@@ -1,3 +1,6 @@
+2.0.1:
+  - Set index name explicitly to prevent the generation of too long name
+
 2.0.0:
   - !!! Migrated to polymorphic tag relation. Make sure to backup and proceed with caution
   - Implemented tags for series
