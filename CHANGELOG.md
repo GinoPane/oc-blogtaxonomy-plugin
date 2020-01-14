@@ -16,6 +16,11 @@ Types of changes
 
 ## [Unreleased]
 
+## 2.0.1 - 2020-01-14
+
+### Fixed
+* Set index name explicitly to prevent the generation of too long name
+
 ## 2.0.0 - 2020-01-12
 
 ### Features
@@ -189,4 +194,4 @@ Types of changes
 ### Features
 * The initial release of Blog Taxonomy.
 
-[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v2.0.0...HEAD
+[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v2.0.1...HEAD
