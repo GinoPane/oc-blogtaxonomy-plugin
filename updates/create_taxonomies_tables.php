@@ -20,7 +20,6 @@ class CreateTaxonomiesTables extends Migration
      */
     public function up()
     {
-        return;
         if (PluginManager::instance()->hasPlugin('RainLab.Blog')) {
             $this->createTags();
 
@@ -33,7 +32,6 @@ class CreateTaxonomiesTables extends Migration
      */
     public function down()
     {
-        return;
         if (PluginManager::instance()->hasPlugin('RainLab.Blog')) {
             $this->dropTags();
 
@@ -91,8 +89,8 @@ class CreateTaxonomiesTables extends Migration
                     $table->integer('tag_id')->unsigned()->nullable()->default(null);
                     $table->integer('post_id')->unsigned()->nullable()->default(null);
                     $table->index(['tag_id', 'post_id']);
-                    $table->foreign('tag_id', 'Tag reference')->references('id')->on(Tag::TABLE_NAME)->onDelete('cascade');
-                    $table->foreign('post_id', 'Post reference')->references('id')->on('rainlab_blog_posts')->onDelete('cascade');
+                    $table->foreign('tag_id')->references('id')->on(Tag::TABLE_NAME)->onDelete('cascade');
+                    $table->foreign('post_id')->references('id')->on('rainlab_blog_posts')->onDelete('cascade');
                 }
             );
         }

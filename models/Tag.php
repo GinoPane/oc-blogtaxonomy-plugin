@@ -199,6 +199,21 @@ class Tag extends ModelAbstract
      *
      * @return void
      */
+    protected function queryDisplayEmpty(Builder $query, array $options)
+    {
+        if (empty($options['displayEmpty'])) {
+            $query
+                ->having('posts_count', '>', 0)
+                ->orHaving('series_count', '>', 0);
+        }
+    }
+
+    /**
+     * @param Builder $query
+     * @param array   $options
+     *
+     * @return void
+     */
     private function postRelation(Builder $query, array $options)
     {
         if (!empty($options['fetchPosts'])) {

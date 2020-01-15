@@ -18,7 +18,6 @@ class ChangeDescriptionField extends Migration
      */
     public function up()
     {
-        return;
         if (Schema::hasTable(Series::TABLE_NAME)) {
             Schema::table(Series::TABLE_NAME, static function ($table) {
                 $table->text('description')->nullable()->change();
@@ -31,7 +30,6 @@ class ChangeDescriptionField extends Migration
      */
     public function down()
     {
-        return;
         if (Schema::hasTable(Series::TABLE_NAME)) {
             Schema::table(Series::TABLE_NAME, static function ($table) {
                 $table->string('description')->nullable()->change();

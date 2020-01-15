@@ -101,12 +101,11 @@ abstract class ModelAbstract extends Model
      *
      * @return void
      */
-    private function queryDisplayEmpty(Builder $query, array $options)
+    protected function queryDisplayEmpty(Builder $query, array $options)
     {
         if (empty($options['displayEmpty'])) {
             $query
-                ->having('posts_count', '>', 0)
-                ->orHaving('series_count', '>', 0);
+                ->having('posts_count', '>', 0);
         }
     }
 
@@ -153,7 +152,7 @@ abstract class ModelAbstract extends Model
             if ($options['sort'] === 'random') {
                 $query->inRandomOrder();
             } else {
-                [$sortField, $sortDirection] = explode(' ', $options['sort']);
+                list($sortField, $sortDirection) = explode(' ', $options['sort']);
 
                 $query->orderBy($sortField, $sortDirection);
             }
