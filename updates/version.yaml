@@ -1,3 +1,7 @@
+2.0.2:
+  - Fix incorrect query being used for series model
+  - Remove accidental return operators from update files which prevented clean plugin installation
+
 2.0.1:
   - Set index name explicitly to prevent the generation of too long name
 

@@ -68,7 +68,7 @@ class CreatePolymorphicTagTable extends Migration
                     );
 
                     $table
-                        ->foreign('tag_id', 'Tag reference')
+                        ->foreign('tag_id')
                         ->references('id')
                         ->on(Tag::TABLE_NAME)
                         ->onDelete('cascade');

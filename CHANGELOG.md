@@ -16,6 +16,12 @@ Types of changes
 
 ## [Unreleased]
 
+## 2.0.2 - 2020-01-15
+
+### Fixed
+* Fix incorrect query being used for series model
+* Remove accidental return operators from update files which prevented clean plugin installation
+
 ## 2.0.1 - 2020-01-14
 
 ### Fixed
