@@ -16,6 +16,12 @@ Types of changes
 
 ## [Unreleased]
 
+## 2.0.3 - 2020-02-05
+
+### Changed
+* Non-ajax version of pagination is now a default
+* Do not include the existing routing parameters when generating new links
+
 ## 2.0.2 - 2020-01-15
 
 ### Fixed

@@ -35,7 +35,7 @@ abstract class ModelAbstract extends Model
     {
         $params = $this->getModelUrlParams($params);
 
-        $this->url = $controller->pageUrl($pageName, $params);
+        $this->url = $controller->pageUrl($pageName, $params, false);
     }
 
     /**

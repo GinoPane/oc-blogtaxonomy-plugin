@@ -1,3 +1,7 @@
+2.0.3:
+  - Non-ajax version of pagination is now a default
+  - Do not include the existing routing parameters when generating new links
+
 2.0.2:
   - Fix incorrect query being used for series model
   - Remove accidental return operators from update files which prevented clean plugin installation
