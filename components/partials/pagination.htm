@@ -1,35 +1,25 @@
-<div>
-    {{ "ginopane.blogtaxonomy::lang.components.partials.displaying_number_of_posts" | trans | format(__SELF__.posts|length, __SELF__.posts.total)}}
-</div>
-
-{% if __SELF__.posts.lastPage != 1 %}
+<nav id="{{ __SELF__.alias }}-pagination">
     <div>
-        {{ "ginopane.blogtaxonomy::lang.components.partials.viewing_page_of" | trans | format(__SELF__.posts.currentPage, __SELF__.posts.lastPage)}}
+        {{ "ginopane.blogtaxonomy::lang.components.partials.displaying_number_of_posts" | trans | format(__SELF__.posts|length, __SELF__.posts.total)}}
     </div>
-    <div>
-        {% if __SELF__.posts.currentPage > 1 %}
-        <a href="#"
-           data-request="onRun"
-           data-request-data="page: {{ __SELF__.posts.currentPage - 1 }}"
-           data-request-update="
-                    '{{ __SELF__.alias }}::list': '#{{ __SELF__.alias }}-list',
-                    '{{ __SELF__.alias }}::pagination': '#{{ __SELF__.alias }}-pagination',
-                ">
-            &lt; {{ "ginopane.blogtaxonomy::lang.components.partials.pagination_back" | trans }}
-        </a>
-        {% endif %}
 
-        {% if __SELF__.posts.currentPage < __SELF__.posts.lastPage %}
-        <a href="#"
-           data-request="onRun"
-           data-request-data="page: {{ __SELF__.posts.currentPage + 1 }}"
-           data-request-update="
-                    '{{ __SELF__.alias }}::list': '#{{ __SELF__.alias }}-list',
-                    '{{ __SELF__.alias }}::pagination': '#{{ __SELF__.alias }}-pagination',
-                ">
-            {{ "ginopane.blogtaxonomy::lang.components.partials.pagination_next" | trans }} &gt;
-        </a>
-        {% endif %}
-    </div>
-{% endif %}
+    {% if __SELF__.posts.lastPage != 1 %}
+        <div>
+            {{ "ginopane.blogtaxonomy::lang.components.partials.viewing_page_of" | trans | format(__SELF__.posts.currentPage, __SELF__.posts.lastPage)}}
+        </div>
+        <div>
+            {% if __SELF__.posts.currentPage > 1 %}
+                <a href="{{ '' | page({ page: __SELF__.posts.currentPage - 1 }) }}">
+                    &lt; {{ "ginopane.blogtaxonomy::lang.components.partials.pagination_back" | trans }}
+                </a>
+            {% endif %}
+
+            {% if __SELF__.posts.currentPage < __SELF__.posts.lastPage %}
+                <a href="{{ '' | page({ page: __SELF__.posts.currentPage + 1 }) }}">
+                    {{ "ginopane.blogtaxonomy::lang.components.partials.pagination_next" | trans }} &gt;
+                </a>
+            {% endif %}
+        </div>
+    {% endif %}
+</nav>
 
