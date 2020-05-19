@@ -1,3 +1,6 @@
+2.1.1:
+  - Fix trait name
+
 2.1.0:
   - Add filter by categories (included) for post lists (with tags/series)
   - Rename 'Exceptions' section to 'Filters' in component settings
