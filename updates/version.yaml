@@ -1,3 +1,7 @@
+2.1.0:
+  - Add filter by categories (included) for post lists (with tags/series)
+  - Rename 'Exceptions' section to 'Filters' in component settings
+
 2.0.3:
   - Non-ajax version of pagination is now a default
   - Do not include the existing routing parameters when generating new links

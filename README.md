@@ -137,8 +137,11 @@ the page URL must contain `:tag` parameter which value will be used as tag slug 
 * **Items per page** - how many items (if any) should be displayed per page, "0" displays all items;
 * **Post page** - name of the blog post page to display a single blog post content;
 * **Category page** - name of the category page to display a single blog category content;
-* **Except posts** - list of post ids/slugs (can be mixed together) separated by comma; these posts will be excluded from the list;
-* **Except categories** - list of categories ids/slugs (can be mixed together) separated by comma; posts with these categories will be excluded from the list.
+* **Include categories** - list of categories ids/slugs (can be mixed together) separated by comma; posts only with
+ these categories will be included into the list;
+* **Exclude posts** - list of post ids/slugs (can be mixed together) separated by comma; these posts will be excluded
+ from the list;
+* **Exclude categories** - list of categories ids/slugs (can be mixed together) separated by comma; posts with these categories will be excluded from the list.
 
 ### Related Posts
 
@@ -163,8 +166,10 @@ Available properties:
 * **Series order** - how series list should be ordered;
 * **Series page** - CMS page which contains [`postsInSeries`](#posts-in-the-series) component and is used to display a single series content and posts;
 * **Fetch related posts** - if enabled, the component will fetch related posts, so they are properly (**as published**) available via `posts` property of the series item; it does an additional request, so decreases performance a little;
-* **Except posts** - list of post ids/slugs (can be mixed together) separated by comma; these posts will be excluded from the post count and post list associated with the series;
-* **Except categories** - list of categories ids/slugs (can be mixed together) separated by comma; posts with these categories will be excluded from from the post count and post list associated with the series.
+* **Include categories** - list of categories ids/slugs (can be mixed together) separated by comma; posts only with
+ these categories will be included into the post count and post list associated with the series;
+* **Exclude posts** - list of post ids/slugs (can be mixed together) separated by comma; these posts will be excluded from the post count and post list associated with the series;
+* **Exclude categories** - list of categories ids/slugs (can be mixed together) separated by comma; posts with these categories will be excluded from from the post count and post list associated with the series.
 
 ### Tag List
 
@@ -187,9 +192,11 @@ to display 5 tags only. With **Expose total count** enabled you could still get 
  the post has series and the series has tags;
 * **Debug output** - allows to enable debug output to the browser's console. Need to be implemented by the theme;
 * **Fetch series post count** - if enabled, the component will additionally fetch count of posts which belong to
- series tagged with this tag, so it will be possible to create more accurately weighed tag cloud; 
-* **Except posts** - list of post ids/slugs (can be mixed together) separated by comma; these posts will be excluded from the post count and post list associated with the tag;
-* **Except categories** - list of categories ids/slugs (can be mixed together) separated by comma; posts with these categories will be excluded from from the post count and post list associated with the tag.
+ series tagged with this tag, so it will be possible to create more accurately weighed tag cloud;
+* **Include categories** - list of categories ids/slugs (can be mixed together) separated by comma; posts only with
+ these categories will be included into the post count and post list associated with the tag;
+* **Exclude posts** - list of post ids/slugs (can be mixed together) separated by comma; these posts will be excluded from the post count and post list associated with the tag;
+* **Exclude categories** - list of categories ids/slugs (can be mixed together) separated by comma; posts with these categories will be excluded from the post count and post list associated with the tag.
 
 > Leave this as `false` if you do not require a whole total count, because it will give you more optimised result
 

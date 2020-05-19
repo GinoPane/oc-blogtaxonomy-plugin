@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace GinoPane\BlogTaxonomy\Models;
 
@@ -6,7 +6,7 @@ use Model;
 use Cms\Classes\Controller;
 use October\Rain\Database\Builder;
 use October\Rain\Database\Relations\HasMany;
-use GinoPane\BlogTaxonomy\Classes\PostListExceptionsTrait;
+use GinoPane\BlogTaxonomy\Classes\PostListFiltersTrait;
 
 /**
  * Class ModelAbstract
@@ -204,12 +204,16 @@ abstract class ModelAbstract extends Model
      */
     protected static function handleExceptions(Builder $query, array $options)
     {
+        if (!empty($options['includeCategories'])) {
+            PostListFiltersTrait::handleInclusionsByCategory($query, $options['includeCategories']);
+        }
+
         if (!empty($options['exceptPosts'])) {
-            PostListExceptionsTrait::handleExceptionsByPost($query, $options['exceptPosts']);
+            PostListFiltersTrait::handleExceptionsByPost($query, $options['exceptPosts']);
         }
 
         if (!empty($options['exceptCategories'])) {
-            PostListExceptionsTrait::handleExceptionsByCategory($query, $options['exceptCategories']);
+            PostListFiltersTrait::handleExceptionsByCategory($query, $options['exceptCategories']);
         }
     }
 }
