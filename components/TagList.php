@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace GinoPane\BlogTaxonomy\Components;
 
@@ -8,7 +8,7 @@ use GinoPane\BlogTaxonomy\Models\Tag;
 use October\Rain\Database\Collection;
 use GinoPane\BlogTaxonomy\Classes\ComponentAbstract;
 use GinoPane\BlogTaxonomy\Classes\TranslateArrayTrait;
-use GinoPane\BlogTaxonomy\Classes\PostListExceptionsTrait;
+use GinoPane\BlogTaxonomy\Classes\PostListFiltersTrait;
 
 /**
  * Class TagList
@@ -20,7 +20,7 @@ class TagList extends ComponentAbstract
     const NAME = 'tagList';
 
     use TranslateArrayTrait;
-    use PostListExceptionsTrait;
+    use PostListFiltersTrait;
 
     /**
      * @var Collection | array
@@ -269,7 +269,7 @@ class TagList extends ComponentAbstract
                 'default'           => false,
                 'showExternalParam' => false
             ],
-        ], $this->getPostExceptionProperties());
+        ], $this->getPostFilterProperties());
     }
 
     /**
@@ -318,7 +318,7 @@ class TagList extends ComponentAbstract
         $this->prepareVars();
 
         // Exceptions
-        $this->populateExceptions();
+        $this->populateFilters();
 
         $this->tags = $this->listTags();
     }

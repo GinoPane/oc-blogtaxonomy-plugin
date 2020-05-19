@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace GinoPane\BlogTaxonomy\Components;
 
@@ -7,7 +7,7 @@ use GinoPane\BlogTaxonomy\Plugin;
 use GinoPane\BlogTaxonomy\Models\Series;
 use GinoPane\BlogTaxonomy\Classes\ComponentAbstract;
 use GinoPane\BlogTaxonomy\Classes\TranslateArrayTrait;
-use GinoPane\BlogTaxonomy\Classes\PostListExceptionsTrait;
+use GinoPane\BlogTaxonomy\Classes\PostListFiltersTrait;
 
 /**
  * Class SeriesList
@@ -19,7 +19,7 @@ class SeriesList extends ComponentAbstract
     const NAME = 'seriesList';
 
     use TranslateArrayTrait;
-    use PostListExceptionsTrait;
+    use PostListFiltersTrait;
 
     /**
      * @var Series
@@ -116,7 +116,7 @@ class SeriesList extends ComponentAbstract
                 'default'       =>  'blog/series',
                 'showExternalParam' => false
             ],
-        ], $this->getPostExceptionProperties());
+        ], $this->getPostFilterProperties());
     }
 
     /**
@@ -149,7 +149,7 @@ class SeriesList extends ComponentAbstract
         $this->prepareVars();
 
         // Exceptions
-        $this->populateExceptions();
+        $this->populateFilters();
 
         $this->series = $this->listSeries();
     }

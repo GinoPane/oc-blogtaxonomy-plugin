@@ -16,6 +16,14 @@ Types of changes
 
 ## [Unreleased]
 
+## 2.1.0 - 2020-05-19
+
+### Added
+* Add filter by categories (included) for post lists (with tags/series)
+
+### Changed
+* Rename 'Exceptions' section to 'Filters' in component settings
+
 ## 2.0.3 - 2020-02-05
 
 ### Changed
@@ -206,4 +214,4 @@ Types of changes
 ### Features
 * The initial release of Blog Taxonomy.
 
-[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v2.0.1...HEAD
+[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v2.1.0...HEAD

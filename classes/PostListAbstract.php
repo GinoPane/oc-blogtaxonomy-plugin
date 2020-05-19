@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace GinoPane\BlogTaxonomy\Classes;
 
@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Collection;
 abstract class PostListAbstract extends ComponentAbstract
 {
     use TranslateArrayTrait;
-    use PostListExceptionsTrait;
+    use PostListFiltersTrait;
 
     /**
      * @var Collection | array
@@ -87,7 +87,7 @@ abstract class PostListAbstract extends ComponentAbstract
             $properties,
             $this->getPaginationProperties(),
             $this->getPageLinkProperties(),
-            $this->getPostExceptionProperties()
+            $this->getPostFilterProperties()
         );
     }
 
@@ -128,7 +128,7 @@ abstract class PostListAbstract extends ComponentAbstract
     {
         $query = $this->getPostsQuery();
 
-        $this->handlePostExceptions($query);
+        $this->handlePostFilters($query);
 
         $this->handleOrder($query);
 
@@ -175,7 +175,7 @@ abstract class PostListAbstract extends ComponentAbstract
         // Page links
         $this->populateLinks();
         // Exceptions
-        $this->populateExceptions();
+        $this->populateFilters();
 
         $this->orderBy = $this->property('orderBy');
     }
