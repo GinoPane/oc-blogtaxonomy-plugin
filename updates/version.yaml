@@ -1,3 +1,6 @@
+2.2.0:
+  - Added support of special characters for tag name
+
 2.1.1:
   - Fix trait name
 

@@ -16,6 +16,11 @@ Types of changes
 
 ## [Unreleased]
 
+## 2.2.0 - 2020-05-21
+
+### Added
+* Added support of special characters for tag name
+
 ## 2.1.1 - 2020-05-19
 
 ### Fixed
@@ -219,4 +224,4 @@ Types of changes
 ### Features
 * The initial release of Blog Taxonomy.
 
-[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v2.1.1...HEAD
+[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v2.2.0...HEAD
