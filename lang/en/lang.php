@@ -57,7 +57,7 @@ return [
             'comment_post' => 'Select tags that are applicable to the post',
             'comment_series' => 'Select tags that are applicable to the series',
 
-            'name_invalid' => 'Tag names may only contain alpha-numeric characters, spaces and hyphens',
+            'name_invalid' => 'Tag names may only contain alpha-numeric characters, spaces, hyphens and some punctuation',
             'name_required' => 'The tag name field is required',
             'name_unique' => 'This tag name is already taken',
             'name_too_short' => 'Tag name minimal length is :min',
@@ -91,7 +91,7 @@ return [
             'no_posts_in_series' => 'There are no posts in this series',
             'comment' => 'Choose a series the blog post belongs to',
 
-            'title_invalid' => 'Series names may only contain alpha-numeric characters, spaces, hyphens and some punctuation',
+            'title_invalid' => 'Series titles may only contain alpha-numeric characters, spaces, hyphens and some punctuation',
             'title_required' => 'The series title field is required',
             'title_unique' => 'This series title is already taken',
             'title_too_short' => 'Series title minimal length is :min',
