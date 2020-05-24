@@ -1,3 +1,6 @@
+2.2.1:
+  - Added missing `include categories` filter for Tags list and Series list
+
 2.2.0:
   - Added support of special characters for tag name
 

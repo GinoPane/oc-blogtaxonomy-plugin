@@ -16,6 +16,11 @@ Types of changes
 
 ## [Unreleased]
 
+## 2.2.1 - 2020-05-24
+
+### Added
+* Added missing `include categories` filter for Tags list and Series list
+
 ## 2.2.0 - 2020-05-21
 
 ### Added
@@ -224,4 +229,4 @@ Types of changes
 ### Features
 * The initial release of Blog Taxonomy.
 
-[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v2.2.0...HEAD
+[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v2.2.1...HEAD
