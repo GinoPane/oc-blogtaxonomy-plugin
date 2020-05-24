@@ -167,6 +167,7 @@ class SeriesList extends ComponentAbstract
             'limit' => $this->limit,
             'fetchPosts' => $this->fetchPosts,
             'exceptPosts' => $this->exceptPosts,
+            'includeCategories' => $this->includeCategories,
             'exceptCategories' => $this->exceptCategories
         ]);
 
