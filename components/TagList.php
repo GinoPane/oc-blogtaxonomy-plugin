@@ -335,6 +335,7 @@ class TagList extends ComponentAbstract
             'post' => $this->postSlug,
             'fetchPosts' => $this->fetchPosts,
             'exceptPosts' => $this->exceptPosts,
+            'includeCategories' => $this->includeCategories,
             'exceptCategories' => $this->exceptCategories,
             'fetchSeriesPostCount' => $this->fetchSeriesPostCount,
             'includeSeriesTags' => $this->includeSeriesTags
