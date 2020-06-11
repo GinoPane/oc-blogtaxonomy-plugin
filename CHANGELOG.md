@@ -16,6 +16,12 @@ Types of changes
 
 ## [Unreleased]
 
+## 2.3.0 - 2020-06-11
+
+### Added
+* Added status support for series
+* Added possibility to delete series from the series list page
+
 ## 2.2.1 - 2020-05-24
 
 ### Added
@@ -229,4 +235,4 @@ Types of changes
 ### Features
 * The initial release of Blog Taxonomy.
 
-[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v2.2.1...HEAD
+[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v2.3.0...HEAD
