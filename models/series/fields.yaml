@@ -5,13 +5,14 @@
 tabs:
     fields:
         title:
+            tab: ginopane.blogtaxonomy::lang.form.tabs.general
             label: ginopane.blogtaxonomy::lang.form.fields.title
             placeholder: ginopane.blogtaxonomy::lang.placeholders.title
             span: left
             required: true
-            tab: ginopane.blogtaxonomy::lang.form.tabs.general
 
         slug:
+            tab: ginopane.blogtaxonomy::lang.form.tabs.general
             label: ginopane.blogtaxonomy::lang.form.fields.slug
             span: right
             placeholder: ginopane.blogtaxonomy::lang.placeholders.slug
@@ -19,7 +20,15 @@ tabs:
             preset:
                 field: title
                 type: slug
+
+        status:
             tab: ginopane.blogtaxonomy::lang.form.tabs.general
+            label: ginopane.blogtaxonomy::lang.form.fields.status
+            type: balloon-selector
+            span: left
+            options:
+                active: Active
+                inactive: Inactive
 
         tags:
             label: ginopane.blogtaxonomy::lang.form.tags.label

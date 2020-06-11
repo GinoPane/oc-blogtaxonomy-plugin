@@ -20,6 +20,9 @@ use October\Rain\Database\Traits\Validation;
  */
 class Series extends ModelAbstract
 {
+    const STATUS_ACTIVE = 'active';
+    const STATUS_INACTIVE = 'inactive';
+
     use Sluggable;
     use Validation;
 

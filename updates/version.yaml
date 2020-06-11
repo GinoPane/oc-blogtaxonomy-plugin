@@ -1,3 +1,8 @@
+2.3.0:
+  - Added status support for series
+  - Added possibility to delete series from the series list page
+  - add_series_status_column.php
+
 2.2.1:
   - Added missing `include categories` filter for Tags list and Series list
 

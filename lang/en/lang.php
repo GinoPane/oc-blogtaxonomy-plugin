@@ -21,6 +21,7 @@ return [
             'description' => 'Description',
             'posts' => 'Posts',
             'series' => 'Series',
+            'status' => 'Status',
             'related_series' => 'Related Series'
         ],
         'tabs' => [
@@ -82,6 +83,7 @@ return [
         'series' => [
             'label' => 'Series',
             'description' => 'Description',
+            'status' => 'Status',
 
             'create_title' => 'Create Series',
             'edit_title' => 'Edit the Series ":series"',
@@ -105,6 +107,8 @@ return [
             'update_load_indicator' => 'Updating series...',
             'delete_load_indicator' => 'Deleting series...',
             'delete_confirm' => 'Do you really want to delete this series?',
+            'delete_bulk_confirm' => 'Are you sure you want to delete selected series?',
+            'delete_series_success' => 'Successfully deleted series',
             'new_series_button_label' => 'New Series',
             'create_button_label' => 'Create',
             'save_button_label' => 'Save',
@@ -122,6 +126,8 @@ return [
             'posts' => 'Posts',
             'series' => 'Series',
             'tag' => 'Tag',
+            'tags' => 'Tags',
+            'status' => 'Status',
             'slug' => 'Slug'
         ]
     ],

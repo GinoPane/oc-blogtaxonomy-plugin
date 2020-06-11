@@ -2,13 +2,14 @@
 
 namespace GinoPane\BlogTaxonomy\Controllers;
 
+use Flash;
 use BackendMenu;
 use Backend\Classes\Controller;
-use GinoPane\BlogTaxonomy\Models\Series as SeriesModel;
 use GinoPane\BlogTaxonomy\Plugin;
 use Backend\Behaviors\FormController;
 use Backend\Behaviors\ListController;
 use Backend\Behaviors\RelationController;
+use GinoPane\BlogTaxonomy\Models\Series as SeriesModel;
 
 /**
  * Class Series
@@ -62,5 +63,27 @@ class Series extends Controller
         }
 
         return $this->asExtension('FormController')->update($recordId, $context);
+    }
+
+    /**
+     * Remove multiple tags
+     *
+     * @return mixed
+     */
+    public function onBulkDelete()
+    {
+        if ($checkedIds = (array)post('checked', [])) {
+            $delete = SeriesModel::whereIn('id', $checkedIds)->delete();
+        }
+
+        if (empty($delete)) {
+            Flash::error(e(trans(Plugin::LOCALIZATION_KEY . 'form.errors.unknown')));
+
+            return;
+        }
+
+        Flash::success(e(trans(Plugin::LOCALIZATION_KEY . 'form.series.delete_series_success')));
+
+        return $this->listRefresh();
     }
 }

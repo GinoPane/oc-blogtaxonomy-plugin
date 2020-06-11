@@ -1,0 +1,12 @@
+# ===================================
+# Filter Scope Definitions
+# ===================================
+
+scopes:
+    status:
+        label: ginopane.blogtaxonomy::lang.form.series.status
+        type: group
+        conditions: status in (:filtered)
+        options:
+            active: Active
+            inactive: Inactive
