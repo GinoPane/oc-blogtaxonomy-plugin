@@ -82,7 +82,7 @@ Migration from PKleindienst.BlogSeries finished
 
 ## Implementing Frontend Pages
 
-The Blog Taxonomy plugin provides several useful components with basic markup for frontend usage. The default markup
+The Blog Taxonomy plugin provides several useful components with a basic markup for frontend usage. The default markup
 is **not intended to fit to any existing frontend** theme, it is just an example, so if the default markup is not suitable for your website,
 feel free to copy it from the default partial and replace the markup with your own.
 
@@ -94,6 +94,7 @@ Available components:
 * **Related Posts** (`relatedPosts`) - provides a list of posts related by tags.
 * **Series List** (`seriesList`) - displays a list of series.
 * **Tag List** (`tagList`) - displays a list of tags.
+* **Related Series** (`relatedSeries`) - provides a list of related series.
 
 ### Post Series Navigation
 
