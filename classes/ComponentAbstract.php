@@ -60,28 +60,19 @@ abstract class ComponentAbstract extends ComponentBase
     {
         // Add a "url" helper attribute for linking to each post and category
         if (!empty($this->postPage) && $posts && $posts->count()) {
-            $blogPostComponent = $this->getComponent('blogPost', $this->postPage);
-            $blogPostsComponent = $this->getComponent('blogPosts', $this->categoryPage ?? '');
-
-            $posts->each(function($post) use ($blogPostComponent, $blogPostsComponent) {
+            $posts->each(function ($post) {
                 /** @var Post $post */
                 $post->setUrl(
                     $this->postPage,
-                    $this->controller,
-                    [
-                        'slug' => $this->urlProperty($blogPostComponent, 'slug')
-                    ]
+                    $this->controller
                 );
 
                 if (!empty($this->categoryPage) && $post->categories->count()) {
-                    $post->categories->each(function ($category) use ($blogPostsComponent) {
+                    $post->categories->each(function ($category) {
                         /** @var Category $category */
                         $category->setUrl(
                             $this->categoryPage,
-                            $this->controller,
-                            [
-                                'slug' => $this->urlProperty($blogPostsComponent, 'categoryFilter')
-                            ]
+                            $this->controller
                         );
                     });
                 }
