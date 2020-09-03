@@ -1,3 +1,6 @@
+2.4.0:
+  - Added ability to pass series slug into post URLs via the posts-in-series component
+
 2.3.1:
   - Fixed post URLs broken by Rainlab Blog 1.4.3
 

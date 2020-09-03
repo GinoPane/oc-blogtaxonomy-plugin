@@ -16,6 +16,11 @@ Types of changes
 
 ## [Unreleased]
 
+## 2.4.0 - 2020-09-03
+
+### Added
+* Added ability to pass series slug into post URLs via the posts-in-series component
+
 ## 2.3.1 - 2020-08-21
 
 ### Fixed

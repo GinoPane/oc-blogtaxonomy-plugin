@@ -14,6 +14,9 @@ use GinoPane\BlogTaxonomy\Classes\PostListAbstract;
  */
 class SeriesPosts extends PostListAbstract
 {
+    // Param name to be used in URLs: ":series"
+    const URL_PARAM_NAME = 'series';
+
     const NAME = 'postsInSeries';
 
     /**
@@ -38,13 +41,13 @@ class SeriesPosts extends PostListAbstract
     public function defineProperties(): array
     {
         return [
-            'series' => [
-                'title'       => Plugin::LOCALIZATION_KEY . 'components.series_posts.series_title',
-                'description' => Plugin::LOCALIZATION_KEY . 'components.series_posts.series_description',
-                'type'        => 'string',
-                'default'     => '{{ :series }}',
-            ],
-        ] + parent::defineProperties();
+                'series' => [
+                    'title'       => Plugin::LOCALIZATION_KEY . 'components.series_posts.series_title',
+                    'description' => Plugin::LOCALIZATION_KEY . 'components.series_posts.series_description',
+                    'type'        => 'string',
+                    'default'     => '{{ :series }}',
+                ],
+            ] + parent::defineProperties();
     }
 
     /**
@@ -68,5 +71,16 @@ class SeriesPosts extends PostListAbstract
         })->isPublished();
 
         return $query;
+    }
+
+    protected function setPostUrl(Post $post)
+    {
+        $post->setUrl(
+            $this->postPage,
+            $this->controller,
+            [
+                self::URL_PARAM_NAME => $this->series->slug
+            ]
+        );
     }
 }

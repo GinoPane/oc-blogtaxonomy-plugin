@@ -38,7 +38,7 @@ abstract class ComponentAbstract extends ComponentBase
      * @param Controller $controller
      * @param array $modelUrlParams
      */
-    public function setUrls(
+    protected function setUrls(
         Collection $items,
         string $urlPage,
         Controller $controller,
@@ -56,16 +56,12 @@ abstract class ComponentAbstract extends ComponentBase
      *
      * @param ArrayAccess $posts
      */
-    public function setPostUrls(ArrayAccess $posts)
+    protected function setPostUrls(ArrayAccess $posts)
     {
         // Add a "url" helper attribute for linking to each post and category
         if (!empty($this->postPage) && $posts && $posts->count()) {
             $posts->each(function ($post) {
-                /** @var Post $post */
-                $post->setUrl(
-                    $this->postPage,
-                    $this->controller
-                );
+                $this->setPostUrl($post);
 
                 if (!empty($this->categoryPage) && $post->categories->count()) {
                     $post->categories->each(function ($category) {
@@ -78,6 +74,14 @@ abstract class ComponentAbstract extends ComponentBase
                 }
             });
         }
+    }
+
+    protected function setPostUrl(Post $post)
+    {
+        $post->setUrl(
+            $this->postPage,
+            $this->controller
+        );
     }
 
     /**
