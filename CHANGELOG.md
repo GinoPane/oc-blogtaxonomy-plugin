@@ -16,6 +16,11 @@ Types of changes
 
 ## [Unreleased]
 
+## 2.5.0 - 2020-09-14
+
+### Added
+* Related posts can now be additionally filtered by post and/or category
+
 ## 2.4.0 - 2020-09-03
 
 ### Added

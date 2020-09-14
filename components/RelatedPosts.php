@@ -12,6 +12,7 @@ use GinoPane\BlogTaxonomy\Models\ModelAbstract;
 use GinoPane\BlogTaxonomy\Classes\PostListAbstract;
 use GinoPane\BlogTaxonomy\Classes\ComponentAbstract;
 use GinoPane\BlogTaxonomy\Classes\TranslateArrayTrait;
+use GinoPane\BlogTaxonomy\Classes\PostListFiltersTrait;
 
 /**
  * Class RelatedPosts
@@ -23,6 +24,7 @@ class RelatedPosts extends ComponentAbstract
     const NAME = 'relatedPosts';
 
     use TranslateArrayTrait;
+    use PostListFiltersTrait;
 
     /**
      * @var Collection | array
@@ -55,7 +57,7 @@ class RelatedPosts extends ComponentAbstract
      *
      * @return  array
      */
-    public function componentDetails()
+    public function componentDetails(): array
     {
         return [
             'name'        => Plugin::LOCALIZATION_KEY . 'components.related_posts.name',
@@ -68,9 +70,9 @@ class RelatedPosts extends ComponentAbstract
      *
      * @return  array
      */
-    public function defineProperties()
+    public function defineProperties(): array
     {
-        return [
+        return array_merge([
             'slug' => [
                 'title'             => Plugin::LOCALIZATION_KEY . 'components.related_posts.post_slug_title',
                 'description'       => Plugin::LOCALIZATION_KEY . 'components.related_posts.post_slug_description',
@@ -103,7 +105,7 @@ class RelatedPosts extends ComponentAbstract
                 'type'        => 'dropdown',
                 'default'     => 'blog/post',
             ],
-        ];
+        ], $this->getPostFilterProperties());
     }
 
     /**
@@ -134,6 +136,9 @@ class RelatedPosts extends ComponentAbstract
 
         // Page links
         $this->postPage = $this->page['postPage' ] = $this->property('postPage');
+
+        // Exceptions
+        $this->populateFilters();
     }
 
     public function getPostPageOptions()
@@ -176,6 +181,7 @@ class RelatedPosts extends ComponentAbstract
             })
             ->with('tags');
 
+        $this->handlePostFilters($query);
         $this->queryOrderBy($query, $tagIds);
 
         if ($take = (int)$this->property('limit')) {
