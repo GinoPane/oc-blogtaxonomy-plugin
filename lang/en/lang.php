@@ -166,7 +166,9 @@ return [
             'series_title' => 'Series slug',
             'series_description' => 'Look up the series using the supplied slug value from this URL parameter',
             'posts_in_series' => 'Posts included into the series',
-            'no_posts_message' => 'No posts in the series'
+            'no_posts_message' => 'No posts in the series',
+            'include_tags_posts_title' => 'Include tags posts',
+            'include_tags_posts_description' => 'Additionally include posts which belongs to the tags tagged with the current series'
         ],
         'tag_list' => [
             'name' => 'Tag List',
