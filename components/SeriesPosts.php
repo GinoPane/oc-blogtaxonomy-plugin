@@ -47,6 +47,13 @@ class SeriesPosts extends PostListAbstract
                     'type'        => 'string',
                     'default'     => '{{ :series }}',
                 ],
+                'includeTagsPosts' => [
+                    'title'         => Plugin::LOCALIZATION_KEY . 'components.series_posts.include_tags_posts_title',
+                    'description'   => Plugin::LOCALIZATION_KEY . 'components.series_posts.include_tags_posts_description',
+                    'default'       => false,
+                    'type'          => 'checkbox',
+                    'showExternalParam' => false
+                ]
             ] + parent::defineProperties();
     }
 
@@ -68,8 +75,15 @@ class SeriesPosts extends PostListAbstract
     {
         $query = Post::whereHas('series', function ($query) {
             $query->whereTranslatable('slug', $this->series->slug);
-        })->isPublished();
-
+        });
+        if ($this->includeTagsPosts) {
+            $query->orWhereHas('tags', function ($query) {
+                $query->whereHas('series', function ($query) {
+                    $query->whereTranslatable('slug', $this->series->slug);
+                });
+            });
+        }
+        $query->isPublished();
         return $query;
     }
 
