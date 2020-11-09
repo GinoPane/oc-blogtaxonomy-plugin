@@ -25,6 +25,11 @@ class SeriesPosts extends PostListAbstract
     public $series;
 
     /**
+     * @var bool
+     */
+    protected $includeTaggedPosts = false;
+
+    /**
      * @return array
      */
     public function componentDetails(): array
@@ -47,14 +52,24 @@ class SeriesPosts extends PostListAbstract
                     'type'        => 'string',
                     'default'     => '{{ :series }}',
                 ],
-                'includeTagsPosts' => [
-                    'title'         => Plugin::LOCALIZATION_KEY . 'components.series_posts.include_tags_posts_title',
-                    'description'   => Plugin::LOCALIZATION_KEY . 'components.series_posts.include_tags_posts_description',
+                'includeTaggedPosts' => [
+                    'title'         => Plugin::LOCALIZATION_KEY . 'components.series_posts.include_tagged_posts_title',
+                    'description'   => Plugin::LOCALIZATION_KEY . 'components.series_posts.include_tagged_posts_description',
                     'default'       => false,
                     'type'          => 'checkbox',
                     'showExternalParam' => false
                 ]
             ] + parent::defineProperties();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function prepareVars(): void
+    {
+        parent::prepareVars();
+
+        $this->includeTaggedPosts = $this->property('includeTaggedPosts', false);
     }
 
     /**
@@ -76,14 +91,17 @@ class SeriesPosts extends PostListAbstract
         $query = Post::whereHas('series', function ($query) {
             $query->whereTranslatable('slug', $this->series->slug);
         });
-        if ($this->includeTagsPosts) {
-            $query->orWhereHas('tags', function ($query) {
-                $query->whereHas('series', function ($query) {
-                    $query->whereTranslatable('slug', $this->series->slug);
-                });
+
+        $tagIds = $this->series->tags->lists('id');
+
+        if (!empty($tagIds) && $this->includeTaggedPosts) {
+            $query->orWhereHas('tags', function ($tag) use ($tagIds) {
+                $tag->whereIn('id', $tagIds);
             });
         }
+
         $query->isPublished();
+
         return $query;
     }
 

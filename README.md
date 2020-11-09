@@ -121,6 +121,7 @@ the page URL must contain `:series` parameter which value will be used as series
 * **Items per page** - how many items (if any) should be displayed per page, "0" displays all items;
 * **Post page** - name of the blog post page to display a single blog post content;
 * **Category page** - name of the category page to display a single blog category content;
+* **Include tagged posts** - additionally include posts tagged with the tags from the current series;
 * **Include categories** - list of categories ids/slugs (can be mixed together) separated by comma; posts only with
  these categories will be included into the list;
 * **Exclude posts** - list of post ids/slugs (can be mixed together) separated by comma; these posts will be excluded

@@ -64,7 +64,7 @@ class TagPosts extends PostListAbstract
     /**
      * @inheritDoc
      */
-    protected function prepareVars()
+    protected function prepareVars(): void
     {
         parent::prepareVars();
 
