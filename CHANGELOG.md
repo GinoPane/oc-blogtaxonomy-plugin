@@ -16,6 +16,11 @@ Types of changes
 
 ## [Unreleased]
 
+## 2.6.0 - 2020-11-09
+
+### Added
+* Added 'include tagged posts' option for the 'Posts in the Series' component
+
 ## 2.5.0 - 2020-09-14
 
 ### Added
@@ -24,7 +29,7 @@ Types of changes
 ## 2.4.0 - 2020-09-03
 
 ### Added
-* Added ability to pass series slug into post URLs via the posts-in-series component
+* Added ability to pass series slug into post URLs via the 'Posts in the Series' component
 
 ## 2.3.1 - 2020-08-21
 
@@ -250,4 +255,4 @@ Types of changes
 ### Features
 * The initial release of Blog Taxonomy.
 
-[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v2.4.0...HEAD
+[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v2.6.0...HEAD
