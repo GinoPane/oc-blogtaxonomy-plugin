@@ -23,7 +23,12 @@ class SeriesPosts extends PostListAbstract
      * @var Series
      */
     public $series;
-
+    
+    /**
+     * @var bool
+     */
+    protected $includeTagsPosts = false;
+    
     /**
      * @return array
      */
@@ -56,7 +61,17 @@ class SeriesPosts extends PostListAbstract
                 ]
             ] + parent::defineProperties();
     }
+    
+    /**
+     * @inheritDoc
+     */
+    protected function prepareVars()
+    {
+        parent::prepareVars();
 
+        $this->includeTagsPosts = $this->property('includeTagsPosts', false);
+    }
+    
     /**
      * @inheritDoc
      */
