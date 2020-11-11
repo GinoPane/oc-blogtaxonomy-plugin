@@ -16,6 +16,11 @@ Types of changes
 
 ## [Unreleased]
 
+## 2.6.1 - 2020-11-11
+
+### Fixed
+* Removed usage of 'void' return type to support old PHP versions
+
 ## 2.6.0 - 2020-11-09
 
 ### Added

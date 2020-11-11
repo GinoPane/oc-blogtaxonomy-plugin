@@ -1,3 +1,6 @@
+2.6.1:
+  - Removed usage of 'void' return type to support old PHP versions
+
 2.6.0:
   - Added 'include tagged posts' option for the posts-in-series component
 

@@ -168,7 +168,7 @@ abstract class PostListAbstract extends ComponentAbstract
     /**
      * Prepare variables
      */
-    protected function prepareVars(): void
+    protected function prepareVars()
     {
         // Paginator settings
         $this->populatePagination();

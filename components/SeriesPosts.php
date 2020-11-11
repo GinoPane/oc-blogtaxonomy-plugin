@@ -65,7 +65,7 @@ class SeriesPosts extends PostListAbstract
     /**
      * @inheritDoc
      */
-    protected function prepareVars(): void
+    protected function prepareVars()
     {
         parent::prepareVars();
 
