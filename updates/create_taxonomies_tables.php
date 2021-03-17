@@ -55,8 +55,13 @@ class CreateTaxonomiesTables extends Migration
     {
         Schema::table('rainlab_blog_posts', static function ($table) {
             $table->dropForeign([Series::TABLE_NAME . '_id']);
-            $table->dropColumn(Series::TABLE_NAME . '_id');
         });
+
+        if (Schema::hasColumn('rainlab_blog_posts', Series::TABLE_NAME . '_id')) {
+            Schema::table('rainlab_blog_posts', static function ($table) {
+                $table->dropColumn(Series::TABLE_NAME . '_id');
+            });
+        }
 
         Schema::dropIfExists(Series::TABLE_NAME);
     }

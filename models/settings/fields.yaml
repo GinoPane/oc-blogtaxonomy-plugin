@@ -1,0 +1,10 @@
+fields:
+    section_title:
+        label: 'ginopane.blogtaxonomy::lang.settings.name'
+        span: left
+        type: section
+    post_types_enabled:
+        label: 'ginopane.blogtaxonomy::lang.settings.post_types_enabled'
+        span: left
+        type: switch
+        default: false

@@ -16,6 +16,11 @@ Types of changes
 
 ## [Unreleased]
 
+## 3.0.0 - 2021-xx-xx
+
+### Added
+* Post types functionality
+
 ## 2.6.1 - 2020-11-11
 
 ### Fixed

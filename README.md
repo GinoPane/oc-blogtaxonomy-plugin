@@ -8,6 +8,9 @@ Taxonomy extension for [RainLab Blog](https://octobercms.com/plugin/rainlab-blog
 
 ## Table of Contents
 * [Changes to Original Blog Plugin](#changes-to-original-blog-plugin)
+    * [Tags](#tags)
+    * [Series](#series)
+    * [Types](#types)
 * [Translate Plugin Support](#translate-plugin-support)
 * [Migration from Other Plugins](#migration-from-other-plugins)
 * [Implementing Frontend Pages](#implementing-frontend-pages)
@@ -23,18 +26,31 @@ Inspired by [Blog Tags Extension](https://octobercms.com/plugin/bedard-blogtags)
 plugins Blog Taxonomy adds both tags and series functionality in a high quality and reliable way. Every post could belong
 to a single series and at the same time it can have multiple tags assigned.
 
+## Changes to Original Blog Plugin
+
+### Categories
+
 > [Categories](https://www.wpbeginner.com/beginners-guide/categories-vs-tags-seo-best-practices-which-one-is-better/) are meant for broad grouping of your posts. Think of these as general topics or the table of contents for your site.
-Categories are there to help identify what your blog is really about. It is to assist readers finding the right type of 
+Categories are there to help identify what your blog is really about. It is to assist readers finding the right type of
 content on your site. Categories are hierarchical, so you can define sub-categories.
+
+Original blog categories were enhanced with ability to add posts while being on a single category page.
+They were also placed in a new tag-like style along with tags and series in their own **Taxonomy** tab of a backend CMS blog page.
+
+### Tags
+
 > Tags are meant to describe specific details of your posts. Think of these as your site’s index words. They are the
 micro-data that you can use to micro-categorize your content. Tags are not hierarchical.
 
-And series could help you to organize your posts in a single flow of related posts.
+### Series
 
-## Changes to Original Blog Plugin
+Series could help you to organize your posts in a single flow of related posts.
 
-Original blog categories were enhanced with ability to add posts while being on the single category page.
-They were also placed in a new tag-like style along with tags and series in their own **Taxonomy** tab of a backend CMS blog page.
+### Types
+
+Since 3.0.0 posts could have types assigned. The type is a set of properties that could be associated with the 
+post. Types are being created and edited as separated models in the backend. Each post type defines several 
+properties which are added as additional form inputs when a specific type is chosen.
 
 ## Translate Plugin Support
 

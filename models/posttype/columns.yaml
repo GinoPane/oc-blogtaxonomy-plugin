@@ -1,0 +1,31 @@
+# ===================================
+#  List Column Definitions
+# ===================================
+
+columns:
+    name:
+        label: ginopane.blogtaxonomy::lang.list.columns.name
+        searchable: true
+
+    slug:
+        label: ginopane.blogtaxonomy::lang.list.columns.slug
+        searchable: true
+
+    description:
+        label: ginopane.blogtaxonomy::lang.list.columns.description
+        searchable: true
+
+    posts:
+        label: ginopane.blogtaxonomy::lang.list.columns.posts
+        sortable: false
+        relation: posts
+        useRelationCount: true
+
+    created_at:
+        label: rainlab.blog::lang.post.created
+        type: date
+
+    updated_at:
+        label: rainlab.blog::lang.post.updated
+        type: date
+        invisible: true

@@ -3,13 +3,19 @@
 namespace GinoPane\BlogTaxonomy;
 
 use Event;
+use Input;
 use Backend;
+use Exception;
+use Validator;
+use Backend\Widgets\Form;
 use System\Classes\PluginBase;
 use Backend\Classes\Controller;
 use GinoPane\BlogTaxonomy\Models\Tag;
 use GinoPane\BlogTaxonomy\Models\Series;
 use Backend\Behaviors\RelationController;
 use RainLab\Blog\Models\Post as PostModel;
+use GinoPane\BlogTaxonomy\Models\Settings;
+use GinoPane\BlogTaxonomy\Models\PostType;
 use GinoPane\BlogTaxonomy\Components\TagList;
 use GinoPane\BlogTaxonomy\Components\TagPosts;
 use GinoPane\BlogTaxonomy\Components\SeriesList;
@@ -34,12 +40,19 @@ class Plugin extends PluginBase
 
     const REQUIRED_PLUGIN_RAINLAB_BLOG = 'RainLab.Blog';
 
+    const DEFAULT_ICON = 'icon-sitemap';
+
     /**
      * @var array   Require the RainLab.Blog plugin
      */
     public $require = [
         'RainLab.Blog'
     ];
+
+    /**
+     * @var Settings
+     */
+    private $settings;
 
     /**
      * Returns information about this plugin
@@ -52,7 +65,7 @@ class Plugin extends PluginBase
             'name'        => self::LOCALIZATION_KEY . 'plugin.name',
             'description' => self::LOCALIZATION_KEY . 'plugin.description',
             'author'      => 'Siarhei <Gino Pane> Karavai',
-            'icon'        => 'icon-tags',
+            'icon'        => self::DEFAULT_ICON,
             'homepage'    => 'https://github.com/GinoPane/oc-blogtaxonomy-plugin'
         ];
     }
@@ -75,9 +88,6 @@ class Plugin extends PluginBase
         ];
     }
 
-    /**
-     *
-     */
     public function register()
     {
         $this->registerConsoleCommand(MigrateFromPlugin::NAME, MigrateFromPlugin::class);
@@ -86,10 +96,13 @@ class Plugin extends PluginBase
     /**
      * Boot method, called right before the request route
      */
-    public function boot()
+    public function boot(): void
     {
+        // extend the validator
+        $this->extendValidator();
+
         // extend the post model
-        $this->extendModel();
+        $this->extendPostModel();
 
         // extend posts functionality
         $this->extendPostsController();
@@ -98,16 +111,24 @@ class Plugin extends PluginBase
         $this->extendCategoriesController();
     }
 
+    private function getSettings(): Settings
+    {
+        return $this->settings ?: $this->settings = Settings::instance();
+    }
+
     /**
      * Register plugin navigation
+     * - add tags and series menu items
+     *
+     * @return void
      */
-    public function registerNavigation()
+    public function registerNavigation(): void
     {
         // Extend the navigation
         Event::listen('backend.menu.extendItems', function ($manager) {
             $manager->addSideMenuItems(self::REQUIRED_PLUGIN_RAINLAB_BLOG, 'blog', [
                 'series' => [
-                    'label' => self::LOCALIZATION_KEY . 'navigation.series',
+                    'label' => self::LOCALIZATION_KEY . 'navigation.sidebar.series',
                     'icon' => 'icon-list-alt',
                     'code' => 'series',
                     'owner' => self::REQUIRED_PLUGIN_RAINLAB_BLOG,
@@ -115,20 +136,55 @@ class Plugin extends PluginBase
                 ],
 
                 'tags' => [
-                    'label' => self::LOCALIZATION_KEY . 'navigation.tags',
+                    'label' => self::LOCALIZATION_KEY . 'navigation.sidebar.tags',
                     'icon'  => 'icon-tags',
                     'code'  => 'tags',
                     'owner' => self::REQUIRED_PLUGIN_RAINLAB_BLOG,
                     'url'   => Backend::url(self::DIRECTORY_KEY . '/tags')
                 ]
             ]);
+
+            if ($this->getSettings()->postTypesEnabled()) {
+                $manager->addSideMenuItems(self::REQUIRED_PLUGIN_RAINLAB_BLOG, 'blog', [
+                    'post_types' => [
+                        'label' => self::LOCALIZATION_KEY . 'navigation.sidebar.post_types',
+                        'icon'  => 'icon-cog',
+                        'code'  => 'post_types',
+                        'owner' => self::REQUIRED_PLUGIN_RAINLAB_BLOG,
+                        'url'   => Backend::url(self::DIRECTORY_KEY . '/posttypes')
+                    ]
+                ]);
+            }
         });
     }
 
     /**
-     * Extend RainLab Post model
+     * Register plugin settings
+     *
+     * @return array
      */
-    private function extendModel()
+    public function registerSettings(): array
+    {
+        return [
+            'settings' => [
+                'label'       => self::LOCALIZATION_KEY . 'plugin.name',
+                'description' => self::LOCALIZATION_KEY . 'plugin.description',
+                'icon'        => self::DEFAULT_ICON,
+                'class'       => Settings::class,
+                'order'       => 100
+            ]
+        ];
+    }
+
+    /**
+     * Extend RainLab Post model
+     * - add tags relation
+     * - add series relation
+     * - add post type relation
+     *
+     * @return void
+     */
+    private function extendPostModel(): void
     {
         PostModel::extend(function ($model) {
             $model->morphToMany = [
@@ -139,15 +195,56 @@ class Plugin extends PluginBase
                 Series::class,
                 'key' => Series::TABLE_NAME . "_id"
             ];
+
+            $model->belongsTo['post_type'] = [
+                PostType::class,
+                'key' => PostType::TABLE_NAME . "_id"
+            ];
+
+            $model->addJsonable(PostType::TABLE_NAME. '_attributes');
+
+            $model->addDynamicMethod('typeFields', function() use ($model) {
+                if (!empty($model->post_type->id)) {
+                    $rawFields = $model->{PostType::TABLE_NAME. '_attributes'}[0] ?? [];
+                    $prefix = $model->post_type->id.'.';
+                    $fields = [];
+
+                    foreach ($rawFields as $code => $value) {
+                        if (strpos($code, $prefix) === 0) {
+                            $fields[str_replace($prefix, '', $code)] = $value;
+                        }
+                    }
+
+                    return $fields;
+                }
+
+                return [];
+            });
+
+            $model->addDynamicMethod('typeField', function(string $code) use ($model) {
+                if (!empty($model->post_type->id)) {
+                    $attributeKey = sprintf('%s.%s', $model->post_type->id, $code);
+
+                    return $model->{PostType::TABLE_NAME. '_attributes'}[0][$attributeKey] ?? null;
+                }
+
+                return $model->post_type->id;
+            });
         });
     }
 
     /**
      * Extends post controller functionality
+     * - transform categories into taglist and move then into taxonomy tab
+     * - add tags and series properties
+     *
+     * @throws Exception
+     *
+     * @return void
      */
-    private function extendPostsController()
+    private function extendPostsController(): void
     {
-        PostsController::extendFormFields(function ($form, $model) {
+        PostsController::extendFormFields(function (Form $form, $model) {
             if (!$model instanceof PostModel) {
                 return;
             }
@@ -163,18 +260,9 @@ class Plugin extends PluginBase
                 return;
             }
             
-            $tab = self::LOCALIZATION_KEY . 'navigation.taxonomy';
+            $tab = self::LOCALIZATION_KEY . 'navigation.tab.taxonomy';
 
-            $categoriesConfig = $form->getField('categories')->config;
-            $categoriesConfig['tab'] = $tab;
-            $categoriesConfig['mode'] = 'relation';
-            $categoriesConfig['type'] = 'taglist';
-            $categoriesConfig['label'] = 'rainlab.blog::lang.post.tab_categories';
-            $categoriesConfig['comment'] = "rainlab.blog::lang.post.categories_comment";
-            $categoriesConfig['placeholder'] = self::LOCALIZATION_KEY . 'placeholders.categories';
-            unset($categoriesConfig['commentAbove']);
-
-            $form->removeField('categories');
+            $categoriesConfig = $this->transformPostCategoriesIntoTaglist($form, $tab);
 
             $form->addSecondaryTabFields([
                 'categories' => $categoriesConfig,
@@ -192,19 +280,121 @@ class Plugin extends PluginBase
                     'type' => 'relation',
                     'nameFrom' => 'title',
                     'comment' => self::LOCALIZATION_KEY . 'form.series.comment',
-                    // October CMS has a bug with displaying of placeholders without an explicit empty option
-                    // https://github.com/octobercms/october/pull/4060
-                    'placeholder' => self::LOCALIZATION_KEY . 'placeholders.series',
-                    'emptyOption' => self::LOCALIZATION_KEY . 'placeholders.series'
+                    'placeholder' => self::LOCALIZATION_KEY . 'placeholders.series'
                 ],
             ]);
+
+            $tab = self::LOCALIZATION_KEY . 'navigation.tab.type';
+
+            if ($this->getSettings()->postTypesEnabled()) {
+                $form->addSecondaryTabFields([
+                    'post_type' => [
+                        'label' => self::LOCALIZATION_KEY . 'form.post_types.label',
+                        'tab' => $tab,
+                        'type' => 'relation',
+                        'nameFrom' => 'name',
+                        'comment' => self::LOCALIZATION_KEY . 'form.post_types.comment',
+                        'placeholder' => self::LOCALIZATION_KEY . 'placeholders.post_types'
+                    ],
+                ]);
+
+                $condition = implode(
+                    array_map(
+                        static function ($value) {
+                            return "[$value]";
+                        },
+                        PostType::all()->pluck('id')->toArray()
+                    )
+                );
+
+                $typeAttributes = [
+                    'label' => self::LOCALIZATION_KEY . 'form.post_types.type_attributes',
+                    'commentAbove' => self::LOCALIZATION_KEY . 'form.post_types.type_attributes_comment',
+                    'type' => 'repeater',
+                    'minItems' => 1,
+                    // there's October bug related to maxItems option when you can add more than one record
+                    // though only one is expected. The backend won't allow to save this anyway
+                    // https://github.com/octobercms/october/issues/5533
+                    'maxItems' => 1,
+                    'dependsOn' => 'post_type',
+                    'trigger' => [
+                        'action' => 'show',
+                        'field' => 'post_type',
+                        'condition' => "value$condition"
+                    ],
+                    'sortable' => false,
+                    'style' => 'accordion',
+                    'tab' => $tab,
+                    'form' => [
+                        'fields' => []
+                    ]
+                ];
+
+                if ((($postTypeId = Input::get('Post.post_type')) !== null &&
+                    $postType = PostType::find($postTypeId))
+                    ||
+                    (!empty($model->id) && !empty($model->post_type->id) && $postType = $model->post_type)
+                ) {
+                    if (!empty($postType->type_attributes)) {
+                        $fields = [];
+
+                        foreach ($postType->type_attributes as $typeAttribute) {
+                            if (empty($typeAttribute['code'])) {
+                                continue;
+                            }
+
+                            $field = [];
+
+                            $type = $typeAttribute['type'] ?? 'text';
+
+                            switch ($type) {
+                                case 'file':
+                                case 'image':
+                                    $field['type'] = 'mediafinder';
+                                    $field['mode'] = $type;
+                                    $field['imageWidth'] = 200;
+                                    break;
+                                case 'dropdown':
+                                    $field['type'] = $type;
+
+                                    $options = array_map(static function ($value) {
+                                        return trim($value);
+                                    }, explode(',', $typeAttribute['dropdown_options'] ?? ''));
+
+                                    $field['options'] = $options;
+
+                                    break;
+                                case 'text':
+                                case 'textarea':
+                                    $field['type'] = $type;
+                                    break;
+                                case 'datepicker':
+                                    $field['type'] = $type;
+                                    $field['mode'] = $typeAttribute['datepicker_mode'] ?? 'date';
+
+                                    break;
+                            }
+
+                            $field['label'] = $typeAttribute['name'] ?? '';
+
+                            $fields[sprintf("%s.%s", $postType->id, $typeAttribute['code'])] = $field;
+                        }
+
+                        $typeAttributes['form']['fields'] = $fields;
+                    }
+                }
+
+                $form->addSecondaryTabFields([
+                    PostType::TABLE_NAME. '_attributes' => $typeAttributes
+                ]);
+            }
         });
     }
 
     /**
      * Extends categories controller functionality
      */
-    private function extendCategoriesController()
+    private function extendCategoriesController(): void
     {
         CategoriesController::extend(function (Controller $controller) {
             $controller->implement[] = RelationController::class;
@@ -230,5 +420,44 @@ class Plugin extends PluginBase
                 $controller->addDynamicProperty('formConfig', $formConfig);
             }
         });
+    }
+
+    private function extendValidator(): void
+    {
+        if ($this->getSettings()->postTypesEnabled()) {
+            Validator::extend('unique_in_repeater', function ($attribute, $value, $parameters, $validator) {
+                $attributeNameParts = explode('.', $attribute);
+
+                $repeaterName = reset($attributeNameParts);
+                $fieldName = end($attributeNameParts);
+
+                $repeaterData = isset($validator->getData()[$repeaterName])
+                    ? (array) $validator->getData()[$repeaterName]
+                    : [];
+
+                $fieldData = array_column($repeaterData, $fieldName);
+
+                if (count(array_unique($fieldData)) !== count($fieldData)) {
+                    return false;
+                }
+
+                return true;
+            });
+        }
+    }
+
+    private function transformPostCategoriesIntoTaglist(Form $form, string $tab)
+    {
+        $categoriesConfig = $form->getField('categories')->config;
+        $categoriesConfig['tab'] = $tab;
+        $categoriesConfig['mode'] = 'relation';
+        $categoriesConfig['type'] = 'taglist';
+        $categoriesConfig['label'] = 'rainlab.blog::lang.post.tab_categories';
+        $categoriesConfig['comment'] = "rainlab.blog::lang.post.categories_comment";
+        $categoriesConfig['placeholder'] = self::LOCALIZATION_KEY . 'placeholders.categories';
+        unset($categoriesConfig['commentAbove']);
+
+        $form->removeField('categories');
+        return $categoriesConfig;
     }
 }

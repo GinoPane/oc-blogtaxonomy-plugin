@@ -2,10 +2,17 @@
 
 return [
 
+
     // plugin
     'plugin' => [
         'name' => 'Blog Taxonomy',
         'description' => 'Adds tags and series management for RainLab Blog posts',
+    ],
+
+    //settings
+    'settings' => [
+        'name' => 'Blog Taxonomy Settings',
+        'post_types_enabled' => 'Enable post types management',
     ],
 
     // form
@@ -16,6 +23,7 @@ return [
         'fields' => [
             'tag' => 'Tag',
             'title' => 'Title',
+            'name' => 'Name',
             'images' => 'Images',
             'slug' => 'Slug',
             'description' => 'Description',
@@ -72,7 +80,6 @@ return [
             'create_load_indicator' => 'Creating a tag...',
             'update_load_indicator' => 'Updating the tag...',
             'delete_load_indicator' => 'Deleting the tag...',
-            'new_series_button_label' => 'New Tag',
             'create_button_label' => 'Create',
             'save_button_label' => 'Save',
             'create_and_close_button_label' => 'Create and Close',
@@ -117,26 +124,88 @@ return [
             'cancel_button_label' => 'Cancel',
             'or' => 'or',
             'return_to_list' => 'Return to the series list'
+        ],
+        'post_types' => [
+            'label' => 'Post Types',
+            'comment' => 'Choose a type for the post',
+
+            'create_title' => 'Create a New Post Type',
+            'edit_title' => 'Edit the Post Type ":post_type"',
+            'list_title' => 'Manage Post Types',
+
+            'no_types_message' => 'There are no post types. Create some to get started',
+            'no_posts_with_type' => 'There are no posts with this type',
+
+            'delete_bulk_confirm' => 'Are you sure you want to delete selected post types?',
+            'delete_post_types_success' => 'Successfully deleted post types',
+
+            'attribute_name' => 'Name',
+            'attribute_name_placeholder' => 'New awesome attribute',
+            'attribute_code' => 'Code',
+            'attribute_code_placeholder' => 'new-awesome-attribute',
+            'attribute_code_comment' => 'This code will be used to access the attribute',
+            'attribute_type' => 'Type',
+            'attribute_type_placeholder' => 'Select attribute type',
+            'attribute_type_text' => 'Text',
+            'attribute_type_textarea' => 'Textarea',
+            'attribute_type_dropdown' => 'Dropdown',
+            'attribute_type_datepicker' => 'Datepicker',
+            'attribute_type_datepicker_mode' => 'Mode',
+            'attribute_type_datepicker_mode_comment' => 'Use your datepicker as date, time or datetime selector. Date is used by default',
+            'attribute_type_datepicker_mode_placeholder' => 'Choose a datepicker mode',
+            'attribute_type_datepicker_mode_date' => 'Date',
+            'attribute_type_datepicker_mode_time' => 'Time',
+            'attribute_type_datepicker_mode_datetime' => 'Datetime',
+            'attribute_type_file' => 'File',
+            'attribute_type_image' => 'Image',
+            'attribute_dropdown_options' => 'Dropdown options',
+            'attribute_dropdown_options_placeholder' => '1,2,3,4,5,6,7,8,9,10',
+            'attribute_dropdown_options_comment' => 'A comma-separated list of options to be used in a dropdown',
+            'type_attributes' => 'Attributes',
+            'type_attributes_comment' => 'Setup attributes associated with the type',
+            'type_attributes_prompt' => 'Press here to create a set of attributes',
+            'name_comment' => 'Name of the field to be used in a select on a post form',
+            'description_comment' => 'What makes this type special and why you need it',
+
+            'return_to_list' => 'Return to the post types list',
+            'create_load_indicator' => 'Creating a post type...',
+            'update_load_indicator' => 'Updating the post type...',
+            'delete_load_indicator' => 'Deleting the post type...',
+            'new_type_button_label' => 'New Post Type',
+            'create_button_label' => 'Create',
+            'save_button_label' => 'Save',
+            'create_and_close_button_label' => 'Create and Close',
+            'save_and_close_button_label' => 'Save and Close',
+            'cancel_button_label' => 'Cancel',
+            'or' => 'or',
         ]
     ],
 
     'list' => [
         'columns' => [
-            'title' => 'Title',
+            'description' => 'Description',
+            'name' => 'Name',
             'posts' => 'Posts',
             'series' => 'Series',
+            'status' => 'Status',
+            'slug' => 'Slug',
             'tag' => 'Tag',
             'tags' => 'Tags',
-            'status' => 'Status',
-            'slug' => 'Slug'
+            'title' => 'Title',
         ]
     ],
 
     // navigation
     'navigation' => [
-        'tags' => 'Tags',
-        'series' => 'Series',
-        'taxonomy' => 'Taxonomy'
+        'sidebar' => [
+            'tags' => 'Tags',
+            'series' => 'Series',
+            'post_types' => 'Types',
+        ],
+        'tab' => [
+            'taxonomy' => 'Taxonomy',
+            'type' => 'Type'
+        ]
     ],
 
     // placeholders
@@ -144,11 +213,10 @@ return [
         'tags' => 'Add tags...',
         'series' => 'Choose a series...',
         'categories' => 'Add categories...',
-        'title' => 'Enter title...',
-        'name' => 'Enter name...',
-        'slug' => 'Enter slug...',
-        'no_posts_available' => 'No posts available',
-        'no_series_available' => 'No series available'
+        'post_types' => 'Choose a post type...',
+        'title' => 'New title',
+        'name' => 'New name',
+        'slug' => 'new-name'
     ],
 
     // component-specific strings

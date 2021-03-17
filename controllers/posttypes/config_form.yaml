@@ -1,0 +1,27 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: ginopane.blogtaxonomy::lang.form.post_types.label
+
+# Model Form Field configuration
+form: $/ginopane/blogtaxonomy/models/posttype/fields.yaml
+
+# Model Class name
+modelClass: GinoPane\BlogTaxonomy\Models\PostType
+
+# Default redirect location
+defaultRedirect: ginopane/blogtaxonomy/posttypes
+
+# Create page
+create:
+    title: ginopane.blogtaxonomy::lang.form.post_types.create_title
+    redirect: ginopane/blogtaxonomy/posttypes/update/:id
+    redirectClose: ginopane/blogtaxonomy/posttypes
+
+# Update page
+update:
+    title: ginopane.blogtaxonomy::lang.form.post_types.edit_title
+    redirect: ginopane/blogtaxonomy/posttypes
+    redirectClose: ginopane/blogtaxonomy/posttypes

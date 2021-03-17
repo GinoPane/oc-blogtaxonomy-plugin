@@ -1,0 +1,41 @@
+# ===================================
+#  List Behavior Config
+# ===================================
+
+# Model List Column configuration
+list: $/ginopane/blogtaxonomy/models/posttype/columns.yaml
+
+# Model Class name
+modelClass: GinoPane\BlogTaxonomy\Models\PostType
+
+# List Title
+title: ginopane.blogtaxonomy::lang.form.post_types.list_title
+
+# Link URL for each record
+recordUrl: ginopane/blogtaxonomy/posttypes/update/:id
+
+# Message to display if the list is empty
+noRecordsMessage: ginopane.blogtaxonomy::lang.form.post_types.no_types_message
+
+# Records to display per page
+recordsPerPage: 20
+
+# Displays the list column set up button
+showSetup: true
+
+# Displays the sorting link on each column
+showSorting: true
+
+
+# Display checkboxes next to each record
+showCheckboxes: true
+
+# Toolbar widget configuration
+toolbar:
+    # Partial for toolbar buttons
+    buttons: list_toolbar
+
+    # Search widget configuration
+    search:
+        prompt: backend::lang.list.search_prompt
+

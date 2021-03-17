@@ -1,3 +1,6 @@
+3.0.0:
+  - create_post_type_table.php
+
 2.6.1:
   - Removed usage of 'void' return type to support old PHP versions
 
