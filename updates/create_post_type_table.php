@@ -6,7 +6,6 @@ use DB;
 use Schema;
 use Carbon\Carbon;
 use System\Classes\PluginManager;
-use Illuminate\Database\SQLiteConnection;
 use GinoPane\BlogTaxonomy\Models\PostType;
 use October\Rain\Database\Updates\Migration;
 

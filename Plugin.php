@@ -203,7 +203,7 @@ class Plugin extends PluginBase
 
             $model->addJsonable(PostType::TABLE_NAME. '_attributes');
 
-            $model->addDynamicMethod('typeFields', function() use ($model) {
+            $model->addDynamicMethod('typeAttributes', function () use ($model) {
                 if (!empty($model->post_type->id)) {
                     $rawFields = $model->{PostType::TABLE_NAME. '_attributes'}[0] ?? [];
                     $prefix = $model->post_type->id.'.';
@@ -221,7 +221,7 @@ class Plugin extends PluginBase
                 return [];
             });
 
-            $model->addDynamicMethod('typeField', function(string $code) use ($model) {
+            $model->addDynamicMethod('typeAttribute', function (string $code) use ($model) {
                 if (!empty($model->post_type->id)) {
                     $attributeKey = sprintf('%s.%s', $model->post_type->id, $code);
 
@@ -259,7 +259,7 @@ class Plugin extends PluginBase
             if (!empty($form->isNested)) {
                 return;
             }
-            
+
             $tab = self::LOCALIZATION_KEY . 'navigation.tab.taxonomy';
 
             $categoriesConfig = $this->transformPostCategoriesIntoTaglist($form, $tab);
@@ -284,109 +284,8 @@ class Plugin extends PluginBase
                 ],
             ]);
 
-            $tab = self::LOCALIZATION_KEY . 'navigation.tab.type';
-
             if ($this->getSettings()->postTypesEnabled()) {
-                $form->addSecondaryTabFields([
-                    'post_type' => [
-                        'label' => self::LOCALIZATION_KEY . 'form.post_types.label',
-                        'tab' => $tab,
-                        'type' => 'relation',
-                        'nameFrom' => 'name',
-                        'comment' => self::LOCALIZATION_KEY . 'form.post_types.comment',
-                        'placeholder' => self::LOCALIZATION_KEY . 'placeholders.post_types'
-                    ],
-                ]);
-
-                $condition = implode(
-                    array_map(
-                        static function ($value) {
-                            return "[$value]";
-                        },
-                        PostType::all()->pluck('id')->toArray()
-                    )
-                );
-
-                $typeAttributes = [
-                    'label' => self::LOCALIZATION_KEY . 'form.post_types.type_attributes',
-                    'commentAbove' => self::LOCALIZATION_KEY . 'form.post_types.type_attributes_comment',
-                    'type' => 'repeater',
-                    'minItems' => 1,
-                    // there's October bug related to maxItems option when you can add more than one record
-                    // though only one is expected. The backend won't allow to save this anyway
-                    // https://github.com/octobercms/october/issues/5533
-                    'maxItems' => 1,
-                    'dependsOn' => 'post_type',
-                    'trigger' => [
-                        'action' => 'show',
-                        'field' => 'post_type',
-                        'condition' => "value$condition"
-                    ],
-                    'sortable' => false,
-                    'style' => 'accordion',
-                    'tab' => $tab,
-                    'form' => [
-                        'fields' => []
-                    ]
-                ];
-
-                if ((($postTypeId = Input::get('Post.post_type')) !== null &&
-                    $postType = PostType::find($postTypeId))
-                    ||
-                    (!empty($model->id) && !empty($model->post_type->id) && $postType = $model->post_type)
-                ) {
-                    if (!empty($postType->type_attributes)) {
-                        $fields = [];
-
-                        foreach ($postType->type_attributes as $typeAttribute) {
-                            if (empty($typeAttribute['code'])) {
-                                continue;
-                            }
-
-                            $field = [];
-
-                            $type = $typeAttribute['type'] ?? 'text';
-
-                            switch ($type) {
-                                case 'file':
-                                case 'image':
-                                    $field['type'] = 'mediafinder';
-                                    $field['mode'] = $type;
-                                    $field['imageWidth'] = 200;
-                                    break;
-                                case 'dropdown':
-                                    $field['type'] = $type;
-
-                                    $options = array_map(static function ($value) {
-                                        return trim($value);
-                                    }, explode(',', $typeAttribute['dropdown_options'] ?? ''));
-
-                                    $field['options'] = $options;
-
-                                    break;
-                                case 'text':
-                                case 'textarea':
-                                    $field['type'] = $type;
-                                    break;
-                                case 'datepicker':
-                                    $field['type'] = $type;
-                                    $field['mode'] = $typeAttribute['datepicker_mode'] ?? 'date';
-
-                                    break;
-                            }
-
-                            $field['label'] = $typeAttribute['name'] ?? '';
-
-                            $fields[sprintf("%s.%s", $postType->id, $typeAttribute['code'])] = $field;
-                        }
-
-                        $typeAttributes['form']['fields'] = $fields;
-                    }
-                }
-
-                $form->addSecondaryTabFields([
-                    PostType::TABLE_NAME. '_attributes' => $typeAttributes
-                ]);
+                $this->addPostTypeAttributes($form, $model);
             }
         });
     }
@@ -459,5 +358,111 @@ class Plugin extends PluginBase
 
         $form->removeField('categories');
         return $categoriesConfig;
+    }
+
+    private function addPostTypeAttributes(Form $form, PostModel $model): void
+    {
+        $tab = self::LOCALIZATION_KEY . 'navigation.tab.type';
+
+        $form->addSecondaryTabFields([
+            'post_type' => [
+                'label' => self::LOCALIZATION_KEY . 'form.post_types.label',
+                'tab' => $tab,
+                'type' => 'relation',
+                'nameFrom' => 'name',
+                'comment' => self::LOCALIZATION_KEY . 'form.post_types.comment',
+                'placeholder' => self::LOCALIZATION_KEY . 'placeholders.post_types'
+            ],
+        ]);
+
+        $condition = implode(
+            array_map(
+                static function ($value) {
+                    return "[$value]";
+                },
+                PostType::all()->pluck('id')->toArray()
+            )
+        );
+
+        $typeAttributes = [
+            'label' => self::LOCALIZATION_KEY . 'form.post_types.type_attributes',
+            'commentAbove' => self::LOCALIZATION_KEY . 'form.post_types.type_attributes_comment',
+            'type' => 'repeater',
+            'minItems' => 1,
+            // there's October bug related to maxItems option when you can add more than one record
+            // though only one is expected. The backend won't allow to save this anyway
+            // https://github.com/octobercms/october/issues/5533
+            'maxItems' => 1,
+            'dependsOn' => 'post_type',
+            'trigger' => [
+                'action' => 'show',
+                'field' => 'post_type',
+                'condition' => "value$condition"
+            ],
+            'sortable' => false,
+            'style' => 'accordion',
+            'tab' => $tab,
+            'form' => [
+                'fields' => []
+            ]
+        ];
+
+        if ((($postTypeId = Input::get('Post.post_type')) !== null &&
+                $postType = PostType::find($postTypeId))
+            ||
+            (!empty($model->id) && !empty($model->post_type->id) && $postType = $model->post_type)
+        ) {
+            if (!empty($postType->type_attributes)) {
+                $fields = [];
+
+                foreach ($postType->type_attributes as $typeAttribute) {
+                    if (empty($typeAttribute['code'])) {
+                        continue;
+                    }
+
+                    $field = [];
+
+                    $type = $typeAttribute['type'] ?? 'text';
+
+                    switch ($type) {
+                        case 'file':
+                        case 'image':
+                            $field['type'] = 'mediafinder';
+                            $field['mode'] = $type;
+                            $field['imageWidth'] = 200;
+                            break;
+                        case 'dropdown':
+                            $field['type'] = $type;
+
+                            $options = array_map(static function ($value) {
+                                return trim($value);
+                            }, explode(',', $typeAttribute['dropdown_options'] ?? ''));
+
+                            $field['options'] = $options;
+
+                            break;
+                        case 'text':
+                        case 'textarea':
+                            $field['type'] = $type;
+                            break;
+                        case 'datepicker':
+                            $field['type'] = $type;
+                            $field['mode'] = $typeAttribute['datepicker_mode'] ?? 'date';
+
+                            break;
+                    }
+
+                    $field['label'] = $typeAttribute['name'] ?? '';
+
+                    $fields[sprintf("%s.%s", $postType->id, $typeAttribute['code'])] = $field;
+                }
+
+                $typeAttributes['form']['fields'] = $fields;
+            }
+        }
+
+        $form->addSecondaryTabFields([
+            PostType::TABLE_NAME . '_attributes' => $typeAttributes
+        ]);
     }
 }
