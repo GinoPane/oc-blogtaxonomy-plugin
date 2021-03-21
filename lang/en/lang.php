@@ -133,6 +133,9 @@ return [
             'edit_title' => 'Edit the Post Type ":post_type"',
             'list_title' => 'Manage Post Types',
 
+            'post_list_column' => 'Type',
+            'post_list_filter_scope' => 'Type',
+
             'no_types_message' => 'There are no post types. Create some to get started',
             'no_posts_with_type' => 'There are no posts with this type',
 

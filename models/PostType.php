@@ -103,8 +103,5 @@ class PostType extends Model
         'type_attributes.*.name.unique_in_repeater' => Plugin::LOCALIZATION_KEY . 'form.post_types.type_attributes_name_unique',
     ];
 
-    /**
-     * @var array
-     */
     protected $slugs = ['slug' => 'name'];
 }

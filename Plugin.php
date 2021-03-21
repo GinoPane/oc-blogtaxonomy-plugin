@@ -8,6 +8,8 @@ use Backend;
 use Exception;
 use Validator;
 use Backend\Widgets\Form;
+use Backend\Widgets\Lists;
+use Backend\Widgets\Filter;
 use System\Classes\PluginBase;
 use Backend\Classes\Controller;
 use GinoPane\BlogTaxonomy\Models\Tag;
@@ -230,6 +232,45 @@ class Plugin extends PluginBase
 
                 return $model->post_type->id;
             });
+
+            $model->addDynamicMethod('scopeFilterPostTypes', function ($query, array $types) {
+                return $query->whereHas('post_type', function ($query) use ($types) {
+                    $query->whereIn('id', $types);
+                });
+            });
+        });
+
+        Event::listen('backend.list.extendColumns', function (Lists $listWidget) {
+            // Only for the Posts controller
+            if (!$listWidget->getController() instanceof PostsController) {
+                return;
+            }
+
+            // Only for the Post model
+            if (!$listWidget->model instanceof PostModel) {
+                return;
+            }
+
+            $listWidget->addColumns([
+                'type' => [
+                    'label' => self::LOCALIZATION_KEY . 'form.post_types.post_list_column',
+                    'relation' => 'post_type',
+                    'select' => 'name',
+                    'searchable' => 'true',
+                    'sortable' => true
+                ]
+            ]);
+        });
+
+        Event::listen('backend.filter.extendScopes', function (Filter $filterWidget) {
+            $filterWidget->addScopes([
+                'type' => [
+                    'label' => self::LOCALIZATION_KEY . 'form.post_types.post_list_filter_scope',
+                    'modelClass' => PostType::class,
+                    'nameFrom' => 'name',
+                    'scope' => 'filterPostTypes'
+                ]
+            ]);
         });
     }
 
