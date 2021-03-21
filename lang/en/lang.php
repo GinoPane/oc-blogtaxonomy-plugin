@@ -11,8 +11,13 @@ return [
 
     //settings
     'settings' => [
-        'name' => 'Blog Taxonomy Settings',
         'post_types_enabled' => 'Enable post types management',
+        'post_categories_cover_images_enabled' => 'Enable cover image for categories',
+        'post_categories_featured_images_enabled' => 'Enable featured images for categories',
+        'tabs' => [
+            'posts' => 'Posts',
+            'categories' => 'Categories'
+        ]
     ],
 
     // form
@@ -25,6 +30,8 @@ return [
             'title' => 'Title',
             'name' => 'Name',
             'images' => 'Images',
+            'cover_image' => 'Cover Image',
+            'featured_images' => 'Featured Images',
             'slug' => 'Slug',
             'description' => 'Description',
             'posts' => 'Posts',
@@ -40,10 +47,15 @@ return [
         ],
 
         'categories' => [
-            'no_posts_in_categories' => 'There are no posts in this category'
+            'no_posts_in_categories' => 'There are no posts in this category',
+            'images_section' => 'Images',
+            'images_section_comment' => 'Setup images associated with the category'
         ],
         'tags' => [
             'label' => 'Tags',
+
+            'images_section' => 'Images',
+            'images_section_comment' => 'Setup images associated with the tag',
 
             'create_title' => 'Create a New Tag',
             'edit_title' => 'Edit the Tag ":tag"',
@@ -91,6 +103,9 @@ return [
             'label' => 'Series',
             'description' => 'Description',
             'status' => 'Status',
+
+            'images_section' => 'Images',
+            'images_section_comment' => 'Setup images associated with the series',
 
             'create_title' => 'Create Series',
             'edit_title' => 'Edit the Series ":series"',

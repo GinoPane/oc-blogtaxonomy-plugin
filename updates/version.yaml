@@ -1,4 +1,6 @@
 3.0.0:
+  - Added post types functionality
+  - Added cover and featured images for categories, series, tags
   - create_post_type_table.php
 
 2.6.1:

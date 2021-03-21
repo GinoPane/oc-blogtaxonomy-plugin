@@ -7,6 +7,7 @@ use Input;
 use Backend;
 use Exception;
 use Validator;
+use System\Models\File;
 use Backend\Widgets\Form;
 use Backend\Widgets\Lists;
 use Backend\Widgets\Filter;
@@ -22,6 +23,7 @@ use GinoPane\BlogTaxonomy\Components\TagList;
 use GinoPane\BlogTaxonomy\Components\TagPosts;
 use GinoPane\BlogTaxonomy\Components\SeriesList;
 use GinoPane\BlogTaxonomy\Components\SeriesPosts;
+use RainLab\Blog\Models\Category as CategoryModel;
 use GinoPane\BlogTaxonomy\Components\RelatedPosts;
 use GinoPane\BlogTaxonomy\Components\RelatedSeries;
 use GinoPane\BlogTaxonomy\Console\MigrateFromPlugin;
@@ -100,17 +102,21 @@ class Plugin extends PluginBase
      */
     public function boot(): void
     {
-        // extend the validator
         $this->extendValidator();
 
-        // extend the post model
         $this->extendPostModel();
 
-        // extend posts functionality
+        $this->extendPostListColumns();
+
+        $this->extendPostFilterScopes();
+
         $this->extendPostsController();
 
-        // extend categories functionality
+        $this->extendCategoriesModel();
+
         $this->extendCategoriesController();
+
+        $this->extendCategoriesFormFields();
     }
 
     private function getSettings(): Settings
@@ -198,79 +204,48 @@ class Plugin extends PluginBase
                 'key' => Series::TABLE_NAME . "_id"
             ];
 
-            $model->belongsTo['post_type'] = [
-                PostType::class,
-                'key' => PostType::TABLE_NAME . "_id"
-            ];
+            if ($this->getSettings()->postTypesEnabled()) {
+                $model->belongsTo['post_type'] = [
+                    PostType::class,
+                    'key' => PostType::TABLE_NAME . "_id"
+                ];
 
-            $model->addJsonable(PostType::TABLE_NAME. '_attributes');
+                $model->addJsonable(PostType::TABLE_NAME. '_attributes');
 
-            $model->addDynamicMethod('typeAttributes', function () use ($model) {
-                if (!empty($model->post_type->id)) {
-                    $rawFields = $model->{PostType::TABLE_NAME. '_attributes'}[0] ?? [];
-                    $prefix = $model->post_type->id.'.';
-                    $fields = [];
+                $model->addDynamicMethod('typeAttributes', function() use ($model) {
+                    if (!empty($model->post_type->id)) {
+                        $rawFields = $model->{PostType::TABLE_NAME. '_attributes'}[0] ?? [];
+                        $prefix = $model->post_type->id.'.';
+                        $fields = [];
 
-                    foreach ($rawFields as $code => $value) {
-                        if (strpos($code, $prefix) === 0) {
-                            $fields[str_replace($prefix, '', $code)] = $value;
+                        foreach ($rawFields as $code => $value) {
+                            if (strpos($code, $prefix) === 0) {
+                                $fields[str_replace($prefix, '', $code)] = $value;
+                            }
                         }
+
+                        return $fields;
                     }
 
-                    return $fields;
-                }
-
-                return [];
-            });
-
-            $model->addDynamicMethod('typeAttribute', function (string $code) use ($model) {
-                if (!empty($model->post_type->id)) {
-                    $attributeKey = sprintf('%s.%s', $model->post_type->id, $code);
-
-                    return $model->{PostType::TABLE_NAME. '_attributes'}[0][$attributeKey] ?? null;
-                }
-
-                return $model->post_type->id;
-            });
-
-            $model->addDynamicMethod('scopeFilterPostTypes', function ($query, array $types) {
-                return $query->whereHas('post_type', function ($query) use ($types) {
-                    $query->whereIn('id', $types);
+                    return [];
                 });
-            });
-        });
 
-        Event::listen('backend.list.extendColumns', function (Lists $listWidget) {
-            // Only for the Posts controller
-            if (!$listWidget->getController() instanceof PostsController) {
-                return;
+                $model->addDynamicMethod('typeAttribute', function(string $code) use ($model) {
+                    if (!empty($model->post_type->id)) {
+                        $attributeKey = sprintf('%s.%s', $model->post_type->id, $code);
+
+                        return $model->{PostType::TABLE_NAME. '_attributes'}[0][$attributeKey] ?? null;
+                    }
+
+                    return $model->post_type->id;
+                });
+
+                $model->addDynamicMethod('scopeFilterPostTypes', function($query, array $types) {
+                    return $query->whereHas('post_type', function($query) use ($types) {
+                        $query->whereIn('id', $types);
+                    });
+                });
             }
-
-            // Only for the Post model
-            if (!$listWidget->model instanceof PostModel) {
-                return;
-            }
-
-            $listWidget->addColumns([
-                'type' => [
-                    'label' => self::LOCALIZATION_KEY . 'form.post_types.post_list_column',
-                    'relation' => 'post_type',
-                    'select' => 'name',
-                    'searchable' => 'true',
-                    'sortable' => true
-                ]
-            ]);
-        });
-
-        Event::listen('backend.filter.extendScopes', function (Filter $filterWidget) {
-            $filterWidget->addScopes([
-                'type' => [
-                    'label' => self::LOCALIZATION_KEY . 'form.post_types.post_list_filter_scope',
-                    'modelClass' => PostType::class,
-                    'nameFrom' => 'name',
-                    'scope' => 'filterPostTypes'
-                ]
-            ]);
         });
     }
 
@@ -358,6 +333,67 @@ class Plugin extends PluginBase
                 );
             } else {
                 $controller->addDynamicProperty('formConfig', $formConfig);
+            }
+        });
+    }
+
+    private function extendCategoriesModel(): void
+    {
+        CategoryModel::extend(function ($model) {
+            if ($this->getSettings()->postCategoriesCoverImageEnabled()) {
+                $model->attachOne['cover_image'] = [
+                    File::class, 'delete' => true
+                ];
+            }
+
+            if ($this->getSettings()->postCategoriesFeaturedImagesEnabled()) {
+                $model->attachMany['featured_images'] = [
+                    File::class, 'order' => 'sort_order', 'delete' => true
+                ];
+            }
+        });
+    }
+
+    private function extendCategoriesFormFields(): void
+    {
+        CategoriesController::extendFormFields(function ($form, $model) {
+            if (!$model instanceof CategoryModel) {
+                return;
+            }
+
+            if ($this->getSettings()->postCategoriesCoverImageEnabled() ||
+                $this->getSettings()->postCategoriesFeaturedImagesEnabled()
+            ) {
+                $form->addFields([
+                    'images_section' => [
+                        'label' => self::LOCALIZATION_KEY . 'form.categories.images_section',
+                        'type' => 'section',
+                        'comment' => self::LOCALIZATION_KEY . 'form.categories.images_section_comment'
+                    ]
+                ]);
+            }
+
+            if ($this->getSettings()->postCategoriesCoverImageEnabled()) {
+                $form->addFields([
+                    'cover_image' => [
+                        'label'     => self::LOCALIZATION_KEY . 'form.fields.cover_image',
+                        'type'      => 'fileupload',
+                        'mode'      => 'image',
+                        'tab'       => 'Images',
+                        'span'      => 'left'
+                    ]
+                ]);
+            }
+
+            if ($this->getSettings()->postCategoriesFeaturedImagesEnabled()) {
+                $form->addFields([
+                    'featured_images' => [
+                        'label'     => self::LOCALIZATION_KEY . 'form.fields.featured_images',
+                        'type'      => 'fileupload',
+                        'mode'      => 'image',
+                        'tab'       => 'Images'
+                    ]
+                ]);
             }
         });
     }
@@ -505,5 +541,48 @@ class Plugin extends PluginBase
         $form->addSecondaryTabFields([
             PostType::TABLE_NAME . '_attributes' => $typeAttributes
         ]);
+    }
+
+    private function extendPostListColumns(): void
+    {
+        Event::listen('backend.list.extendColumns', function (Lists $listWidget) {
+            // Only for the Posts controller
+            if (!$listWidget->getController() instanceof PostsController) {
+                return;
+            }
+
+            // Only for the Post model
+            if (!$listWidget->model instanceof PostModel) {
+                return;
+            }
+
+            if ($this->getSettings()->postTypesEnabled()) {
+                $listWidget->addColumns([
+                    'type' => [
+                        'label' => self::LOCALIZATION_KEY . 'form.post_types.post_list_column',
+                        'relation' => 'post_type',
+                        'select' => 'name',
+                        'searchable' => 'true',
+                        'sortable' => true
+                    ]
+                ]);
+            }
+        });
+    }
+
+    private function extendPostFilterScopes(): void
+    {
+        Event::listen('backend.filter.extendScopes', function (Filter $filterWidget) {
+            if ($this->getSettings()->postTypesEnabled()) {
+                $filterWidget->addScopes([
+                    'type' => [
+                        'label' => self::LOCALIZATION_KEY . 'form.post_types.post_list_filter_scope',
+                        'modelClass' => PostType::class,
+                        'nameFrom' => 'name',
+                        'scope' => 'filterPostTypes'
+                    ]
+                ]);
+            }
+        });
     }
 }

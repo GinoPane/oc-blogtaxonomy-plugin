@@ -20,6 +20,7 @@ Types of changes
 
 ### Added
 * Post types functionality
+* Cover and featured images for categories, series, tags
 
 ## 2.6.1 - 2020-11-11
 

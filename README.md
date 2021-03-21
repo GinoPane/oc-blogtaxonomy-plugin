@@ -8,19 +8,19 @@ Taxonomy extension for [RainLab Blog](https://octobercms.com/plugin/rainlab-blog
 
 ## Table of Contents
 * [Changes to Original Blog Plugin](#changes-to-original-blog-plugin)
-    * [Tags](#tags)
-    * [Series](#series)
-    * [Types](#types)
+  * [Tags](#tags)
+  * [Series](#series)
+  * [Types](#types)
 * [Translate Plugin Support](#translate-plugin-support)
 * [Migration from Other Plugins](#migration-from-other-plugins)
 * [Implementing Frontend Pages](#implementing-frontend-pages)
-    * [Post Series Navigation](#post-series-navigation)
-    * [Posts in the Series](#posts-in-the-series)
-    * [Posts With the Tag](#posts-with-the-tag)
-    * [Related Posts](#related-posts)
-    * [Series List](#series-list)
-    * [Tag List](#tag-list)
-    * [Related Series](#related-series)
+  * [Post Series Navigation](#post-series-navigation)
+  * [Posts in the Series](#posts-in-the-series)
+  * [Posts With the Tag](#posts-with-the-tag)
+  * [Related Posts](#related-posts)
+  * [Series List](#series-list)
+  * [Tag List](#tag-list)
+  * [Related Series](#related-series)
 
 Inspired by [Blog Tags Extension](https://octobercms.com/plugin/bedard-blogtags) and [Blog Series](https://octobercms.com/plugin/pkleindienst-blogseries)
 plugins Blog Taxonomy adds both tags and series functionality in a high quality and reliable way. Every post could belong
@@ -35,7 +35,11 @@ Categories are there to help identify what your blog is really about. It is to a
 content on your site. Categories are hierarchical, so you can define sub-categories.
 
 Original blog categories were enhanced with ability to add posts while being on a single category page.
+
 They were also placed in a new tag-like style along with tags and series in their own **Taxonomy** tab of a backend CMS blog page.
+
+Also, categories can now (since version 3.0.0) have a cover image, and an array of featured images (`cover_image` and
+`featured_images` attributes respectively). Two new backend settings were added to enable or disable this extension.
 
 ### Tags
 
@@ -48,9 +52,8 @@ Series could help you to organize your posts in a single flow of related posts.
 
 ### Types
 
-Since the version 3.0.0 posts could have types assigned. The type is a set of properties that could be associated 
-with the
-post. Types are being created and edited as separated models in the backend. Each post type defines several
+Since 3.0.0 posts could have types assigned. Post types support can be enabled via backend settings for
+the plugin. The type is a set of properties that could be associated with the post. Types are being created and edited as separated models in the backend. Each post type defines several
 properties which are added as additional form inputs when a specific type is chosen.
 
 ## Translate Plugin Support
