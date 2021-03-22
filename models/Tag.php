@@ -28,9 +28,6 @@ class Tag extends ModelAbstract
 
     const TABLE_NAME = 'ginopane_blogtaxonomy_tags';
 
-    /** @deprecated */
-    const CROSS_REFERENCE_TABLE_NAME = 'ginopane_blogtaxonomy_post_tag';
-
     const PIVOT_COLUMN = 'ginopane_blogtaxonomy_taggable';
 
     const PIVOT_TABLE = 'ginopane_blogtaxonomy_taggables';
@@ -204,7 +201,8 @@ class Tag extends ModelAbstract
                     'posts',
                     static function ($query) use ($options) {
                         ModelAbstract::whereTranslatableProperty($query, 'slug', $options['post']);
-                    });
+                    }
+                );
             });
         }
     }

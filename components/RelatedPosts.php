@@ -213,11 +213,14 @@ class RelatedPosts extends ComponentAbstract
                             '(
                                 select count(*)
                                 from `%1$s`
-                                where `%1$s`.`post_id` = `rainlab_blog_posts`.`id`
-                                and `%1$s`.`tag_id` in (%2$s)
+                                where
+                                `%1$s`.`%2$s_type` = \'RainLab\Blog\Models\Post\'
+                                and `%1$s`.`%2$s_id` = `rainlab_blog_posts`.`id`
+                                and `%1$s`.`tag_id` in (\'%3$s\')
                             )',
-                            Tag::CROSS_REFERENCE_TABLE_NAME,
-                            DB::getPdo()->quote(implode(', ', $tagIds))
+                            Tag::PIVOT_TABLE,
+                            Tag::PIVOT_COLUMN,
+                            implode('\', \'', $tagIds)
                         )
                     );
                 }
