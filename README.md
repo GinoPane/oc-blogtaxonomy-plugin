@@ -8,6 +8,7 @@ Taxonomy extension for [RainLab Blog](https://octobercms.com/plugin/rainlab-blog
 
 ## Table of Contents
 * [Changes to Original Blog Plugin](#changes-to-original-blog-plugin)
+  * [Categories](#categories) 
   * [Tags](#tags)
   * [Series](#series)
   * [Types](#types)
