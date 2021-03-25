@@ -3,6 +3,7 @@
 namespace GinoPane\BlogTaxonomy\Models;
 
 use Str;
+use System\Models\File;
 use RainLab\Blog\Models\Post;
 use GinoPane\BlogTaxonomy\Plugin;
 use October\Rain\Database\Builder;
@@ -26,9 +27,6 @@ class Tag extends ModelAbstract
     use Validation;
 
     const TABLE_NAME = 'ginopane_blogtaxonomy_tags';
-
-    /** @deprecated */
-    const CROSS_REFERENCE_TABLE_NAME = 'ginopane_blogtaxonomy_post_tag';
 
     const PIVOT_COLUMN = 'ginopane_blogtaxonomy_taggable';
 
@@ -86,6 +84,21 @@ class Tag extends ModelAbstract
         'slug',
     ];
 
+    public $attachMany = [
+        'featured_images' => [
+            File::class,
+            'order' => 'sort_order',
+            'delete' => true
+        ]
+    ];
+
+    public $attachOne = [
+        'cover_image' => [
+            File::class,
+            'delete' => true
+        ]
+    ];
+
     /**
      * Validation rules
      *
@@ -129,7 +142,7 @@ class Tag extends ModelAbstract
      *
      * @var array
      */
-     public static $sortingOptions = [
+    public static $sortingOptions = [
         'name asc' => Plugin::LOCALIZATION_KEY . 'order_options.name_asc',
         'name desc' => Plugin::LOCALIZATION_KEY . 'order_options.name_desc',
         'created_at asc' => Plugin::LOCALIZATION_KEY . 'order_options.created_at_asc',
@@ -188,7 +201,8 @@ class Tag extends ModelAbstract
                     'posts',
                     static function ($query) use ($options) {
                         ModelAbstract::whereTranslatableProperty($query, 'slug', $options['post']);
-                    });
+                    }
+                );
             });
         }
     }

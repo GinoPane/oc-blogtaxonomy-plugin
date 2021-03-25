@@ -38,16 +38,29 @@ tabs:
             placeholder: ginopane.blogtaxonomy::lang.placeholders.tags
             tab: ginopane.blogtaxonomy::lang.form.tabs.general
 
-        featured_images:
-            label: ginopane.blogtaxonomy::lang.form.fields.images
-            type: fileupload
-            mode: image
-            tab: ginopane.blogtaxonomy::lang.form.tabs.general
-
         description:
             label: ginopane.blogtaxonomy::lang.form.fields.description
             type: richeditor
             size: large
+            tab: ginopane.blogtaxonomy::lang.form.tabs.general
+
+        images_section:
+            label: ginopane.blogtaxonomy::lang.form.series.images_section
+            type: section
+            comment: ginopane.blogtaxonomy::lang.form.series.images_section_comment
+            tab: ginopane.blogtaxonomy::lang.form.tabs.general
+
+        cover_image:
+            label: ginopane.blogtaxonomy::lang.form.fields.cover_image
+            type: fileupload
+            mode: image
+            span: left
+            tab: ginopane.blogtaxonomy::lang.form.tabs.general
+
+        featured_images:
+            label: ginopane.blogtaxonomy::lang.form.fields.featured_images
+            type: fileupload
+            mode: image
             tab: ginopane.blogtaxonomy::lang.form.tabs.general
 
         posts:

@@ -1,0 +1,22 @@
+tabs:
+    fields:
+        post_types_enabled:
+            label: 'ginopane.blogtaxonomy::lang.settings.post_types_enabled'
+            span: left
+            type: switch
+            default: false
+            tab: 'ginopane.blogtaxonomy::lang.settings.tabs.posts'
+
+        post_categories_cover_image_enabled:
+            label: 'ginopane.blogtaxonomy::lang.settings.post_categories_cover_images_enabled'
+            span: left
+            type: switch
+            default: false
+            tab: 'ginopane.blogtaxonomy::lang.settings.tabs.categories'
+
+        post_categories_featured_images_enabled:
+            label: 'ginopane.blogtaxonomy::lang.settings.post_categories_featured_images_enabled'
+            span: left
+            type: switch
+            default: false
+            tab: 'ginopane.blogtaxonomy::lang.settings.tabs.categories'

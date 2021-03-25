@@ -1,0 +1,13 @@
+# ===================================
+#  Relation Behavior Config
+# ===================================
+
+posts:
+    label: ginopane.blogtaxonomy::lang.form.fields.posts
+    view:
+        showSearch: true
+        list: post_columns_view.yaml
+        toolbarButtons: add|remove
+    manage:
+        showSearch: true
+        list: post_columns_manage.yaml

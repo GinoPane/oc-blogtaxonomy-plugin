@@ -1,0 +1,105 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+tabs:
+    fields:
+        name:
+            tab: ginopane.blogtaxonomy::lang.form.tabs.general
+            label: ginopane.blogtaxonomy::lang.form.fields.name
+            comment: ginopane.blogtaxonomy::lang.form.post_types.name_comment
+            placeholder: ginopane.blogtaxonomy::lang.placeholders.name
+            span: left
+            required: true
+
+        slug:
+            tab: ginopane.blogtaxonomy::lang.form.tabs.general
+            label: ginopane.blogtaxonomy::lang.form.fields.slug
+            span: right
+            placeholder: ginopane.blogtaxonomy::lang.placeholders.slug
+            required: true
+            preset:
+                field: name
+                type: slug
+
+        description:
+            label: ginopane.blogtaxonomy::lang.form.fields.description
+            comment: ginopane.blogtaxonomy::lang.form.post_types.description_comment
+            type: richeditor
+            size: large
+            tab: ginopane.blogtaxonomy::lang.form.tabs.general
+
+        type_attributes:
+            label: ginopane.blogtaxonomy::lang.form.post_types.type_attributes
+            comment: ginopane.blogtaxonomy::lang.form.post_types.type_attributes_comment
+            type: repeater
+            tab: ginopane.blogtaxonomy::lang.form.tabs.general
+            form:
+                fields:
+                    name:
+                        type: text
+                        label: ginopane.blogtaxonomy::lang.form.post_types.attribute_name
+                        placeholder: ginopane.blogtaxonomy::lang.form.post_types.attribute_name_placeholder
+                        required: true
+                        span: storm
+                        cssClass: col-md-6 col-lg-3
+
+                    code:
+                        type: text
+                        label: ginopane.blogtaxonomy::lang.form.post_types.attribute_code
+                        placeholder: ginopane.blogtaxonomy::lang.form.post_types.attribute_code_placeholder
+                        required: true
+                        span: storm
+                        cssClass: col-md-6 col-lg-3
+                        preset:
+                            field: name
+                            type: slug
+
+                    type:
+                        type: dropdown
+                        label: ginopane.blogtaxonomy::lang.form.post_types.attribute_type
+                        placeholder: ginopane.blogtaxonomy::lang.form.post_types.attribute_type_placeholder
+                        required: true
+                        span: storm
+                        cssClass: col-md-12 col-lg-6
+                        options:
+                            datepicker: ginopane.blogtaxonomy::lang.form.post_types.attribute_type_datepicker
+                            dropdown: ginopane.blogtaxonomy::lang.form.post_types.attribute_type_dropdown
+                            image: ginopane.blogtaxonomy::lang.form.post_types.attribute_type_image
+                            file: ginopane.blogtaxonomy::lang.form.post_types.attribute_type_file
+                            text: ginopane.blogtaxonomy::lang.form.post_types.attribute_type_text
+                            textarea: ginopane.blogtaxonomy::lang.form.post_types.attribute_type_textarea
+
+                    datepicker_mode:
+                        type: dropdown
+                        span: storm
+                        cssClass: col-md-12
+                        label: ginopane.blogtaxonomy::lang.form.post_types.attribute_type_datepicker_mode
+                        comment: ginopane.blogtaxonomy::lang.form.post_types.attribute_type_datepicker_mode_comment
+                        placeholder: ginopane.blogtaxonomy::lang.form.post_types.attribute_type_datepicker_mode_placeholder
+                        options:
+                            date: ginopane.blogtaxonomy::lang.form.post_types.attribute_type_datepicker_mode_date
+                            time: ginopane.blogtaxonomy::lang.form.post_types.attribute_type_datepicker_mode_time
+                            datetime: ginopane.blogtaxonomy::lang.form.post_types.attribute_type_datepicker_mode_datetime
+                        trigger:
+                            action: show
+                            field: type
+                            condition: value[datepicker]
+
+                    dropdown_options:
+                        type: text
+                        span: storm
+                        cssClass: col-md-12
+                        label: ginopane.blogtaxonomy::lang.form.post_types.attribute_dropdown_options
+                        comment: ginopane.blogtaxonomy::lang.form.post_types.attribute_dropdown_options_comment
+                        placeholder: ginopane.blogtaxonomy::lang.form.post_types.attribute_dropdown_options_placeholder
+                        trigger:
+                            action: show
+                            field: type
+                            condition: value[dropdown]
+
+        posts:
+            label: ginopane.blogtaxonomy::lang.form.fields.posts
+            type: partial
+            path: field_posts
+            tab: ginopane.blogtaxonomy::lang.form.tabs.posts

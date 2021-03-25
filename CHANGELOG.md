@@ -16,6 +16,15 @@ Types of changes
 
 ## [Unreleased]
 
+## 3.0.0 - 2021-xx-xx
+
+### Added
+* Post types functionality
+* Cover and featured images for categories, series, tags
+
+### Removed
+* Deprecated table
+
 ## 2.6.1 - 2020-11-11
 
 ### Fixed
@@ -260,4 +269,4 @@ Types of changes
 ### Features
 * The initial release of Blog Taxonomy.
 
-[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v2.6.0...HEAD
+[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v3.0.0...HEAD

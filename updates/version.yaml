@@ -1,3 +1,10 @@
+3.0.0:
+  - Added post types functionality
+  - Added cover and featured images for categories, series, tags
+  - Removed deprecated table
+  - create_post_type_table.php
+  - drop_deprecated_post_tag_table.php
+
 2.6.1:
   - Removed usage of 'void' return type to support old PHP versions
 

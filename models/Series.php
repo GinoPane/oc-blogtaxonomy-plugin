@@ -91,15 +91,17 @@ class Series extends ModelAbstract
         ]
     ];
 
-    /**
-     * Relations
-     *
-     * @var array
-     */
     public $attachMany = [
         'featured_images' => [
             File::class,
             'order' => 'sort_order',
+            'delete' => true
+        ]
+    ];
+
+    public $attachOne = [
+        'cover_image' => [
+            File::class,
             'delete' => true
         ]
     ];

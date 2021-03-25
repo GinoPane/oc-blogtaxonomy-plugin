@@ -77,7 +77,7 @@ class TagPosts extends PostListAbstract
     protected function prepareContextItem()
     {
         // load tag
-        $this->tag = Tag::whereTranslatable('slug', $this->property('tag'))->first();
+        $this->tag = $this->page['tag'] = Tag::whereTranslatable('slug', $this->property('tag'))->first();
 
         return $this->tag;
     }
