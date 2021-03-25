@@ -16,7 +16,10 @@ Types of changes
 
 ## [Unreleased]
 
-## 3.0.0 - 2021-xx-xx
+## 3.0.0 - 2021-03-25
+
+### Features
+* Long live Belarus!
 
 ### Added
 * Post types functionality
