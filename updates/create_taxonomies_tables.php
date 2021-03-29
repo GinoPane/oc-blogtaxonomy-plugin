@@ -44,7 +44,7 @@ class CreateTaxonomiesTables extends Migration
      */
     private function dropTags()
     {
-        Schema::dropIfExists(Tag::CROSS_REFERENCE_TABLE_NAME);
+        Schema::dropIfExists('ginopane_blogtaxonomy_post_tag');
         Schema::dropIfExists(Tag::TABLE_NAME);
     }
 
@@ -85,9 +85,9 @@ class CreateTaxonomiesTables extends Migration
             );
         }
 
-        if (!Schema::hasTable(Tag::CROSS_REFERENCE_TABLE_NAME)) {
+        if (!Schema::hasTable('ginopane_blogtaxonomy_post_tag')) {
             Schema::create(
-                Tag::CROSS_REFERENCE_TABLE_NAME,
+                'ginopane_blogtaxonomy_post_tag',
                 static function ($table) {
                     $table->engine = 'InnoDB';
 

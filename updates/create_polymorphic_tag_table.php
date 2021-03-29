@@ -76,7 +76,7 @@ class CreatePolymorphicTagTable extends Migration
             );
 
             // Current tag relations
-            $savedTags = DB::table(Tag::CROSS_REFERENCE_TABLE_NAME)->select('tag_id', 'post_id')->get()->toArray();
+            $savedTags = DB::table('ginopane_blogtaxonomy_post_tag')->select('tag_id', 'post_id')->get()->toArray();
 
             $savedTags = array_map(static function($savedTag) use ($pivotColumnId, $pivotColumnType) {
                 return [
