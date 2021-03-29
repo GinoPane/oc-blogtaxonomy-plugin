@@ -16,6 +16,11 @@ Types of changes
 
 ## [Unreleased]
 
+## 3.0.1 - 2021-03-29
+
+### Fixed
+* Fixed a bug with undefined constant left after removal of deprecated code
+
 ## 3.0.0 - 2021-03-25
 
 ### Features
@@ -272,4 +277,4 @@ Types of changes
 ### Features
 * The initial release of Blog Taxonomy.
 
-[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v3.0.0...HEAD
+[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v3.0.1...HEAD

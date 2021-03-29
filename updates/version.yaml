@@ -1,3 +1,6 @@
+3.0.1:
+  - Fixed a bug with undefined constant left after removal of deprecated code
+
 3.0.0:
   - Added post types functionality
   - Added cover and featured images for categories, series, tags
