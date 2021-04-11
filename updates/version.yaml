@@ -1,3 +1,6 @@
+3.0.2:
+  - Try to fix an issue with unsupported json data type on old DB servers
+
 3.0.1:
   - Fixed a bug with undefined constant left after removal of deprecated code
 

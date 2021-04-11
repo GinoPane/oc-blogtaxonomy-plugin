@@ -106,7 +106,7 @@ class CreatePostTypeTable extends Migration
                     $table->string('name')->unique();
                     $table->string('slug')->unique();
                     $table->text('description')->nullable();
-                    $table->json('type_attributes')->nullable();
+                    $table->text('type_attributes')->nullable();
                     $table->timestamps();
                 }
             );
@@ -115,7 +115,7 @@ class CreatePostTypeTable extends Migration
                 $table->integer(PostType::TABLE_NAME . '_id')->unsigned()->nullable()->default(null);
                 $table->foreign(PostType::TABLE_NAME . '_id')->references('id')->on(PostType::TABLE_NAME)->onDelete('cascade');
 
-                $table->json(PostType::TABLE_NAME. '_attributes')->nullable();
+                $table->text(PostType::TABLE_NAME. '_attributes')->nullable();
             });
 
             DB::table(PostType::TABLE_NAME)->insert(

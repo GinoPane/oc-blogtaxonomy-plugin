@@ -212,7 +212,7 @@ class Plugin extends PluginBase
 
                 $model->addJsonable(PostType::TABLE_NAME. '_attributes');
 
-                $model->addDynamicMethod('typeAttributes', function() use ($model) {
+                $model->addDynamicMethod('typeAttributes', function () use ($model) {
                     if (!empty($model->post_type->id)) {
                         $rawFields = $model->{PostType::TABLE_NAME. '_attributes'}[0] ?? [];
                         $prefix = $model->post_type->id.'.';
@@ -230,7 +230,7 @@ class Plugin extends PluginBase
                     return [];
                 });
 
-                $model->addDynamicMethod('typeAttribute', function(string $code) use ($model) {
+                $model->addDynamicMethod('typeAttribute', function (string $code) use ($model) {
                     if (!empty($model->post_type->id)) {
                         $attributeKey = sprintf('%s.%s', $model->post_type->id, $code);
 
@@ -240,8 +240,8 @@ class Plugin extends PluginBase
                     return $model->post_type->id;
                 });
 
-                $model->addDynamicMethod('scopeFilterPostTypes', function($query, array $types) {
-                    return $query->whereHas('post_type', function($query) use ($types) {
+                $model->addDynamicMethod('scopeFilterPostTypes', function ($query, array $types) {
+                    return $query->whereHas('post_type', function ($query) use ($types) {
                         $query->whereIn('id', $types);
                     });
                 });

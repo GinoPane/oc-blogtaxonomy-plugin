@@ -16,6 +16,11 @@ Types of changes
 
 ## [Unreleased]
 
+## 3.0.2 - 2021-04-11
+
+###
+* Try to fix an issue with unsupported json data type
+
 ## 3.0.1 - 2021-03-29
 
 ### Fixed
@@ -277,4 +282,4 @@ Types of changes
 ### Features
 * The initial release of Blog Taxonomy.
 
-[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v3.0.1...HEAD
+[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v3.0.2...HEAD
