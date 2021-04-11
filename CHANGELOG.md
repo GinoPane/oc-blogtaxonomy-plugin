@@ -18,7 +18,7 @@ Types of changes
 
 ## 3.0.2 - 2021-04-11
 
-###
+### Fixed
 * Try to fix an issue with unsupported json data type
 
 ## 3.0.1 - 2021-03-29
