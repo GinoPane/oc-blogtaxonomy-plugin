@@ -57,7 +57,7 @@ abstract class ModelAbstract extends Model
     {
         $this->withRelation($query, $options);
 
-        $this->queryOrderBy($query, $options);
+        $sortField = $this->queryOrderBy($query, $options);
 
         $this->queryDisplayEmpty($query, $options);
 
@@ -68,7 +68,7 @@ abstract class ModelAbstract extends Model
         // GROUP BY is required for SQLite to deal with HAVING
         // We use it for all connections just to keep implementation
         // independent from the connection being used
-        $this->queryGroupBy($query);
+        $this->queryGroupBy($query, $sortField);
 
         return $query->get();
     }
@@ -144,9 +144,9 @@ abstract class ModelAbstract extends Model
      * @param Builder $query
      * @param array   $options
      *
-     * @return void
+     * @return string|null
      */
-    private function queryOrderBy(Builder $query, array $options)
+    private function queryOrderBy(Builder $query, array $options): ?string
     {
         if (!empty($options['sort']) && \array_key_exists($options['sort'], static::$sortingOptions)) {
             if ($options['sort'] === 'random') {
@@ -155,8 +155,12 @@ abstract class ModelAbstract extends Model
                 list($sortField, $sortDirection) = explode(' ', $options['sort']);
 
                 $query->orderBy($sortField, $sortDirection);
+
+                return $sortField;
             }
         }
+
+        return null;
     }
 
     /**
@@ -191,11 +195,16 @@ abstract class ModelAbstract extends Model
     }
 
     /**
-     * @param Builder $query
+     * @param Builder     $query
+     * @param string|null $sortField
      */
-    private function queryGroupBy(Builder $query)
+    private function queryGroupBy(Builder $query, ?string $sortField = null)
     {
-        $query->groupBy('id');
+        if ($sortField !== null) {
+            $query->groupBy('id', $sortField);
+        } else {
+            $query->groupBy('id');
+        }
     }
 
     /**

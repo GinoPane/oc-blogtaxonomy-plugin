@@ -16,6 +16,11 @@ Types of changes
 
 ## [Unreleased]
 
+## 3.0.3 - 2021-04-23
+
+### Fixed
+* Fixed a group by clause when sorting by a particular field on ModelAbstract
+
 ## 3.0.2 - 2021-04-11
 
 ### Fixed
@@ -282,4 +287,4 @@ Types of changes
 ### Features
 * The initial release of Blog Taxonomy.
 
-[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v3.0.2...HEAD
+[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v3.0.3...HEAD

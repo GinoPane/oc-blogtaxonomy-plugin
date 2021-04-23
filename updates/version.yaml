@@ -1,3 +1,6 @@
+3.0.3:
+  - Fixed a group by clause when sorting by a particular field on ModelAbstract
+
 3.0.2:
   - Try to fix an issue with unsupported json data type on old DB servers
 
