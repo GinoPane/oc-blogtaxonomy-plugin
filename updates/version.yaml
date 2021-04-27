@@ -1,3 +1,6 @@
+3.0.4:
+  - Changed name in composer because October suddenly started to complain about it
+
 3.0.3:
   - Fixed a group by clause when sorting by a particular field on ModelAbstract
 

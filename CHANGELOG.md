@@ -16,6 +16,11 @@ Types of changes
 
 ## [Unreleased]
 
+## 3.0.4 - 2021-04-27
+
+### Fixed
+* Changed name in composer because October suddenly started to complain about it
+
 ## 3.0.3 - 2021-04-23
 
 ### Fixed
@@ -287,4 +292,4 @@ Types of changes
 ### Features
 * The initial release of Blog Taxonomy.
 
-[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v3.0.3...HEAD
+[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v3.0.4...HEAD
