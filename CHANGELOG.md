@@ -16,6 +16,11 @@ Types of changes
 
 ## [Unreleased]
 
+## 3.0.5 - 2021-05-04
+
+### Fixed
+* Make group-by query conditional for the abstract model to fix the bug
+
 ## 3.0.4 - 2021-04-27
 
 ### Fixed

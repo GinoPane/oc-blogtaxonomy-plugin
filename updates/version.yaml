@@ -1,3 +1,6 @@
+3.0.5:
+  - Make group-by query conditional for the abstract model
+
 3.0.4:
   - Changed name in composer because October suddenly started to complain about it
 

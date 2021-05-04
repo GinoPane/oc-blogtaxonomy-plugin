@@ -2,6 +2,7 @@
 
 namespace GinoPane\BlogTaxonomy\Models;
 
+use Db;
 use Model;
 use Cms\Classes\Controller;
 use October\Rain\Database\Builder;
@@ -200,10 +201,12 @@ abstract class ModelAbstract extends Model
      */
     private function queryGroupBy(Builder $query, ?string $sortField = null)
     {
-        if ($sortField !== null) {
-            $query->groupBy('id', $sortField);
-        } else {
-            $query->groupBy('id');
+        if (Db::getDriverName() === 'sqlite') {
+            if ($sortField !== null) {
+                $query->groupBy('id', $sortField);
+            } else {
+                $query->groupBy('id');
+            }
         }
     }
 
