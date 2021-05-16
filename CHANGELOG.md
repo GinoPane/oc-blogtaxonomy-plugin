@@ -16,6 +16,12 @@ Types of changes
 
 ## [Unreleased]
 
+## 3.1.0 - 2021-05-16
+
+### Fixed
+
+* Extend allowed characters for model names and titles
+
 ## 3.0.5 - 2021-05-04
 
 ### Fixed
@@ -297,4 +303,4 @@ Types of changes
 ### Features
 * The initial release of Blog Taxonomy.
 
-[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v3.0.4...HEAD
+[Unreleased]: https://github.com/GinoPane/oc-blogtaxonomy-plugin/compare/v3.1.0...HEAD

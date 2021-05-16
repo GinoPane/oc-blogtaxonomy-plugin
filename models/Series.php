@@ -112,8 +112,8 @@ class Series extends ModelAbstract
      * @var array
      */
     public $rules = [
-        'title' => "required|unique:" . self::TABLE_NAME . "|min:3|regex:/^[\w\-\?!,.()\"`' ]+$/iu",
-        'slug'  => "required|unique:" . self::TABLE_NAME . "|min:3|regex:/^[\w\-]+$/iu"
+        'title' => 'required|unique|min:3',
+        'slug'  => 'required|unique|min:3|regex:/^[\w\-]+$/iu'
     ];
 
     /**
@@ -124,7 +124,6 @@ class Series extends ModelAbstract
     public $customMessages = [
         'title.required' => Plugin::LOCALIZATION_KEY . 'form.series.title_required',
         'title.unique'   => Plugin::LOCALIZATION_KEY . 'form.series.title_unique',
-        'title.regex'    => Plugin::LOCALIZATION_KEY . 'form.series.title_invalid',
         'title.min'      => Plugin::LOCALIZATION_KEY . 'form.series.title_too_short',
 
         'slug.required' => Plugin::LOCALIZATION_KEY . 'form.series.slug_required',

@@ -105,8 +105,8 @@ class Tag extends ModelAbstract
      * @var array
      */
     public $rules = [
-        'name' => "required|unique:" . self::TABLE_NAME . "|min:2|regex:/^[\w\-\?!,.()\"`' ]+$/iu",
-        'slug' => "required|unique:" . self::TABLE_NAME . "|min:2|regex:/^[\w\-]+$/iu"
+        'name' => 'required|unique|min:2',
+        'slug' => 'required|unique|min:2|regex:/^[\w\-]+$/iu'
     ];
 
     /**
@@ -128,7 +128,6 @@ class Tag extends ModelAbstract
     public $customMessages = [
         'name.required' => Plugin::LOCALIZATION_KEY . 'form.tags.name_required',
         'name.unique'   => Plugin::LOCALIZATION_KEY . 'form.tags.name_unique',
-        'name.regex'    => Plugin::LOCALIZATION_KEY . 'form.tags.name_invalid',
         'name.min'      => Plugin::LOCALIZATION_KEY . 'form.tags.name_too_short',
 
         'slug.required' => Plugin::LOCALIZATION_KEY . 'form.tags.slug_required',

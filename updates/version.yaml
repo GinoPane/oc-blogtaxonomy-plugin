@@ -1,3 +1,6 @@
+3.1.0:
+  - Extend allowed characters for model names and titles
+
 3.0.5:
   - Make group-by query conditional for the abstract model
 

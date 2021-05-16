@@ -76,8 +76,8 @@ class PostType extends Model
      * @var array
      */
     public $rules = [
-        'name' => 'required|unique:' . self::TABLE_NAME . "|min:3|regex:/^[\w\-\?!,.()\"`' ]+$/iu",
-        'slug'  => 'required|unique:' . self::TABLE_NAME . "|min:3|regex:/^[\w\-]+$/iu",
+        'name' => 'required|unique|min:3',
+        'slug'  => 'required|unique|min:3|regex:/^[\w\-]+$/i',
         'type_attributes.*.name' => 'required|unique_in_repeater',
         'type_attributes.*.type' => 'required',
     ];
@@ -90,7 +90,6 @@ class PostType extends Model
     public $customMessages = [
         'name.required' => Plugin::LOCALIZATION_KEY . 'form.post_types.name_required',
         'name.unique'   => Plugin::LOCALIZATION_KEY . 'form.post_types.name_unique',
-        'name.regex'    => Plugin::LOCALIZATION_KEY . 'form.post_types.name_invalid',
         'name.min'      => Plugin::LOCALIZATION_KEY . 'form.post_types.name_too_short',
 
         'slug.required' => Plugin::LOCALIZATION_KEY . 'form.post_types.slug_required',

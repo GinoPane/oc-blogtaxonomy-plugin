@@ -78,7 +78,6 @@ return [
             'comment_post' => 'Select tags that are applicable to the post',
             'comment_series' => 'Select tags that are applicable to the series',
 
-            'name_invalid' => 'Tag names may only contain alpha-numeric characters, spaces, hyphens and some punctuation',
             'name_required' => 'The tag name field is required',
             'name_unique' => 'This tag name is already taken',
             'name_too_short' => 'Tag name minimal length is :min',
@@ -115,7 +114,6 @@ return [
             'no_posts_in_series' => 'There are no posts in this series',
             'comment' => 'Choose a series the blog post belongs to',
 
-            'title_invalid' => 'Series titles may only contain alpha-numeric characters, spaces, hyphens and some punctuation',
             'title_required' => 'The series title field is required',
             'title_unique' => 'This series title is already taken',
             'title_too_short' => 'Series title minimal length is :min',
@@ -156,6 +154,15 @@ return [
 
             'delete_bulk_confirm' => 'Are you sure you want to delete selected post types?',
             'delete_post_types_success' => 'Successfully deleted post types',
+
+            'name_required' => 'The post type name field is required',
+            'name_unique' => 'This post type name is already taken',
+            'name_too_short' => 'Post type name minimal length is :min',
+
+            'slug_invalid' => 'Post type slugs may only contain alpha-numeric characters, spaces and hyphens',
+            'slug_required' => 'The post type slug field is required',
+            'slug_unique' => 'This post type slug is already taken',
+            'slug_too_short' => 'Post type slug minimal length is :min',
 
             'attribute_name' => 'Name',
             'attribute_name_placeholder' => 'New awesome attribute',
