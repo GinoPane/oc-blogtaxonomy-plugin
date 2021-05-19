@@ -16,6 +16,12 @@ Types of changes
 
 ## [Unreleased]
 
+## 3.1.1 - 2021-05-19
+
+### Fixed
+
+* Fix validation rule for an old October CMS version
+
 ## 3.1.0 - 2021-05-16
 
 ### Fixed

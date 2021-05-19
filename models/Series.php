@@ -112,8 +112,8 @@ class Series extends ModelAbstract
      * @var array
      */
     public $rules = [
-        'title' => 'required|unique|min:3',
-        'slug'  => 'required|unique|min:3|regex:/^[\w\-]+$/iu'
+        'title' => 'required|unique:' . self::TABLE_NAME . '|min:3',
+        'slug'  => 'required|unique:' . self::TABLE_NAME . '|min:3|regex:/^[\w\-]+$/iu'
     ];
 
     /**

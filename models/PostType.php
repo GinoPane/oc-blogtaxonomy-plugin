@@ -76,8 +76,8 @@ class PostType extends Model
      * @var array
      */
     public $rules = [
-        'name' => 'required|unique|min:3',
-        'slug'  => 'required|unique|min:3|regex:/^[\w\-]+$/i',
+        'name' => 'required|unique:' . self::TABLE_NAME . '|min:3',
+        'slug'  => 'required|unique:' . self::TABLE_NAME . '|min:3|regex:/^[\w\-]+$/i',
         'type_attributes.*.name' => 'required|unique_in_repeater',
         'type_attributes.*.type' => 'required',
     ];

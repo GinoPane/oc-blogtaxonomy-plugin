@@ -1,3 +1,6 @@
+3.1.1:
+  - Fix validation rule for an old October CMS version
+
 3.1.0:
   - Extend allowed characters for model names and titles
 
