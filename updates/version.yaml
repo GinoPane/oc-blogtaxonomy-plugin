@@ -50,7 +50,7 @@
   - Set index name explicitly to prevent the generation of too long name
 
 2.0.0:
-  - !!! Migrated to polymorphic tag relation. Make sure to backup and proceed with caution
+  - Migrated to polymorphic tag relation. Make sure to backup and proceed with caution
   - Implemented tags for series
   - New options for existing components
   - create_polymorphic_tag_table.php
@@ -89,12 +89,12 @@
   - Updated mark.js
 
 1.9.0:
-  - !!! Internal directory structure was slightly changed
+  - Internal directory structure was slightly changed
   - Count only published blog posts in series list
   - Allow fetching of all related posts for tags and series lists via a new option
 
 1.8.0:
-  - !!! Some properties of TagList component were either renamed or set to private, please check the changelog
+  - Some properties of TagList component were either renamed or set to private, please check the changelog
   - Exposed total tag count over the limit
   - Implemented client tag filter for tag list
   - Micro refactorings and optimizations
